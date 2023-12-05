@@ -40,7 +40,7 @@ public class Main {
         pontosCorridos.addTeam(time5);
         pontosCorridos.showTeams(pontosCorridos.getTeams());
         RoundRobin.verifyAmountTeams(pontosCorridos.getTeams(), pontosCorridos.getTeamAmount());
-        pontosCorridos.createRound(pontosCorridos);
+        pontosCorridos.createRound();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
@@ -49,7 +49,7 @@ public class Main {
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.printTable();
-        pontosCorridos.createRound(pontosCorridos);
+        pontosCorridos.createRound();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
@@ -58,7 +58,7 @@ public class Main {
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.printTable();
-        pontosCorridos.createRound(pontosCorridos);
+        pontosCorridos.createRound();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
@@ -67,7 +67,7 @@ public class Main {
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.printTable();
-        pontosCorridos.createRound(pontosCorridos);
+        pontosCorridos.createRound();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
@@ -76,7 +76,7 @@ public class Main {
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.printTable();
-        pontosCorridos.createRound(pontosCorridos);
+        pontosCorridos.createRound();
         pontosCorridos.showTeamsActualRound();
         pontosCorridos.manageLastRoundMatch();
         pontosCorridos.showTeamsActualRound();
