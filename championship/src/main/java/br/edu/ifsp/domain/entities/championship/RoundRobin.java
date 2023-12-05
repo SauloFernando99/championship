@@ -10,8 +10,8 @@ public class RoundRobin extends Championship{
     private Integer TeamAmount;
     private List<Team> teams;
 
-    public RoundRobin(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, List<Team> teams, List<Round> table, Integer teamAmount) {
-        super(idChampionship, initialDate, finalDate, modality, award, sponsorship, teams);
+    public RoundRobin(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams, List<Round> table, Integer teamAmount) {
+        super(idChampionship, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
         this.table = table;
         if(teamAmount %2 == 0) {
             this.setTeamAmount(teamAmount);
@@ -187,7 +187,6 @@ public class RoundRobin extends Championship{
                     team.getGoalDifference(), team.getPoints());
         }
     }
-
 
     public boolean allMatchConcluedOnRound(Round round) {
         List<Match> matches = round.getMatches();

@@ -11,11 +11,11 @@ public class Round {
     private List<Match> matches = new ArrayList<>();
     private Boolean isFinished;
 
-    public Round(Integer idRound, LocalDate date, List<Match> matches, Boolean isFinished) {
+    public Round(Integer idRound, LocalDate date, List<Match> matches) {
         this.idRound = idRound;
         this.date = date;
         this.matches = matches;
-        this.isFinished = isFinished;
+        this.setFinished(false);
     }
 
     public Integer getIdRound() {
