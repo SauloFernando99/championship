@@ -13,11 +13,19 @@ public class RoundRobin extends Championship{
     public RoundRobin(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams, List<Round> table, Integer teamAmount) {
         super(idChampionship, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
         this.table = table;
+        this.teams = new ArrayList<>();
         if(teamAmount %2 == 0) {
             this.setTeamAmount(teamAmount);
         }
         else{
             throw new IllegalArgumentException("The number of teams must be an even number!");
+        }
+    }
+
+    public void showTeams(List<Team> listTeams){
+        System.out.println("List of teams");
+        for (Team team : listTeams) {
+            System.out.println("Team name: " + team.getName() + " ");
         }
     }
 
@@ -75,6 +83,7 @@ public class RoundRobin extends Championship{
 
                 // Criar a partida e adicioná-la à rodada
                 Match match = new Match(team1, team2);
+                match.setConcluded(false);
                 round.getMatches().add(match);
 
                 // Remover os times utilizados da cópia

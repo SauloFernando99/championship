@@ -12,16 +12,16 @@ public class Team {
     private Integer draw;
     private Integer goalDifference;
 
-    public Team(Integer idTeam, String name, String crest, Boolean isActive, Integer points, Integer wins, Integer loses, Integer draw, Integer goalDifference) {
+    public Team(Integer idTeam, String name, String crest, Boolean isActive) {
         this.idTeam = idTeam;
         this.name = name;
         this.crest = crest;
         this.isActive = isActive;
-        this.points = points;
-        this.wins = wins;
-        this.loses = loses;
-        this.draw = draw;
-        this.goalDifference = goalDifference;
+        this.points = 0;
+        this.wins = 0;
+        this.loses = 0;
+        this.draw = 0;
+        this.goalDifference = 0;
     }
 
     public Integer getIdTeam() {
