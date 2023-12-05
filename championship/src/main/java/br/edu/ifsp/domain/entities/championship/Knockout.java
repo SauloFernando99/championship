@@ -84,7 +84,7 @@ public class Knockout extends Championship {
         startKnockout(winnersLastRound);
     }
 
-    public void finishedKnockout() {
+    public void finishKnockout() {
         if (getSeeding().isEmpty()) {
             System.out.println("There is no round to end the knockout stage.");
             return;

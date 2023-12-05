@@ -3,6 +3,7 @@ package br.edu.ifsp.domain.entities.championship;
 import br.edu.ifsp.domain.entities.team.Team;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Match {
     private Integer idMatch;
@@ -44,6 +45,14 @@ public class Match {
         System.out.println("ID da Partida: " + idMatch);
         System.out.println(team1.getName() + " vs. " + team2.getName());
         System.out.println("Placar: " + scoreboard1 + " - " + scoreboard2);
+    }
+
+    public boolean notDraw(Match match){
+        if (Objects.equals(scoreboard1, scoreboard2)) {
+            System.out.println("The match result cannot be a draw");
+            return false;
+        }
+        return true;
     }
 
     public void concludeMatch(Match match) {
