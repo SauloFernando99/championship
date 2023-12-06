@@ -64,36 +64,6 @@ public class Match {
         this.concluded = true;
     }
 
-    public void updatePunctuation(int golsTeamA, int golsTeamB) {
-        Team team1 = this.getTeam1();
-        Team team2 = this.getTeam2();
-
-        if (golsTeamA > golsTeamB) {
-            team1.setPoints(+3);
-            team1.setWins(+1);
-            team1.setGoalDifference(+(golsTeamA - golsTeamB));
-
-            team2.setLoses(+1);
-            team2.setGoalDifference(+(golsTeamB - golsTeamA));
-        } else if (golsTeamA < golsTeamB) {
-            team2.setPoints(+3);
-            team2.setWins(+1);
-            team2.setGoalDifference(+(golsTeamB - golsTeamA));
-
-            team1.setLoses(+1);
-            team1.setGoalDifference(+(golsTeamA - golsTeamB));
-        } else {
-            team1.setPoints(+1);
-            team1.setDraw(+1);
-            team1.setGoalDifference(+(golsTeamA - golsTeamB));
-
-            team2.setPoints(+1);
-            team2.setDraw(+1);
-            team2.setGoalDifference(+(golsTeamB - golsTeamA));
-        }
-    }
-
-
     public Integer getIdMatch() {
         return idMatch;
     }

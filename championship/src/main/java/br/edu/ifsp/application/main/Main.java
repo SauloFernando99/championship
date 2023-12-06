@@ -18,6 +18,13 @@ public class Main {
         Team time5 = new Team(4, "UNICEP", "Porco", true);
         Team time6 = new Team(5, "SLA", "Porco", true);
 
+        List<Team> teams = new ArrayList<>();
+        teams.add(time1);
+        teams.add(time2);
+        teams.add(time3);
+        teams.add(time4);
+        teams.add(time5);
+        teams.add(time6);
 
         LocalDate dataInicio = LocalDate.of(2023, 11, 1);
         LocalDate dataFim = LocalDate.of(2023, 12, 1);
@@ -26,64 +33,27 @@ public class Main {
         String patrocinio = "Empresa X";
         boolean concluido = false;
 
-        //----------------------------------PONTOS CORRIDOS -------------------------------------//
-        System.out.println('\n');
-        List<Team> timesPontosCorridos = new ArrayList<>();
-        List<Round> tabela = new ArrayList<>();
-        RoundRobin pontosCorridos = new RoundRobin(0, dataInicio, dataFim, modalidade, premiacao, patrocinio, concluido, timesPontosCorridos, tabela, 6);
-        Team time1PT = new Team(6, "Galacticos", "Marcola da academia", true);
-        pontosCorridos.addTeam(time1PT);
-        pontosCorridos.addTeam(time1);
-        pontosCorridos.addTeam(time2);
-        pontosCorridos.addTeam(time3);
-        pontosCorridos.addTeam(time4);
-        pontosCorridos.addTeam(time5);
-        pontosCorridos.showTeams(pontosCorridos.getTeams());
-        RoundRobin.verifyAmountTeams(pontosCorridos.getTeams(), pontosCorridos.getTeamAmount());
-        pontosCorridos.createRound();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.printTable();
-        pontosCorridos.createRound();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.printTable();
-        pontosCorridos.createRound();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.printTable();
-        pontosCorridos.createRound();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.printTable();
-        pontosCorridos.createRound();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.manageLastRoundMatch();
-        pontosCorridos.showTeamsActualRound();
-        pontosCorridos.printTable();
+        RoundRobin championship = new RoundRobin(1, dataInicio, dataFim, modalidade, premiacao, patrocinio, concluido, teams);
+        // Gerenciando partidas (exemplo)
+        championship.manageRound(1, 1, 2, 1);
+        championship.manageRound(1, 2, 1, 1);
+        championship.manageRound(1, 3, 3, 1);
+
+
+        System.out.println("----------- Tabela do Campeonato ------------");
+        championship.getChampionshipTable().printTable();
+
+
+        championship.finishRound(1); // Exemplo de finalização da rodada 1
+
+        //
+        System.out.println("\n----------- Tabela Atualizada ------------");
+        championship.getChampionshipTable().printTable();
+
+
+        Team winner = championship.declareWinner();
+        System.out.println("\n----------- Vencedor ------------");
+        System.out.println("Vencedor: " + winner.getName());
+
     }
 }

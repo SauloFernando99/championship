@@ -88,11 +88,13 @@ public class Team {
         this.draw++;
     }
 
-    public Integer getGoalDifference() {
-        return goalDifference;
-    }
+
 
     public void setGoalDifference(Integer goalDifference) {
         this.goalDifference+=goalDifference;
     }
+
+
+
+
 }
