@@ -3,7 +3,9 @@ import br.edu.ifsp.domain.entities.team.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Championship {
     private Integer idChampionship;
@@ -14,6 +16,7 @@ public abstract class Championship {
     private String sponsorship;
     private Boolean concluded;
     private List<Team> teams;
+    private Map<Team, TeamRoundRobin> statics = new HashMap<>();
 
     public Championship(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
         this.idChampionship = idChampionship;
@@ -28,6 +31,34 @@ public abstract class Championship {
 
     public Championship(List<Team> teams) {
     }
+
+    public void addTeam(Team team) {
+        statics.put(team, new TeamRoundRobin(0, 0, 0, 0, 0));
+    }
+
+    public void registerWin(Team team) {
+        TeamRoundRobin stats = statics.get(team);
+        if (stats != null) {
+            stats = new TeamRoundRobin(stats.getWins() + 1, stats.getLoses(), stats.getDraws(), stats.getGoalDifference(), stats.getPontuation());
+            statics.put(team, stats);
+        }
+    }
+
+    public void registerLost(Team team) {
+        TeamRoundRobin stats = statics.get(team);
+        if (stats != null) {
+            stats = new TeamRoundRobin(stats.getWins(), stats.getLoses() + 1, stats.getDraws(), stats.getGoalDifference(), stats.getPontuation());
+            statics.put(team, stats);
+        }
+    }
+
+    public Map<Team, TeamRoundRobin> getStatics() {
+        return statics;
+    }
+    public TeamRoundRobin getEstatisticas(Team team) {
+        return statics.getOrDefault(team, new TeamRoundRobin(0, 0, 0, 0, 0));
+    }
+
 
     public Integer getIdChampionship() {
         return idChampionship;

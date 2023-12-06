@@ -4,6 +4,7 @@ import br.edu.ifsp.domain.entities.team.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,10 +15,17 @@ public class RoundRobin extends Championship {
     private Integer goalsFor;
     private Integer goalsAgainst;
 
+
     public RoundRobin(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
         super(idChampionship, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
         this.rounds = new ArrayList<>();
-        this.championshipTable = new ChampionshipTable(teams);
+
+        // Converta a lista de Team para TeamRoundRobin
+        List<TeamRoundRobin> teamRoundRobins = teams.stream()
+                .map(team -> new TeamRoundRobin(0, 0, 0, 0, 0))
+                .collect(Collectors.toList());
+
+        this.championshipTable = new ChampionshipTable(teamRoundRobins);
         generateRounds();
     }
 
@@ -60,75 +68,40 @@ public class RoundRobin extends Championship {
             teamsCopy.add(1, teamsCopy.remove(teamsCopy.size() - 1));
         }
     }
-
-    private void updateChampionshipTable() {
-        List<TeamRoundRobin> teamRoundRobins = teams.stream()
-                .map(team -> new TeamRoundRobin(team, team.getWins(), team.getLoses(), team.getDraw()))
-                .collect(Collectors.toList());
-
-        teamRoundRobins.sort((team1, team2) -> {
-            // Custom comparator for sorting teams in the championship table
-            if (!team1.getWins().equals(team2.getWins())) {
-                return team2.getWins().compareTo(team1.getWins());
-            } else {
-                return team2.getGoalDifference().compareTo(team1.getGoalDifference());
-            }
-        });
-
-        championshipTable.updateTable(teamRoundRobins);
-    }
-
-
-    public Team declareWinner() {
-        // Assumes the championship has concluded
-        return championshipTable.getTeams().get(0);
-    }
-
-    public void updateGoals(Integer goalsFor, Integer goalsAgainst) {
-        this.goalsFor += goalsFor;
-        this.goalsAgainst += goalsAgainst;
-    }
-
-    public Integer calculatePoints() {
-        return (getWins() * 3) + getDraw();
-    }
-
-    public Integer calculateGoalDifference() {
-        return getGoalsFor() - getGoalsAgainst();
-    }
-
     private void updatePunctuation(Match match) {
-        int golsTeamA = match.getScoreboard1();
-        int golsTeamB = match.getScoreboard2();
+        int goalsTeamA = match.getScoreboard1();
+        int goalsTeamB = match.getScoreboard2();
 
-        TeamRoundRobin team1 = new TeamRoundRobin(match.getTeam1(), match.getTeam1().getWins(), match.getTeam1().getLoses(), match.getTeam1().getDraw());
-        TeamRoundRobin team2 = new TeamRoundRobin(match.getTeam2(), match.getTeam2().getWins(), match.getTeam2().getLoses(), match.getTeam2().getDraw());
+        TeamRoundRobin team1 = getEstatisticas(match.getTeam1());
+        TeamRoundRobin team2 = getEstatisticas(match.getTeam2());
 
-        if (golsTeamA > golsTeamB) {
-            team1.incrementWins();
-            team2.incrementLoses();
-        } else if (golsTeamA < golsTeamB) {
-            team1.incrementLoses();
-            team2.incrementWins();
+        if (goalsTeamA > goalsTeamB) {
+            registerWin(match.getTeam1());
+            registerLost(match.getTeam2());
+        } else if (goalsTeamA < goalsTeamB) {
+            registerWin(match.getTeam2());
+            registerLost(match.getTeam1());
         } else {
-            team1.incrementDraws();
-            team2.incrementDraws();
+            // Empate
+            team1 = new TeamRoundRobin(team1.getWins(), team1.getLoses(), team1.getDraws() + 1, team1.getGoalDifference(), team1.getPontuation());
+            team2 = new TeamRoundRobin(team2.getWins(), team2.getLoses(), team2.getDraws() + 1, team2.getGoalDifference(), team2.getPontuation());
+            getStatics().put(match.getTeam1(), team1);
+            getStatics().put(match.getTeam2(), team2);
         }
 
         // Atualizar pontuação e saldo de gols
-        team1.setWins(team1.calculateWins());
-        team1.setGoalDifference(team1.calculateGoalDifference());
+        updateChampionshipTable(championshipTable);
+    }
+    private void updateChampionshipTable(ChampionshipTable championshipTable) {
+        List<TeamRoundRobin> teamRoundRobins = getTeams().stream()
+                .map(team -> championshipTable.getEstatisticas(team))
+                .collect(Collectors.toList());
 
-        team2.setWins(team2.calculateWins());
-        team2.setGoalDifference(team2.calculateGoalDifference());
+        teamRoundRobins.sort(Comparator.comparing(TeamRoundRobin::getWins)
+                .thenComparing(TeamRoundRobin::getGoalDifference)
+                .reversed());
 
-        championshipTable.incrementWins(match.getTeam1());
-        championshipTable.incrementLoses(match.getTeam2());
-        championshipTable.incrementDraws(match.getTeam1());
-
-        // Atualizar pontuação e saldo de gols na tabela do campeonato
-        championshipTable.updatePointsAndGoalDifference(match.getTeam1());
-        championshipTable.updatePointsAndGoalDifference(match.getTeam2());
+        championshipTable.updateTable(teamRoundRobins);
     }
 
     public void manageRound(int roundNumber, int matchNumber, int homeGoals, int awayGoals) {
@@ -154,17 +127,31 @@ public class RoundRobin extends Championship {
             System.out.println("Número de rodada inválido.");
         }
     }
-
-    private void finishRound(Round round) {
+    public void finishRound(Round round) {
         for (Match match : round.getMatches()) {
             if (match.getConcluded()) {
-                TeamRoundRobin team1 = match.getTeam1();
-                TeamRoundRobin team2 = match.getTeam2();
+                TeamRoundRobin team1 = getEstatisticas(match.getTeam1());
+                TeamRoundRobin team2 = getEstatisticas(match.getTeam2());
 
                 team1.updateGoals(match.getScoreboard1(), match.getScoreboard2());
                 team2.updateGoals(match.getScoreboard2(), match.getScoreboard1());
             }
         }
+    }
+
+    public TeamRoundRobin declareWinner() {
+        // Assumes the championship has concluded
+        return championshipTable.getTeamRoundRobins().get(0);
+    }
+
+
+    public void updateGoals(Integer goalsFor, Integer goalsAgainst) {
+        this.goalsFor += goalsFor;
+        this.goalsAgainst += goalsAgainst;
+    }
+
+    public Integer calculateGoalDifference() {
+        return getGoalsFor() - getGoalsAgainst();
     }
 
     public Integer getGoalsFor() {
