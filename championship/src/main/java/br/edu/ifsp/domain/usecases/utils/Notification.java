@@ -2,6 +2,7 @@ package br.edu.ifsp.domain.usecases.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Notification {
 
@@ -12,7 +13,7 @@ public class Notification {
     }
 
     public void addError(String message, Exception e){
-        addError(message, e);
+        errors.add(new Error(message, e));
     }
 
     public boolean isCorrect(){
@@ -31,5 +32,11 @@ public class Notification {
             this.message = message;
             this.cause = cause;
         }
+    }
+
+    public String errorMessage(){
+        return errors.stream()
+                .map(e -> e.message)
+                .collect(Collectors.joining(" ,"));
     }
 }
