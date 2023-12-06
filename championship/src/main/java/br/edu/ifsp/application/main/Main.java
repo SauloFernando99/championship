@@ -1,9 +1,6 @@
 package br.edu.ifsp.application.main;
 
-import br.edu.ifsp.domain.entities.championship.Knockout;
-import br.edu.ifsp.domain.entities.championship.Round;
-import br.edu.ifsp.domain.entities.championship.RoundRobin;
-import br.edu.ifsp.domain.entities.championship.TeamRoundRobin;
+import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
 
 import java.time.LocalDate;
@@ -39,21 +36,19 @@ public class Main {
         // Criação do campeonato
         RoundRobin championship = new RoundRobin(1, startDate, endDate, modality, award, sponsorship, concluded, teams);
 
-
         championship.manageRound(1, 1, 2, 1);
         championship.manageRound(1, 2, 0, 3);
         championship.manageRound(1, 3, 1, 1);
-
 
         // Finaliza a rodada
         championship.finishRound(championship.getRounds().get(0));
 
         // Exibe a tabela do campeonato
-        championshipTable.printTable(championshipTable.getTeamRoundRobins());
+        championship.getChampionshipTable().printTable();
 
         // Declara o vencedor
         TeamRoundRobin winner = championship.declareWinner();
-        System.out.println("O vencedor é: " + winner);
+        System.out.println("O vencedor é: " + winner.getTeam().getName());
     }
 
 }

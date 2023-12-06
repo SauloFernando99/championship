@@ -22,7 +22,7 @@ public class RoundRobin extends Championship {
 
         // Converta a lista de Team para TeamRoundRobin
         List<TeamRoundRobin> teamRoundRobins = teams.stream()
-                .map(team -> new TeamRoundRobin(0, 0, 0, 0, 0))
+                .map(team -> new TeamRoundRobin(team, 0, 0, 0, 0, 0))
                 .collect(Collectors.toList());
 
         this.championshipTable = new ChampionshipTable(teamRoundRobins);
@@ -68,6 +68,7 @@ public class RoundRobin extends Championship {
             teamsCopy.add(1, teamsCopy.remove(teamsCopy.size() - 1));
         }
     }
+
     private void updatePunctuation(Match match) {
         int goalsTeamA = match.getScoreboard1();
         int goalsTeamB = match.getScoreboard2();
@@ -83,25 +84,25 @@ public class RoundRobin extends Championship {
             registerLost(match.getTeam1());
         } else {
             // Empate
-            team1 = new TeamRoundRobin(team1.getWins(), team1.getLoses(), team1.getDraws() + 1, team1.getGoalDifference(), team1.getPontuation());
-            team2 = new TeamRoundRobin(team2.getWins(), team2.getLoses(), team2.getDraws() + 1, team2.getGoalDifference(), team2.getPontuation());
-            getStatics().put(match.getTeam1(), team1);
-            getStatics().put(match.getTeam2(), team2);
+            registerDraw(match.getTeam1());
+            registerDraw(match.getTeam2());
         }
 
         // Atualizar pontuação e saldo de gols
         updateChampionshipTable(championshipTable);
     }
-    private void updateChampionshipTable(ChampionshipTable championshipTable) {
+
+
+
+    public void updateChampionshipTable(ChampionshipTable championshipTable) {
         List<TeamRoundRobin> teamRoundRobins = getTeams().stream()
                 .map(team -> championshipTable.getEstatisticas(team))
                 .collect(Collectors.toList());
 
-        teamRoundRobins.sort(Comparator.comparing(TeamRoundRobin::getWins)
-                .thenComparing(TeamRoundRobin::getGoalDifference)
-                .reversed());
 
         championshipTable.updateTable(teamRoundRobins);
+
+        System.out.println("Updated Table: " + championshipTable.getTeamRoundRobins());
     }
 
     public void manageRound(int roundNumber, int matchNumber, int homeGoals, int awayGoals) {
@@ -116,7 +117,8 @@ public class RoundRobin extends Championship {
                     // Simule a partida com os gols fornecidos
                     match.updateMatch(homeGoals, awayGoals);
                     match.concludeMatch();
-                    updatePunctuation(match);
+                    // Atualiza a tabela antes de finalizar a rodada
+                    updateChampionshipTable(championshipTable);
                 } else {
                     System.out.println("A partida já foi finalizada.");
                 }
@@ -137,6 +139,9 @@ public class RoundRobin extends Championship {
                 team2.updateGoals(match.getScoreboard2(), match.getScoreboard1());
             }
         }
+
+        // Atualiza a tabela após a conclusão da rodada
+        updateChampionshipTable(championshipTable);
     }
 
     public TeamRoundRobin declareWinner() {
@@ -148,7 +153,13 @@ public class RoundRobin extends Championship {
     public void updateGoals(Integer goalsFor, Integer goalsAgainst) {
         this.goalsFor += goalsFor;
         this.goalsAgainst += goalsAgainst;
+
+        // Atualiza os gols nas estatísticas das equipes
+        for (TeamRoundRobin teamRoundRobin : championshipTable.getTeamRoundRobins()) {
+            teamRoundRobin.updateGoals(goalsFor, goalsAgainst);
+        }
     }
+
 
     public Integer calculateGoalDifference() {
         return getGoalsFor() - getGoalsAgainst();

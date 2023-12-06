@@ -25,40 +25,50 @@ public class ChampionshipTable {
     public void updateTable(List<TeamRoundRobin> sortedTeams) {
         for (int i = 0; i < teamRoundRobins.size(); i++) {
             TeamRoundRobin originalTeam = teamRoundRobins.get(i);
-            TeamRoundRobin updatedTeam = sortedTeams.get(i);
+            TeamRoundRobin updatedTeam = findUpdatedTeam(originalTeam, sortedTeams);
 
-            originalTeam.setPontuation(updatedTeam.calculatePoints());
-            originalTeam.setWins(updatedTeam.getWins());
-            originalTeam.setLoses(updatedTeam.getLoses());
-            originalTeam.setDraws(updatedTeam.getDraws());
-            originalTeam.setGoalDifference(updatedTeam.calculateGoalDifference());
+            // Atualiza as estatísticas apenas se a equipe foi encontrada na lista atualizada
+            if (updatedTeam != null) {
+                originalTeam.setPontuation(updatedTeam.getPontuation());
+                originalTeam.setWins(updatedTeam.getWins());
+                originalTeam.setLoses(updatedTeam.getLoses());
+                originalTeam.setDraws(updatedTeam.getDraws());
+                originalTeam.setGoalDifference(updatedTeam.getGoalDifference());
+            }
         }
+    }
+
+    private TeamRoundRobin findUpdatedTeam(TeamRoundRobin originalTeam, List<TeamRoundRobin> updatedTeams) {
+        return updatedTeams.stream()
+                .filter(updatedTeam -> updatedTeam.getTeam().getIdTeam().equals(originalTeam.getTeam().getIdTeam()))
+                .findFirst()
+                .orElse(null);
     }
 
     public TeamRoundRobin getEstatisticas(Team team) {
         return teamRoundRobins.stream()
                 .filter(stats -> stats.getTeam().getIdTeam().equals(team.getIdTeam()))
                 .findFirst()
-                .orElse(new TeamRoundRobin(0, 0, 0, 0, 0)); // Retornar estatísticas padrão se não encontrar
+                .orElse(new TeamRoundRobin(team, 0, 0, 0, 0,0));
     }
 
 
     public void printTable() {
-        List<TeamRoundRobin> teamRoundRobins = getTeamRoundRobinsFromSomewhere(); // Substitua com a lógica correta para obter a lista de TeamRoundRobin
+        List<TeamRoundRobin> teamRoundRobins = getTeamRoundRobinsFromSomewhere();
 
         System.out.printf("%-5s%-20s%-5s%-5s%-5s%-5s%-5s%n", "Pos", "Team", "Pts", "W", "D", "L", "GD");
         for (int i = 0; i < teamRoundRobins.size(); i++) {
             TeamRoundRobin teamRoundRobin = teamRoundRobins.get(i);
             System.out.printf("%-5d%-20s%-5d%-5d%-5d%-5d%-5d%n",
-                    i + 1, "Team" + i, teamRoundRobin.getPontuation(), teamRoundRobin.getWins(),
-                    teamRoundRobin.getDraws(), teamRoundRobin.getLoses(), teamRoundRobin.calculateGoalDifference());
+                    i + 1, teamRoundRobin.getTeam().getName(), teamRoundRobin.getPontuation(),
+                    teamRoundRobin.getWins(), teamRoundRobin.getDraws(), teamRoundRobin.getLoses(),
+                    teamRoundRobin.calculateGoalDifference());
         }
     }
     private List<TeamRoundRobin> getTeamRoundRobinsFromSomewhere() {
-        // Substitua esta lógica com a forma correta de obter a lista de TeamRoundRobin
-        return championshipTable.getTeamRoundRobins();
-    }
 
+        return teamRoundRobins;
+    }
 
 
     public void incrementWins(TeamRoundRobin teamRoundRobin) {

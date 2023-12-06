@@ -8,13 +8,22 @@ public class TeamRoundRobin {
     private int draws;
     private int goalDifference;
     private int pontuation;
+    private Team team;
 
-    public TeamRoundRobin(int wins, int loses, int draws, int goalDifference, int pontuation) {
+    public TeamRoundRobin(Team team, int wins, int loses, int draws, int goalDifference, int pontuation) {
+        this.team = team;
         this.wins = wins;
         this.loses = loses;
         this.draws = draws;
         this.goalDifference = goalDifference;
         this.pontuation = pontuation;
+    }
+
+    public String getName() {
+        return team.getName();
+    }
+    public Team getTeam() {
+        return team;
     }
 
     public int getWins() {
@@ -80,6 +89,18 @@ public class TeamRoundRobin {
     // Adicionado método para atualizar os gols
     public void updateGoals(int goalsFor, int goalsAgainst) {
         this.goalDifference += (goalsFor - goalsAgainst);
+    }
+
+    @Override
+    public String toString() {
+        return "TeamRoundRobin{" +
+                "team=" + team.getName() +
+                ", wins=" + wins +
+                ", draws=" + draws +
+                ", loses=" + loses +
+                ", goalDifference=" + goalDifference +
+                ", pontuation=" + pontuation +
+                '}';
     }
 
 }
