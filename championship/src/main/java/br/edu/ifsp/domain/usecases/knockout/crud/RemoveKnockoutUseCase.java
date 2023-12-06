@@ -1,7 +1,6 @@
-package br.edu.ifsp.domain.usecases.knockout;
+package br.edu.ifsp.domain.usecases.knockout.crud;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
-import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
 public class RemoveKnockoutUseCase {
