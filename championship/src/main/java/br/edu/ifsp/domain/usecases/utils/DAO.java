@@ -8,10 +8,12 @@ public interface DAO <T ,K>{
 
     Optional<T> findOne(K key);
 
-    List<T> finAll();
+    List<T> findAll();
 
     boolean update(T type);
-    boolean deliteByKey(K key);
+
+    boolean deleteByKey(K key);
+
     boolean delete(T type);
 
 }
