@@ -24,9 +24,10 @@ public class Match {
     public Match(Team team1, Team team2) {
         this.team1 = team1;
         this.team2 = team2;
+        this.setConcluded(false);
     }
 
-    public void updateMatch(Integer idMatch, Integer scoreboard1, Integer scoreboard2){
+    public void updateMatch(Integer scoreboard1, Integer scoreboard2){
         this.scoreboard1 = scoreboard1;
         this.scoreboard2 = scoreboard2;
     }
@@ -55,7 +56,7 @@ public class Match {
         return true;
     }
 
-    public void concludeMatch(Match match) {
+    public void concludeMatch() {
         if (this.concluded) {
             System.out.println("The match has already ended.");
             return;
@@ -63,32 +64,32 @@ public class Match {
         this.concluded = true;
     }
 
-    public void updatePunctuation(Match match) {
-        Team team1 = match.getTeam1();
-        Team team2 = match.getTeam2();
+    public void updatePunctuation(int golsTeamA, int golsTeamB) {
+        Team team1 = this.getTeam1();
+        Team team2 = this.getTeam2();
 
-        if (this.scoreboard1 > this.scoreboard2) {
+        if (golsTeamA > golsTeamB) {
             team1.setPoints(+3);
             team1.setWins(+1);
-            team1.setGoalDifference(+ (this.scoreboard1 - this.scoreboard2));
+            team1.setGoalDifference(+(golsTeamA - golsTeamB));
 
             team2.setLoses(+1);
-            team2.setGoalDifference(+(this.scoreboard2 - this.scoreboard1));
-        } else if (this.scoreboard1 < this.scoreboard2) {
+            team2.setGoalDifference(+(golsTeamB - golsTeamA));
+        } else if (golsTeamA < golsTeamB) {
             team2.setPoints(+3);
             team2.setWins(+1);
-            team2.setGoalDifference(+(this.scoreboard2 - this.scoreboard1));
+            team2.setGoalDifference(+(golsTeamB - golsTeamA));
 
             team1.setLoses(+1);
-            team1.setGoalDifference(+(this.scoreboard1 - this.scoreboard2));
+            team1.setGoalDifference(+(golsTeamA - golsTeamB));
         } else {
             team1.setPoints(+1);
             team1.setDraw(+1);
-            team1.setGoalDifference(+(this.scoreboard1 - this.scoreboard2));
+            team1.setGoalDifference(+(golsTeamA - golsTeamB));
 
             team2.setPoints(+1);
             team2.setDraw(+1);
-            team2.setGoalDifference(+(this.scoreboard2 - this.scoreboard1));
+            team2.setGoalDifference(+(golsTeamB - golsTeamA));
         }
     }
 

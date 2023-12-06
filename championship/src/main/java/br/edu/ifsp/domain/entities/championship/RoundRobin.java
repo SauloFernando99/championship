@@ -51,7 +51,7 @@ public class RoundRobin extends Championship{
         return false; // Os times ainda não se enfrentaram
     }
 
-    public void createRound(RoundRobin roundRobin) {
+    public void createRound() {
         if (verifyAmountTeams(this.getTeams(), this.getTeamAmount())) {
             // Verificar se a última rodada foi finalizada
             if (!table.isEmpty()) {
@@ -61,6 +61,7 @@ public class RoundRobin extends Championship{
                     return;
                 }
             }
+
             // Criar uma rodada
             Round round = new Round(table.size() + 1, LocalDate.now(), new ArrayList<>());
 
@@ -83,7 +84,6 @@ public class RoundRobin extends Championship{
 
                 // Criar a partida e adicioná-la à rodada
                 Match match = new Match(team1, team2);
-                match.setConcluded(false);
                 round.getMatches().add(match);
 
                 // Remover os times utilizados da cópia
@@ -95,6 +95,7 @@ public class RoundRobin extends Championship{
             table.add(round);
         }
     }
+
 
     public void showTeamsActualRound() {
         if (table.isEmpty()) {
@@ -162,14 +163,14 @@ public class RoundRobin extends Championship{
         }
 
         // Registrar resultado usando o novo método
-        selectedMatch.updateMatch(selectedMatch.getIdMatch(), golsTimeA, golsTimeB);
+        selectedMatch.updateMatch(golsTimeA, golsTimeB);
 
         System.out.println("\nA partida já foi finalizada? (Digite 'sim' ou 'nao')");
         String finalizada = scanner.next().toLowerCase();
 
         if ("sim".equals(finalizada)) {
-            selectedMatch.setConcluded(true);
-            selectedMatch.updatePunctuation(selectedMatch);
+            selectedMatch.concludeMatch();
+            selectedMatch.updatePunctuation(golsTimeA, golsTimeB);
             System.out.println("Resultado da partida registrado com sucesso!");
         } else if ("nao".equals(finalizada)) {
             System.out.println("A pontuação só será registrada na tabela caso a partida tenha acabado!");
