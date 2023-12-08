@@ -1,6 +1,4 @@
 package br.edu.ifsp;
-
-import br.edu.ifsp.domain.entities.team.Team;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
