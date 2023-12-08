@@ -18,8 +18,14 @@ public class RemoveMatchUseCase {
         return teamDAO.deleteByKey(id);
     }
 
- /*   public boolean remove(Team team){
-        if(team == null || teamDAO.findOne(team.getIdTeam()).isEmpty())
+/*    public boolean remove(Team team) {
+        if (team == null || teamDAO.findOne(team.getIdTeam()).isEmpty())
+            throw new EntityNotFoundException("Team not found.");
+        return teamDAO.delete(team);
+    }
+
+    public boolean remove(Team team) {
+        if (team == null || teamDAO.findOne(team.getIdTeam()).isEmpty())
             throw new EntityNotFoundException("Team not found.");
         return teamDAO.delete(team);
     }*/
