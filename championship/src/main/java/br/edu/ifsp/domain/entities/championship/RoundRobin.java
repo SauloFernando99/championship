@@ -4,180 +4,301 @@ import br.edu.ifsp.domain.entities.team.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RoundRobin extends Championship {
+    private List<Team> teams = new ArrayList<>();
+    private List<Round> table = new ArrayList<>();
+    private List<TeamStats> teamStats = new ArrayList<>();
+    private Team champion;
 
-    private List<Round> rounds;
-    private ChampionshipTable championshipTable;
-    private Integer goalsFor;
-    private Integer goalsAgainst;
-
-
-    public RoundRobin(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
+    public RoundRobin(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality,
+                      String award, String sponsorship, Boolean concluded, List<Team> teams) {
         super(idChampionship, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
-        this.rounds = new ArrayList<>();
-
-        // Converta a lista de Team para TeamRoundRobin
-        List<TeamRoundRobin> teamRoundRobins = teams.stream()
-                .map(team -> new TeamRoundRobin(team, 0, 0, 0, 0, 0))
-                .collect(Collectors.toList());
-
-        this.championshipTable = new ChampionshipTable(teamRoundRobins);
-        generateRounds();
     }
 
-    public List<Round> getRounds() {
-        return rounds;
+    public void initializeTeamStats(List<Team> teams) {
+        for (Team team : teams) {
+            TeamStats teamStat = new TeamStats(team);
+            teamStats.add(teamStat);
+        }
     }
 
-    public ChampionshipTable getChampionshipTable() {
-        return championshipTable;
+    public void generateTable(List<Team> teams){
+        generateFirstLeg(teams);
+        generateSecondLeg();
     }
 
-    private void generateRounds() {
-        int numberOfTeams = getTeams().size();
+    private void generateFirstLeg(List<Team> teams) {
+        this.teams = teams;
+        this.teamStats.clear();
 
-        if (numberOfTeams % 2 != 0) {
-            // Adicione um time de folga se o número de times for ímpar
-            getTeams().add(new Team(-1, "Bye", "", false));
-            numberOfTeams++;
+        initializeTeamStats(teams);
+
+        int numTeams = teams.size();
+
+        // Número total de confrontos
+        int totalMatches = (numTeams * (numTeams - 1)) / 2;
+
+        List<Match> allMatches = new ArrayList<>();
+
+        // Gerar todos os confrontos possíveis
+        for (int i = 0; i < numTeams - 1; i++) {
+            for (int j = i + 1; j < numTeams; j++) {
+                Team team1 = teams.get(i);
+                Team team2 = teams.get(j);
+
+                Match match = new Match(team1, team2);
+                allMatches.add(match);
+            }
         }
 
-        List<Team> teamsCopy = new ArrayList<>(getTeams());
+        int matchesPerRound = numTeams / 2;
 
-        for (int roundNumber = 1; roundNumber < numberOfTeams; roundNumber++) {
-            List<Match> matches = new ArrayList<>();
+        // Distribuir os confrontos entre as rodadas
+        for (int roundNumber = 0; roundNumber < numTeams - 1; roundNumber++) {
+            Round round = new Round();
 
-            for (int i = 0; i < numberOfTeams / 2; i++) {
-                Team homeTeam = teamsCopy.get(i);
-                Team awayTeam = teamsCopy.get(numberOfTeams - 1 - i);
-
-                if (!homeTeam.getName().equals("Bye") && !awayTeam.getName().equals("Bye")) {
-                    Match match = new Match(homeTeam, awayTeam);
-                    matches.add(match);
+            for (int i = 0; i < matchesPerRound; i++) {
+                Match match = findMatchForRound(allMatches, round.getMatches());
+                if (match != null) {
+                    round.addMatch(match);
+                    allMatches.remove(match);
                 }
             }
 
-            Round round = new Round(roundNumber, LocalDate.now(), matches);
-            rounds.add(round);
-
-            // Rotacione os times para a próxima rodada
-            teamsCopy.add(1, teamsCopy.remove(teamsCopy.size() - 1));
+            table.add(round);
         }
     }
 
-    private void updatePunctuation(Match match) {
-        int goalsTeamA = match.getScoreboard1();
-        int goalsTeamB = match.getScoreboard2();
+    private Match findMatchForRound(List<Match> allMatches, List<Match> currentRoundMatches) {
+        for (Match match : allMatches) {
+            Team team1 = match.getTeam1();
+            Team team2 = match.getTeam2();
 
-        TeamRoundRobin team1 = getEstatisticas(match.getTeam1());
-        TeamRoundRobin team2 = getEstatisticas(match.getTeam2());
+            boolean team1AlreadyPlayed = playedInRound(team1, currentRoundMatches);
+            boolean team2AlreadyPlayed = playedInRound(team2, currentRoundMatches);
 
-        if (goalsTeamA > goalsTeamB) {
-            registerWin(match.getTeam1());
-            registerLost(match.getTeam2());
-        } else if (goalsTeamA < goalsTeamB) {
-            registerWin(match.getTeam2());
-            registerLost(match.getTeam1());
-        } else {
-            // Empate
-            registerDraw(match.getTeam1());
-            registerDraw(match.getTeam2());
-        }
-
-        // Atualizar pontuação e saldo de gols
-        updateChampionshipTable(championshipTable);
-    }
-
-
-
-    public void updateChampionshipTable(ChampionshipTable championshipTable) {
-        List<TeamRoundRobin> teamRoundRobins = getTeams().stream()
-                .map(team -> championshipTable.getEstatisticas(team))
-                .collect(Collectors.toList());
-
-
-        championshipTable.updateTable(teamRoundRobins);
-
-        System.out.println("Updated Table: " + championshipTable.getTeamRoundRobins());
-    }
-
-    public void manageRound(int roundNumber, int matchNumber, int homeGoals, int awayGoals) {
-        if (roundNumber > 0 && roundNumber <= rounds.size()) {
-            Round round = rounds.get(roundNumber - 1);
-
-            if (matchNumber > 0 && matchNumber <= round.getMatches().size()) {
-                Match match = round.getMatches().get(matchNumber - 1);
-
-                // Verificar se a partida já foi concluída antes de atualizar a pontuação
-                if (!match.getConcluded()) {
-                    // Simule a partida com os gols fornecidos
-                    match.updateMatch(homeGoals, awayGoals);
-                    match.concludeMatch();
-                    // Atualiza a tabela antes de finalizar a rodada
-                    updateChampionshipTable(championshipTable);
-                } else {
-                    System.out.println("A partida já foi finalizada.");
-                }
-            } else {
-                System.out.println("Número de partida inválido.");
+            if (!team1AlreadyPlayed && !team2AlreadyPlayed) {
+                return match;
             }
-        } else {
-            System.out.println("Número de rodada inválido.");
+        }
+        return null;
+    }
+
+    private boolean playedInRound(Team team, List<Match> matches) {
+        for (Match match : matches) {
+            if (match.getTeam1().equals(team) || match.getTeam2().equals(team)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private void generateSecondLeg() {
+        List<Round> returnRounds = new ArrayList<>();
+
+        for (Round round : table) {
+            Round returnRound = new Round();
+
+            for (Match match : round.getMatches()) {
+                // Inverte os times para o confronto de volta
+                Match returnMatch = new Match(match.getTeam2(), match.getTeam1());
+                returnRound.addMatch(returnMatch);
+            }
+
+            returnRounds.add(returnRound);
+        }
+
+        table.addAll(returnRounds);
+    }
+
+    public void printTable() {
+        Integer i = 1;
+        for (Round round : table) {
+            System.out.println("Round: " + round.getIdRound());
+            for (Match match : round.getMatches()) {
+                System.out.print("ID: " + match.getIdMatch() + "  " + match.getTeam1().getName() +
+                        " vs " + match.getTeam2().getName());
+
+                // Adiciona informações adicionais
+                if (match.getScoreboard1() != null && match.getScoreboard2() != null) {
+                    System.out.print("  |  Score: " + match.getScoreboard1() + " - " + match.getScoreboard2());
+                }
+
+                if (match.getConcluded() != null && match.getConcluded()) {
+                    System.out.print("  |  Concluded");
+                }
+
+                System.out.println();
+            }
+            System.out.println();
         }
     }
-    public void finishRound(Round round) {
+
+    public void printStandings() {
+        // Atualiza os pontos dos times com base nos resultados dos jogos
+        updateTeamStats();
+
+        // Ordena a lista de TeamStats com base nos pontos (em ordem decrescente)
+        Collections.sort(teamStats, Comparator.comparingInt(TeamStats::getPoints).reversed());
+
+        // Imprime a tabela de classificação
+        System.out.println("Tabela de Classificação:");
+        System.out.printf("%-15s%-10s%-10s%-10s%-10s%-15s%n", "Time", "Pontos", "Vitórias", "Empates", "Derrotas", "Saldo");
+
+        for (TeamStats teamStat : teamStats) {
+            System.out.printf("%-15s%-10d%-10d%-10d%-10d%-15d%n",
+                    teamStat.getTeam().getName(),
+                    teamStat.getPoints(),
+                    teamStat.getWins(),
+                    teamStat.getDraws(),
+                    teamStat.getLoses(),
+                    teamStat.getPointsStandings());
+        }
+    }
+
+    // Método para atualizar os pontos dos times com base nos resultados dos jogos
+    private void updateTeamStats() {
+        for (Round round : table) {
+            for (Match match : round.getMatches()) {
+                if (match.isConcluded()) {
+                    TeamStats teamStat1 = findTeamStats(match.getTeam1());
+                    TeamStats teamStat2 = findTeamStats(match.getTeam2());
+
+                    teamStat1.updatePointsStandings(match.getScoreboard1(), match.getScoreboard2());
+                    teamStat2.updatePointsStandings(match.getScoreboard2(), match.getScoreboard1());
+
+                    if (match.getScoreboard1() > match.getScoreboard2()) {
+                        teamStat1.registerWin();
+                        teamStat2.registerLoss();
+                    } else if (match.getScoreboard2() > match.getScoreboard1()) {
+                        teamStat1.registerLoss();
+                        teamStat2.registerWin();
+                    } else {
+                        teamStat1.registerDraw();
+                        teamStat2.registerDraw();
+                    }
+
+                }
+            }
+        }
+    }
+
+    // Método auxiliar para encontrar TeamStats para um Team
+    private TeamStats findTeamStats(Team team) {
+        for (TeamStats teamStat : teamStats) {
+            if (teamStat.getTeam() == team) {
+                return teamStat;
+            }
+        }
+        return null;
+    }
+
+    public Match updateMatchByIds(int roundId, int matchId, Integer scoreboard1, Integer scoreBoard2) {
+        for (Round round : table) {
+            if (round.getIdRound() == roundId) {
+                for (Match match : round.getMatches()) {
+                    if (match.getIdMatch() == matchId) {
+                        match.updateMatch(scoreboard1,scoreBoard2);
+                        return match;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    public Match finishMatchByIds(int roundId, int matchId) {
+        for (Round round : table) {
+            if (round.getIdRound() == roundId) {
+                for (Match match : round.getMatches()) {
+                    if (match.getIdMatch() == matchId) {
+                        match.concludeMatch();
+
+                        if (allMatchesConcluded(round)) {
+                            round.concludeRound();
+                        }
+
+                        return match;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean allMatchesConcluded(Round round) {
         for (Match match : round.getMatches()) {
-            if (match.getConcluded()) {
-                TeamRoundRobin team1 = getEstatisticas(match.getTeam1());
-                TeamRoundRobin team2 = getEstatisticas(match.getTeam2());
+            if (!match.getConcluded()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-                team1.updateGoals(match.getScoreboard1(), match.getScoreboard2());
-                team2.updateGoals(match.getScoreboard2(), match.getScoreboard1());
+    public void finishChampionship() {
+        boolean allRoundsConcluded = true;
+        for (Round round : table) {
+            if (!round.getFinished()) {
+                allRoundsConcluded = false;
+                break;
             }
         }
 
-        // Atualiza a tabela após a conclusão da rodada
-        updateChampionshipTable(championshipTable);
-    }
+        if (allRoundsConcluded) {
+            this.setConcluded(true);
 
-    public TeamRoundRobin declareWinner() {
-        // Assumes the championship has concluded
-        return championshipTable.getTeamRoundRobins().get(0);
-    }
-
-
-    public void updateGoals(Integer goalsFor, Integer goalsAgainst) {
-        this.goalsFor += goalsFor;
-        this.goalsAgainst += goalsAgainst;
-
-        // Atualiza os gols nas estatísticas das equipes
-        for (TeamRoundRobin teamRoundRobin : championshipTable.getTeamRoundRobins()) {
-            teamRoundRobin.updateGoals(goalsFor, goalsAgainst);
+            // Encontrar e imprimir o campeão (pode ser o time com mais pontos)
+            Team champion = findChampion();
+            System.out.println("Championship concluded! The champion is: " + champion.getName());
+        } else {
+            System.out.println("Championship is not concluded. Not all rounds are finished.");
         }
     }
 
+    private Team findChampion() {
+        int maxPoints = -1;
+        int maxPointsStandings = -1;
+        Team champion = null;
 
-    public Integer calculateGoalDifference() {
-        return getGoalsFor() - getGoalsAgainst();
+        for (TeamStats teamStat : teamStats) {
+            if (teamStat.getPoints() > maxPoints ||
+                    (teamStat.getPoints() == maxPoints && teamStat.getPointsStandings() > maxPointsStandings)) {
+                champion = teamStat.getTeam();
+                maxPoints = teamStat.getPoints();
+                maxPointsStandings = teamStat.getPointsStandings();
+            }
+        }
+
+        return champion;
     }
 
-    public Integer getGoalsFor() {
-        return goalsFor;
+    @Override
+    public List<Team> getTeams() {
+        return teams;
     }
 
-    public void setGoalsFor(Integer goalsFor) {
-        this.goalsFor = goalsFor;
+    @Override
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
-    public Integer getGoalsAgainst() {
-        return goalsAgainst;
+    public List<Round> getTable() {
+        return table;
     }
 
-    public void setGoalsAgainst(Integer goalsAgainst) {
-        this.goalsAgainst = goalsAgainst;
+    public void setTable(List<Round> table) {
+        this.table = table;
+    }
+
+    public List<TeamStats> getTeamStats() {
+        return teamStats;
+    }
+
+    public void setTeamStats(List<TeamStats> teamStats) {
+        this.teamStats = teamStats;
     }
 }

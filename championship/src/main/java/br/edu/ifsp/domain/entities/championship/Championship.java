@@ -16,7 +16,6 @@ public abstract class Championship {
     private String sponsorship;
     private Boolean concluded;
     private List<Team> teams;
-    private Map<Team, TeamRoundRobin> statics = new HashMap<>();
 
     public Championship(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
         this.idChampionship = idChampionship;
@@ -30,40 +29,8 @@ public abstract class Championship {
     }
 
     public Championship(List<Team> teams) {
+        this.teams = teams;
     }
-
-    public void addTeam(Team team) {
-        statics.put(team, new TeamRoundRobin(team, 0, 0, 0, 0, 0));
-    }
-
-    public void registerWin(Team team) {
-        TeamRoundRobin stats = statics.get(team);
-        if (stats != null) {
-            stats = new TeamRoundRobin(stats.getTeam(),stats.getWins() + 1, stats.getLoses(), stats.getDraws(), stats.getGoalDifference(), stats.getPontuation());
-            statics.put(team, stats);
-        }
-    }
-
-    public void registerLost(Team team) {
-        TeamRoundRobin stats = statics.get(team);
-        if (stats != null) {
-            stats = new TeamRoundRobin(stats.getTeam(),stats.getWins(), stats.getLoses() + 1, stats.getDraws(), stats.getGoalDifference(), stats.getPontuation());
-            statics.put(team, stats);
-        }
-    }
-    public void registerDraw(Team team) {
-        TeamRoundRobin teamRoundRobin = getEstatisticas(team);
-        teamRoundRobin.incrementDraws();
-    }
-
-
-    public Map<Team, TeamRoundRobin> getStatics() {
-        return statics;
-    }
-    public TeamRoundRobin getEstatisticas(Team team) {
-        return statics.getOrDefault(team, new TeamRoundRobin(team, 0, 0, 0, 0, 0));
-    }
-
 
     public Integer getIdChampionship() {
         return idChampionship;

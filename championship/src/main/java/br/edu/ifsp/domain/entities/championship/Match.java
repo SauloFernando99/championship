@@ -6,24 +6,22 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Match {
-    private Integer idMatch;
+
+    private static int matchIdCounter = 1; // Contador de IDs de match
+    private int idMatch;
     private LocalDate date;
-    private Integer scoreboard1;
-    private Integer scoreboard2;
+    private Integer scoreboard1 = 0;
+    private Integer scoreboard2 = 0;
     private Team team1;
     private Team team2;
+    private Team teamDraw;
     private Boolean concluded;
 
-    public Match(Integer idMatch, Integer scoreboard1, Integer scoreboard2, Team team1, Team team2) {
-        this.idMatch = idMatch;
-        this.team1 = team1;
-        this.team2 = team2;
-        this.setConcluded(false);
-    }
-
     public Match(Team team1, Team team2) {
+        this.idMatch = matchIdCounter++;
         this.team1 = team1;
         this.team2 = team2;
+        this.teamDraw = teamDraw;
         this.setConcluded(false);
     }
 
@@ -37,9 +35,8 @@ public class Match {
             return team1;
         } else if (scoreboard2 > scoreboard1) {
             return team2;
-        } else {
-            return null;
         }
+        return teamDraw;
     }
 
     public void printMatch() {
@@ -56,6 +53,10 @@ public class Match {
         return true;
     }
 
+    public boolean isConcluded() {
+        return this.concluded;
+    }
+
     public void concludeMatch() {
         if (this.concluded) {
             System.out.println("The match has already ended.");
@@ -64,11 +65,11 @@ public class Match {
         this.concluded = true;
     }
 
-    public Integer getIdMatch() {
+    public int getIdMatch() {
         return idMatch;
     }
 
-    public void setIdMatch(Integer idMatch) {
+    public void setIdMatch(int idMatch) {
         this.idMatch = idMatch;
     }
 
