@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Team team1 = new Team(0, "IFSP", "Marcolinha", true);
+/*        Team team1 = new Team(0, "IFSP", "Marcolinha", true);
         Team team2 = new Team(1, "USP", "Porco", true);
         Team team3 = new Team(2, "UFSCAR", "Porco", true);
         Team team4 = new Team(3, "UNIARA", "Porco", true);
@@ -33,22 +33,65 @@ public class Main {
         String sponsorship = "Empresa X";
         boolean concluded = false;
 
-        // Criação do campeonato
-        RoundRobin championship = new RoundRobin(1, startDate, endDate, modality, award, sponsorship, concluded, teams);
+    }*/
 
-        championship.manageRound(1, 1, 2, 1);
-        championship.manageRound(1, 2, 0, 3);
-        championship.manageRound(1, 3, 1, 1);
+        // Criando uma instância de RoundRobin para teste
+        List<Team> teams = new ArrayList<>();
+        teams.add(new Team(0, "IFSP", "Marcolinha", true));
+        teams.add(new Team(1, "USP", "Porco", true));
+        teams.add(new Team(2, "UFSCAR", "Porco", true));
+        teams.add(new Team(3, "UNIARA", "Porco", true));
 
-        // Finaliza a rodada
-        championship.finishRound(championship.getRounds().get(0));
+        RoundRobin roundRobin = new RoundRobin(1, LocalDate.now(), LocalDate.now().plusDays(7),
+                "Football", "Trophy", "Company X", false, teams);
 
-        // Exibe a tabela do campeonato
-        championship.getChampionshipTable().printTable();
+        roundRobin.generateTable(teams);
 
-        // Declara o vencedor
-        TeamRoundRobin winner = championship.declareWinner();
-        System.out.println("O vencedor é: " + winner.getTeam().getName());
+        // Round 1
+        roundRobin.updateMatchByIds(1, 1, 7, 1);
+        roundRobin.finishMatchByIds(1, 1);
+
+        roundRobin.updateMatchByIds(1, 6, 2, 1);
+        roundRobin.finishMatchByIds(1, 6);
+
+        // Round 2
+        roundRobin.updateMatchByIds(2, 2, 2, 1);
+        roundRobin.finishMatchByIds(2, 2);
+
+        roundRobin.updateMatchByIds(2, 5, 2, 1);
+        roundRobin.finishMatchByIds(2, 5);
+
+        // Round 3
+        roundRobin.updateMatchByIds(3, 3, 2, 1);
+        roundRobin.finishMatchByIds(3, 3);
+
+        roundRobin.updateMatchByIds(3, 4, 2, 1);
+        roundRobin.finishMatchByIds(3, 4);
+
+        // Round 4
+        roundRobin.updateMatchByIds(4, 7, 2, 1);
+        roundRobin.finishMatchByIds(4, 7);
+
+        roundRobin.updateMatchByIds(4, 8, 2, 1);
+        roundRobin.finishMatchByIds(4, 8);
+
+        // Round 5
+        roundRobin.updateMatchByIds(5, 9, 2, 1);
+        roundRobin.finishMatchByIds(5, 9);
+
+        roundRobin.updateMatchByIds(5, 10, 2, 1);
+        roundRobin.finishMatchByIds(5, 10);
+
+        // Round 6
+        roundRobin.updateMatchByIds(6, 11, 1, 2);
+        roundRobin.finishMatchByIds(6, 11);
+
+        roundRobin.updateMatchByIds(6, 12, 1, 2);
+        roundRobin.finishMatchByIds(6, 12);
+
+        roundRobin.printTable();
+        roundRobin.printStandings();
+
+        roundRobin.finishChampionship();
     }
-
 }
