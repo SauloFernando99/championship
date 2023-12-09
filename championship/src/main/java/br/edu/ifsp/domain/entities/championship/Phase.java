@@ -19,6 +19,10 @@ public class Phase {
         this.idPhase = phaseIdCounter++;
     }
 
+    public void addMatch(Match match) {
+        matches.add(match);
+    }
+
     public int getIdPhase() {
         return idPhase;
     }
@@ -55,6 +59,9 @@ public class Phase {
         if (matches != null) {
             for (Match match : matches) {
                 match.printMatch();
+                if (match.getConcluded() != null && match.getConcluded()) {
+                    System.out.print("Concluded\n");
+                }
                 System.out.println("=======================");
             }
         }

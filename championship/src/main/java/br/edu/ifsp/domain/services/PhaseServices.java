@@ -4,6 +4,7 @@ import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.team.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PhaseServices {
@@ -52,7 +53,7 @@ public class PhaseServices {
     }
 
     public List<Team> getWinners (List<Match> matches){
-        List<Team> winners = null;
+        List<Team> winners = new ArrayList<>();
         if (allMatchesFinished(matches)){
             for (Match match : matches) {
                 winners.add(matchServices.getWinner(match));

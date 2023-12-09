@@ -10,41 +10,72 @@ import java.util.Collections;
 import java.util.List;
 
 public class KnockoutServices {
+
+    PhaseServices phaseServices = new PhaseServices();
     public void drawTeams(Knockout knockout){
         List<Team> shuffledTeams = new ArrayList<>(knockout.getTeams());
         Collections.shuffle(shuffledTeams);
         knockout.setTeams(shuffledTeams);
     }
 
-    public void createMatchesForNextUnfinishedPhase(Knockout knockout, Integer index, List<Team> winners) {
-        Phase phase = knockout.getSeeding().get(index);
+    public void createFirstPhaseMatches(Knockout knockout) {
+        // Obtém a primeira fase do campeonato eliminatório
+        Phase firstPhase = new Phase();
+        knockout.addPhase(firstPhase);
 
-        if (!phase.getFinished()) {
-            List<Match> phaseMatches = phase.getMatches();
+        // Obtém a lista de times do campeonato
+        List<Team> teams = knockout.getTeams();
 
-            for (int i = 0; i < winners.size(); i += 2) {
-                if (i + 1 < winners.size()) {
-                    Team team1 = winners.get(i);
-                    Team team2 = winners.get(i + 1);
+        // Embaralha os times para garantir aleatoriedade
+        Collections.shuffle(teams);
 
-                    Match match = new Match(team1, team2);
-                    phaseMatches.add(match);
-                }
-            }
+        // Cria as partidas
+        List<Match> matches = new ArrayList<>();
+        for (int i = 0; i < teams.size(); i += 2) {
+            Team team1 = teams.get(i);
+            Team team2 = teams.get(i + 1);
+            Match match = new Match(team1, team2);
+            matches.add(match);
         }
+
+        // Adiciona as partidas à primeira fase
+        for (Match match : matches) {
+            firstPhase.addMatch(match);
+        }
+
+        // Define o nome da fase com base no número de partidas
+        phaseServices.setPhase(firstPhase);
     }
 
-    public int findLastNonEmptyPhaseIndex(Knockout knockout) {
-        List<Phase> phases = knockout.getSeeding();
+    public int getLastPhaseIndex(Knockout knockout) {
+        List<Phase> seeding = knockout.getSeeding();
 
-        for (int i = phases.size() - 1; i >= 0; i--) {
-            Phase phase = phases.get(i);
-
-            if (!phase.getMatches().isEmpty()) {
-                return i;
-            }
+        if (seeding.isEmpty()) {
+            throw new IllegalStateException("A lista de seeding está vazia. Não há fases disponíveis.");
         }
-        return -1;
+
+        return seeding.size() - 1;
     }
 
+    public void generateNextPhase(Knockout knockout, List<Team> teams) {
+        int lastPhaseIndex = getLastPhaseIndex(knockout);
+        if (lastPhaseIndex == -1) {
+            throw new IllegalStateException("There is no previous phase to create the next.");
+        }
+        Phase newPhase = new Phase();
+
+        List<Match> matches = new ArrayList<>();
+        for (int i = 0; i < teams.size(); i += 2) {
+            Team team1 = teams.get(i);
+            Team team2 = teams.get(i + 1);
+            Match match = new Match(team1, team2);
+            matches.add(match);
+        }
+
+        for (Match match : matches) {
+            newPhase.addMatch(match);
+        }
+
+        knockout.addPhase(newPhase);
+    }
 }

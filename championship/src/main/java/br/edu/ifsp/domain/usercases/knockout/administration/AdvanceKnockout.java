@@ -13,21 +13,26 @@ public class AdvanceKnockout {
     KnockoutServices knockoutServices = new KnockoutServices();
     PhaseServices phaseServices = new PhaseServices();
 
-    public void AdvancePhase(Knockout knockout) {
-        int lastNonEmptyPhaseIndex = knockoutServices.findLastNonEmptyPhaseIndex(knockout);
+    public void advancePhase(Knockout knockout) {
+
+        int lastNonEmptyPhaseIndex = knockoutServices.getLastPhaseIndex(knockout);
 
         if (lastNonEmptyPhaseIndex != -1) {
             Phase lastNonEmptyPhase = knockout.getSeeding().get(lastNonEmptyPhaseIndex);
 
-            if (phaseServices.allMatchesFinished(lastNonEmptyPhase.getMatches())) {
-
+            if (!lastNonEmptyPhase.getFinished() && phaseServices.allMatchesFinished(lastNonEmptyPhase.getMatches())) {
                 List<Team> winners = phaseServices.getWinners(lastNonEmptyPhase.getMatches());
 
-                knockoutServices.createMatchesForNextUnfinishedPhase(knockout, lastNonEmptyPhaseIndex + 1, winners);
+                if (!winners.isEmpty()) {
+                    knockoutServices.generateNextPhase(knockout, winners);
 
-                lastNonEmptyPhase.setFinished(true);
+                    lastNonEmptyPhase.setFinished(true);
+                } else {
+                    throw new IllegalStateException("The list of winners is empty. Cannot advance to the next phase.");
+                }
             }
         }
     }
+
 
 }

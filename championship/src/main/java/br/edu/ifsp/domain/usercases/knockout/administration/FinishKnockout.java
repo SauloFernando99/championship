@@ -12,16 +12,14 @@ public class FinishKnockout {
 
     KnockoutServices knockoutServices = new KnockoutServices();
     MatchServices matchServices = new MatchServices();
+
     public void finishKnockout(Knockout knockout) {
         List<Phase> phases = knockout.getSeeding();
-
-        int lastNonEmptyPhaseIndex = knockoutServices.findLastNonEmptyPhaseIndex(knockout);
+        int lastNonEmptyPhaseIndex = knockoutServices.getLastPhaseIndex(knockout);
 
         if (lastNonEmptyPhaseIndex != -1) {
             Phase lastNonEmptyPhase = phases.get(lastNonEmptyPhaseIndex);
-
-            if (lastNonEmptyPhase.getMatches().size() == 1 && lastNonEmptyPhase.getFinished()) {
-
+            if (lastNonEmptyPhase.getMatches().size() == 1) {
                 Team champion = matchServices.getWinner(lastNonEmptyPhase.getMatches().get(0));
 
                 lastNonEmptyPhase.setFinished(true);
@@ -29,6 +27,8 @@ public class FinishKnockout {
                 knockout.setChampion(champion);
 
                 knockout.setConcluded(true);
+
+                System.out.println("Champion: " + champion.getName());
             }
         }
     }
