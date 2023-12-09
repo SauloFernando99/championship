@@ -2,10 +2,13 @@ package br.edu.ifsp.domain.services;
 
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Phase;
+import br.edu.ifsp.domain.entities.team.Team;
 
 import java.util.List;
 
 public class PhaseServices {
+
+    MatchServices matchServices = new MatchServices();
     public void addMatch(Phase phase, Match match) {
         phase.getMatches().add(match);
     }
@@ -46,5 +49,15 @@ public class PhaseServices {
             return true;
         }
         return false;
+    }
+
+    public List<Team> getWinners (List<Match> matches){
+        List<Team> winners = null;
+        if (allMatchesFinished(matches)){
+            for (Match match : matches) {
+                winners.add(matchServices.getWinner(match));
+            }
+        }
+        return winners;
     }
 }

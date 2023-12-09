@@ -8,14 +8,15 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Championship {
+    private static int championshipIdCounter = 1;
     private Integer idChampionship;
     private LocalDate initialDate;
     private LocalDate finalDate;
     private String modality;
     private String award;
     private String sponsorship;
-    private Boolean concluded;
-    private List<Team> teams;
+    private Boolean concluded = false;
+    private List<Team> teams = new ArrayList<>();
 
     public Championship(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
         this.idChampionship = idChampionship;
@@ -30,6 +31,10 @@ public abstract class Championship {
 
     public Championship(List<Team> teams) {
         this.teams = teams;
+    }
+
+    public Championship(LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship) {
+        this.idChampionship = championshipIdCounter++;
     }
 
     public Integer getIdChampionship() {

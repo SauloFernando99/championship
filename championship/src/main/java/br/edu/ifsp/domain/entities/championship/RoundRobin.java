@@ -2,9 +2,7 @@ package br.edu.ifsp.domain.entities.championship;
 
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.entities.team.TeamStats;
-import br.edu.ifsp.domain.services.MatchServices;
 import br.edu.ifsp.domain.services.RoundServices;
-import br.edu.ifsp.domain.services.TeamStatsServices;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,112 +11,19 @@ import java.util.Comparator;
 import java.util.List;
 
 public class RoundRobin extends Championship {
-    private List<Team> teams = new ArrayList<>();
     private List<Round> table = new ArrayList<>();
     private List<TeamStats> teamStats = new ArrayList<>();
     private Team champion;
 
-    public RoundRobin(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality,
-                      String award, String sponsorship, Boolean concluded, List<Team> teams) {
-        super(idChampionship, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
-    }
-
     RoundServices roundServices = new RoundServices();
 
-    public void initializeTeamStats(List<Team> teams) {
-        for (Team team : teams) {
-            TeamStats teamStat = new TeamStats(team);
-            teamStats.add(teamStat);
-        }
+    public RoundRobin(LocalDate initialDate, LocalDate finalDate, String modality,
+                      String award, String sponsorship) {
+        super(initialDate, finalDate, modality, award, sponsorship);
     }
 
-    public void generateTable(List<Team> teams){
-        generateFirstLeg(teams);
-        generateSecondLeg();
-    }
-
-    private void generateFirstLeg(List<Team> teams) {
-        this.teams = teams;
-        this.teamStats.clear();
-
-        initializeTeamStats(teams);
-
-        int numTeams = teams.size();
-
-        // Número total de confrontos
-        int totalMatches = (numTeams * (numTeams - 1)) / 2;
-
-        List<Match> allMatches = new ArrayList<>();
-
-        // Gerar todos os confrontos possíveis
-        for (int i = 0; i < numTeams - 1; i++) {
-            for (int j = i + 1; j < numTeams; j++) {
-                Team team1 = teams.get(i);
-                Team team2 = teams.get(j);
-
-                Match match = new Match(team1, team2);
-                allMatches.add(match);
-            }
-        }
-
-        int matchesPerRound = numTeams / 2;
-
-        // Distribuir os confrontos entre as rodadas
-        for (int roundNumber = 0; roundNumber < numTeams - 1; roundNumber++) {
-            Round round = new Round();
-
-            for (int i = 0; i < matchesPerRound; i++) {
-                Match match = findMatchForRound(allMatches, round.getMatches());
-                if (match != null) {
-                    roundServices.addMatch(round, match);
-                    allMatches.remove(match);
-                }
-            }
-
-            table.add(round);
-        }
-    }
-
-    private Match findMatchForRound(List<Match> allMatches, List<Match> currentRoundMatches) {
-        for (Match match : allMatches) {
-            Team team1 = match.getTeam1();
-            Team team2 = match.getTeam2();
-
-            boolean team1AlreadyPlayed = playedInRound(team1, currentRoundMatches);
-            boolean team2AlreadyPlayed = playedInRound(team2, currentRoundMatches);
-
-            if (!team1AlreadyPlayed && !team2AlreadyPlayed) {
-                return match;
-            }
-        }
-        return null;
-    }
-
-    private boolean playedInRound(Team team, List<Match> matches) {
-        for (Match match : matches) {
-            if (match.getTeam1().equals(team) || match.getTeam2().equals(team)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    private void generateSecondLeg() {
-        List<Round> returnRounds = new ArrayList<>();
-
-        for (Round round : table) {
-            Round returnRound = new Round();
-
-            for (Match match : round.getMatches()) {
-                Match returnMatch = new Match(match.getTeam2(), match.getTeam1());
-                roundServices.addMatch(returnRound, returnMatch);
-            }
-
-            returnRounds.add(returnRound);
-        }
-
-        table.addAll(returnRounds);
+    public void addTeam(Team team){
+        this.getTeams().add(team);
     }
 
     public void printTable() {
@@ -145,8 +50,6 @@ public class RoundRobin extends Championship {
     }
 
     public void printStandings() {
-        // Atualiza os pontos dos times com base nos resultados dos jogos
-        updateTeamStats();
 
         // Ordena a lista de TeamStats com base nos pontos (em ordem decrescente)
         Collections.sort(teamStats, Comparator.comparingInt(TeamStats::getPoints).reversed());
@@ -161,141 +64,9 @@ public class RoundRobin extends Championship {
                     teamStat.getPoints(),
                     teamStat.getWins(),
                     teamStat.getDraws(),
-                    teamStat.getLoses(),
+                    teamStat.getLosses(),
                     teamStat.getPointsStandings());
         }
-    }
-
-    // Método para atualizar os pontos dos times com base nos resultados dos jogos
-    private void updateTeamStats() {
-        TeamStatsServices teamStatsService = new TeamStatsServices();
-        MatchServices matchServices = new MatchServices();
-
-        for (Round round : table) {
-            for (Match match : round.getMatches()) {
-                if (matchServices.isMatchConcluded(match)) {
-                    TeamStats teamStat1 = findTeamStats(match.getTeam1());
-                    TeamStats teamStat2 = findTeamStats(match.getTeam2());
-
-                    teamStatsService.updatePointsStandings(teamStat1, match.getScoreboard1(), match.getScoreboard2());
-                    teamStatsService.updatePointsStandings(teamStat2, match.getScoreboard2(), match.getScoreboard1());
-
-                    if (match.getScoreboard1() > match.getScoreboard2()) {
-                        teamStat1.registerWin();
-                        teamStat2.registerLoss();
-                    } else if (match.getScoreboard2() > match.getScoreboard1()) {
-                        teamStat1.registerLoss();
-                        teamStat2.registerWin();
-                    } else {
-                        teamStat1.registerDraw();
-                        teamStat2.registerDraw();
-                    }
-                }
-            }
-        }
-    }
-
-    // Método auxiliar para encontrar TeamStats para um Team
-    private TeamStats findTeamStats(Team team) {
-        for (TeamStats teamStat : teamStats) {
-            if (teamStat.getTeam() == team) {
-                return teamStat;
-            }
-        }
-        return null;
-    }
-
-    public Match updateMatchByIds(int roundId, int matchId, Integer scoreBoard1, Integer scoreBoard2) {
-
-        MatchServices matchServices = new MatchServices();
-
-        for (Round round : table) {
-            if (round.getIdRound() == roundId) {
-                for (Match match : round.getMatches()) {
-                    if (match.getIdMatch() == matchId) {
-                        matchServices.updateMatchResult(match, scoreBoard1, scoreBoard2);
-                        return match;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-    public Match finishMatchByIds(int roundId, int matchId){
-
-        MatchServices matchServices = new MatchServices();
-        for (Round round : table) {
-            if (round.getIdRound() == roundId) {
-                for (Match match : round.getMatches()) {
-                    if (match.getIdMatch() == matchId) {
-                        matchServices.concludeMatch(match);
-
-                        if (allMatchesConcluded(round)) {
-                            roundServices.finishRound(round);
-                        }
-
-                        return match;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    private boolean allMatchesConcluded(Round round) {
-        for (Match match : round.getMatches()) {
-            if (!match.getConcluded()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void finishChampionship() {
-        boolean allRoundsConcluded = true;
-        for (Round round : table) {
-            if (!round.getFinished()) {
-                allRoundsConcluded = false;
-                break;
-            }
-        }
-
-        if (allRoundsConcluded) {
-            this.setConcluded(true);
-
-            // Encontrar e imprimir o campeão (pode ser o time com mais pontos)
-            Team champion = findChampion();
-            System.out.println("Championship concluded! The champion is: " + champion.getName());
-        } else {
-            System.out.println("Championship is not concluded. Not all rounds are finished.");
-        }
-    }
-
-    private Team findChampion() {
-        int maxPoints = -1;
-        int maxPointsStandings = -1;
-        Team champion = null;
-
-        for (TeamStats teamStat : teamStats) {
-            if (teamStat.getPoints() > maxPoints ||
-                    (teamStat.getPoints() == maxPoints && teamStat.getPointsStandings() > maxPointsStandings)) {
-                champion = teamStat.getTeam();
-                maxPoints = teamStat.getPoints();
-                maxPointsStandings = teamStat.getPointsStandings();
-            }
-        }
-
-        return champion;
-    }
-
-    @Override
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    @Override
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
     }
 
     public List<Round> getTable() {

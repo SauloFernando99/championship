@@ -2,16 +2,16 @@ package br.edu.ifsp.domain.entities.team;
 
 public class Team {
 
-    private Integer idTeam;
+    private static int teamIdCounter = 1;
+    private int idTeam;
     private String name;
     private String crest;
-    private Boolean isActive;
+    private Boolean isActive = true;
 
-    public Team(Integer idTeam, String name, String crest, Boolean isActive) {
-        this.idTeam = idTeam;
+    public Team(String name, String crest) {
+        this.idTeam = teamIdCounter++;
         this.name = name;
         this.crest = crest;
-        this.isActive = true;
 
     }
 

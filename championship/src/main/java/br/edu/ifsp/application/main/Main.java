@@ -2,118 +2,81 @@ package br.edu.ifsp.application.main;
 
 import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
-import br.edu.ifsp.domain.services.MatchServices;
+import br.edu.ifsp.domain.services.RoundServices;
+import br.edu.ifsp.domain.usercases.roundrobin.administration.*;
+import br.edu.ifsp.domain.usercases.team.TeamUserCases;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Criando uma instância de RoundRobin para teste
-        List<Team> teams = new ArrayList<>();
-        teams.add(new Team(0, "IFSP", "Marcolinha", true));
-        teams.add(new Team(1, "USP", "Porco", true));
-        teams.add(new Team(2, "UFSCAR", "Porco", true));
-        teams.add(new Team(3, "UNIARA", "Porco", true));
+        TeamUserCases teamUserCases = new TeamUserCases();
+        RoundServices roundServices = new RoundServices();
+        CreateRoundRobin createRoundRobin = new CreateRoundRobin();
+        StartRoundRobin startRoundRobin = new StartRoundRobin();
+        UpdateRoundRobinMatch updateRoundRobinMatch = new UpdateRoundRobinMatch();
+        FinishRoundRobinMatch finishRoundRobinMatch = new FinishRoundRobinMatch();
+        FinishRoundRobin finishRoundRobin = new FinishRoundRobin();
 
-        RoundRobin roundRobin = new RoundRobin(1, LocalDate.now(), LocalDate.now().plusDays(7),
-                "Football", "Trophy", "Company X", false, teams);
+        Team team1 = teamUserCases.createTeam("IFSP", "Marquinho");
+        Team team2 = teamUserCases.createTeam("USP", "Porco");
+        Team team3 = teamUserCases.createTeam("UFSCAR", "123");
+        Team team4 = teamUserCases.createTeam("UNIARA", "Arara");
 
-        roundRobin.generateTable(teams);
+        teamUserCases.updateTeam(team1, "IFSP", "MARQUINHO DO GRAU");
 
-        // Round 1
-        roundRobin.updateMatchByIds(1, 1, 7, 1);
-        roundRobin.finishMatchByIds(1, 1);
+        RoundRobin roundRobin = createRoundRobin.createRoundRobin(LocalDate.now(),
+                LocalDate.now().plusDays(7), "Futebol", "Troféu", "Nike");
 
-        roundRobin.updateMatchByIds(1, 6, 2, 1);
-        roundRobin.finishMatchByIds(1, 6);
+        roundRobin.addTeam(team1);
+        roundRobin.addTeam(team2);
+        roundRobin.addTeam(team3);
+        roundRobin.addTeam(team4);
 
-        // Round 2
-        roundRobin.updateMatchByIds(2, 2, 2, 1);
-        roundRobin.finishMatchByIds(2, 2);
-
-        roundRobin.updateMatchByIds(2, 5, 2, 1);
-        roundRobin.finishMatchByIds(2, 5);
-
-        // Round 3
-        roundRobin.updateMatchByIds(3, 3, 2, 1);
-        roundRobin.finishMatchByIds(3, 3);
-
-        roundRobin.updateMatchByIds(3, 4, 2, 1);
-        roundRobin.finishMatchByIds(3, 4);
-
-        // Round 4
-        roundRobin.updateMatchByIds(4, 7, 2, 1);
-        roundRobin.finishMatchByIds(4, 7);
-
-        roundRobin.updateMatchByIds(4, 8, 2, 1);
-        roundRobin.finishMatchByIds(4, 8);
-
-        // Round 5
-        roundRobin.updateMatchByIds(5, 9, 2, 1);
-        roundRobin.finishMatchByIds(5, 9);
-
-        roundRobin.updateMatchByIds(5, 10, 2, 1);
-        roundRobin.finishMatchByIds(5, 10);
-
-        // Round 6
-        roundRobin.updateMatchByIds(6, 11, 1, 2);
-        roundRobin.finishMatchByIds(6, 11);
-
-        roundRobin.updateMatchByIds(6, 12, 1, 2);
-        roundRobin.finishMatchByIds(6, 12);
+        startRoundRobin.startRoundRobin(roundRobin);
 
         roundRobin.printTable();
         roundRobin.printStandings();
 
-        roundRobin.finishChampionship();
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 1, 1, 2);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,1,1);
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 6, 1, 3);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,1,6);
+        roundRobin.printTable();
+        roundRobin.printStandings();
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 2, 2, 1, 2);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,2,2);
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 2, 5, 1, 3);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,2,5);
+        roundRobin.printTable();
+        roundRobin.printStandings();
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 3, 3, 1, 2);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,3,3);
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 3, 4, 1, 3);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,3,4);
+        roundRobin.printTable();
+        roundRobin.printStandings();
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 4, 7, 1, 1);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,4,7);
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 4, 8, 1, 1);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,4,8);
+        roundRobin.printTable();
+        roundRobin.printStandings();
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 5, 9, 1, 1);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,5,9);
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 5, 10, 1, 1);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,5,10);
+        roundRobin.printTable();
+        roundRobin.printStandings();
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 6, 11, 1, 1);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,6,11);
+        updateRoundRobinMatch.updateMatchByIds(roundRobin, 6, 12, 1, 1);
+        finishRoundRobinMatch.finishMatchByIds(roundRobin,6,12);
 
+        roundRobin.printTable();
+        roundRobin.printStandings();
 
-        // Create a Knockout instance
-        Knockout knockout = new Knockout(2, LocalDate.now(), LocalDate.now().plusDays(7), "Football", "Trophy", "Sponsor", false, teams, null, null);
-
-        // Draw teams to shuffle their order
-        knockout.drawTeams();
-
-        // Start the knockout with the drawn teams
-        knockout.startKnockout(knockout.getTeams());
-
-        // Simulate updating match results
-        simulateMatchResults(knockout);
-
-        // Print seeding after match results
-        System.out.println("\nAfter Match Results:");
-        knockout.printSeedingKnockout();
-
-        // Simulate advancing to the next phase
-        knockout.nextPhase();
-
-        System.out.println("\nAfter Next Phase:");
-        knockout.printSeedingKnockout();
-
-        // Simulate finishing the knockout
-        knockout.finishKnockout();
-    }
-    private static void simulateMatchResults(Knockout knockout) {
-        // Assuming all matches have two teams
-        for (Phase phase : knockout.getSeeding()) {
-            for (Match match : phase.getMatches()) {
-                // Simulate random scores
-                int score1 = 1;
-                int score2 = 2;
-
-                MatchServices matchServices = new MatchServices();
-                // Update match results
-                matchServices.updateMatchResult(match, score1, score2);
-
-                // Conclude the match
-                matchServices.concludeMatch(match);
-
-                System.out.println("Match Result: " + match.getTeam1().getName() + " " + score1 + " vs " +
-                        match.getTeam2().getName() + " " + score2);
-            }
-        }
+        finishRoundRobin.finishChampionship(roundRobin);
     }
 }

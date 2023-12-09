@@ -22,6 +22,8 @@ public class Match {
         this.team2 = team2;
     }
 
+    public Match(){}
+
     public int getIdMatch() {
         return idMatch;
     }

@@ -6,7 +6,7 @@ public class TeamStats {
     private int idTeamStats;
     private Team team;
     private Integer wins = 0;
-    private Integer loses = 0;
+    private Integer losses = 0;
     private Integer draws = 0;
     private Integer points = 0;
     private Integer pointsStandings = 0;
@@ -17,7 +17,7 @@ public class TeamStats {
     }
 
     private void calculatePoints(){
-        points = wins * 3 + draws;
+        points = (wins * 3) + draws;
     }
 
     public void registerWin(){
@@ -26,7 +26,7 @@ public class TeamStats {
     }
 
     public void registerLoss(){
-        loses++;
+        losses++;
         calculatePoints();
     }
 
@@ -55,12 +55,12 @@ public class TeamStats {
         this.wins = wins;
     }
 
-    public Integer getLoses() {
-        return loses;
+    public Integer getLosses() {
+        return losses;
     }
 
-    public void setLoses(Integer loses) {
-        this.loses = loses;
+    public void setLosses(Integer loses) {
+        this.losses = loses;
     }
 
     public Integer getDraws() {

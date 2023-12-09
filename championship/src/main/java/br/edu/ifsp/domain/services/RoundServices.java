@@ -27,4 +27,13 @@ public class RoundServices {
         round.setFinished(true);
         System.out.println("The round has been concluded.");
     }
+
+    public boolean allMatchesConcluded(Round round) {
+        for (Match match : round.getMatches()) {
+            if (!match.getConcluded()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

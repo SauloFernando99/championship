@@ -12,10 +12,11 @@ public class MatchServices {
         match.setScoreboard2(scoreboard2);
     }
 
-    public void notDraw(Match match) throws IllegalArgumentException {
+    public Boolean notDraw(Match match) throws IllegalArgumentException {
         if (Objects.equals(match.getScoreboard1(), match.getScoreboard2())) {
             throw new IllegalArgumentException("The match result can not be a draw");
         }
+        return false;
     }
 
     public Boolean isDraw(Match match) {

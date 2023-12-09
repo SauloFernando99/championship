@@ -8,11 +8,23 @@ import java.util.List;
 
 public class Phase {
 
+    private static int phaseIdCounter = 1;
+    private int idPhase;
     private String phase;
-    private List<Match> matches;
+    private List<Match> matches = new ArrayList<>();
+
+    private Boolean finished = false;
 
     public Phase() {
-        this.matches = new ArrayList<>();
+        this.idPhase = phaseIdCounter++;
+    }
+
+    public int getIdPhase() {
+        return idPhase;
+    }
+
+    public void setIdPhase(int idPhase) {
+        this.idPhase = idPhase;
     }
 
     public String getPhase() {
@@ -21,6 +33,14 @@ public class Phase {
 
     public void setPhase(String phase) {
         this.phase = phase;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     public List<Match> getMatches() {
