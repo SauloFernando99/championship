@@ -18,6 +18,14 @@ public class MatchServices {
         }
     }
 
+    public Boolean isDraw(Match match) {
+        if (Objects.equals(match.getScoreboard1(), match.getScoreboard2())) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void concludeMatch(Match match) throws IllegalStateException {
         if (match.getConcluded()) {
             throw new IllegalStateException("The match has already ended.");

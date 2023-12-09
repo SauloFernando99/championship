@@ -3,6 +3,8 @@ package br.edu.ifsp.domain.services;
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Phase;
 
+import java.util.List;
+
 public class PhaseServices {
     public void addMatch(Phase phase, Match match) {
         phase.getMatches().add(match);
@@ -32,5 +34,17 @@ public class PhaseServices {
                 }
                 break;
         }
+    }
+
+    public Boolean allMatchesFinished(List<Match> matches){
+        if (matches != null) {
+            for (Match match : matches) {
+                if (!match.getConcluded()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

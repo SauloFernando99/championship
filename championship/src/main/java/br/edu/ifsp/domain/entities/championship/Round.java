@@ -15,7 +15,6 @@ public class Round {
         this.idRound = roundIdCounter++;
         this.date = date;
         this.matches = matches;
-        this.setFinished(false);
     }
 
     public Round(){
@@ -24,24 +23,6 @@ public class Round {
 
     public void addMatch(Match match){
         matches.add(match);
-    }
-
-    public void concludeRound() {
-        if (this.isFinished) {
-            System.out.println("The round has already ended.");
-            return;
-        }
-
-        // Verificar se todas as partidas estão finalizadas
-        for (Match match : matches) {
-            if (!match.getConcluded()) {
-                System.out.println("Cannot conclude the round. Not all matches are finished.");
-                return;
-            }
-        }
-
-        this.isFinished = true;
-        System.out.println("The round has been concluded.");
     }
 
     public int getIdRound() {

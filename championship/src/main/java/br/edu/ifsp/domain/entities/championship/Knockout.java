@@ -25,6 +25,9 @@ public class Knockout extends Championship {
         this.setChampion(null);
     }
 
+    MatchServices matchServices = new MatchServices();
+    PhaseServices phaseServices = new PhaseServices();
+
     public void drawTeams() {
         List<Team> shuffledTeams = new ArrayList<>(getTeams());
         Collections.shuffle(shuffledTeams);
@@ -65,9 +68,9 @@ public class Knockout extends Championship {
         }
 
         Phase lastRound = getSeeding().get(getSeeding().size() - 1);
-        List<Match> lastRoundMatchs = lastRound.getMatches();
+        List<Match> lastRoundMatches = lastRound.getMatches();
 
-        if (!lastRound.allMatchesFinished()) {
+        if (!phaseServices.allMatchesFinished(lastRoundMatches)) {
             System.out.println("Error generating the next round: not all matches are finished.");
             return;
         }
@@ -76,7 +79,7 @@ public class Knockout extends Championship {
 
         MatchServices matchServices = new MatchServices();
 
-        for (Match match : lastRoundMatchs) {
+        for (Match match : lastRoundMatches) {
             Team winner = matchServices.getWinner(match);
             if (winner != null) {
                 winnersLastRound.add(winner);

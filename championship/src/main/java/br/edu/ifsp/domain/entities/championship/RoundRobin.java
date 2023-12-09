@@ -3,7 +3,8 @@ package br.edu.ifsp.domain.entities.championship;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.entities.team.TeamStats;
 import br.edu.ifsp.domain.services.MatchServices;
-import br.edu.ifsp.domain.services.TeamStatsService;
+import br.edu.ifsp.domain.services.RoundServices;
+import br.edu.ifsp.domain.services.TeamStatsServices;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ public class RoundRobin extends Championship {
                       String award, String sponsorship, Boolean concluded, List<Team> teams) {
         super(idChampionship, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
     }
+
+    RoundServices roundServices = new RoundServices();
 
     public void initializeTeamStats(List<Team> teams) {
         for (Team team : teams) {
@@ -67,7 +70,7 @@ public class RoundRobin extends Championship {
             for (int i = 0; i < matchesPerRound; i++) {
                 Match match = findMatchForRound(allMatches, round.getMatches());
                 if (match != null) {
-                    round.addMatch(match);
+                    roundServices.addMatch(round, match);
                     allMatches.remove(match);
                 }
             }
@@ -108,9 +111,8 @@ public class RoundRobin extends Championship {
             Round returnRound = new Round();
 
             for (Match match : round.getMatches()) {
-                // Inverte os times para o confronto de volta
                 Match returnMatch = new Match(match.getTeam2(), match.getTeam1());
-                returnRound.addMatch(returnMatch);
+                roundServices.addMatch(returnRound, returnMatch);
             }
 
             returnRounds.add(returnRound);
@@ -166,7 +168,7 @@ public class RoundRobin extends Championship {
 
     // Método para atualizar os pontos dos times com base nos resultados dos jogos
     private void updateTeamStats() {
-        TeamStatsService teamStatsService = new TeamStatsService();
+        TeamStatsServices teamStatsService = new TeamStatsServices();
         MatchServices matchServices = new MatchServices();
 
         for (Round round : table) {
@@ -219,7 +221,7 @@ public class RoundRobin extends Championship {
         }
         return null;
     }
-    public Match finishMatchByIds(int roundId, int matchId) {
+    public Match finishMatchByIds(int roundId, int matchId){
 
         MatchServices matchServices = new MatchServices();
         for (Round round : table) {
@@ -229,7 +231,7 @@ public class RoundRobin extends Championship {
                         matchServices.concludeMatch(match);
 
                         if (allMatchesConcluded(round)) {
-                            round.concludeRound();
+                            roundServices.finishRound(round);
                         }
 
                         return match;

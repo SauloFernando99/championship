@@ -15,18 +15,6 @@ public class Phase {
         this.matches = new ArrayList<>();
     }
 
-    public boolean allMatchesFinished() {
-        if (matches != null) {
-            for (Match match : matches) {
-                if (!match.getConcluded()) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
     public String getPhase() {
         return phase;
     }
