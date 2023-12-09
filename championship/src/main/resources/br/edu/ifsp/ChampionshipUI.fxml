@@ -3,28 +3,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="515.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ChampionshipUIController">
+<AnchorPane prefHeight="568.0" prefWidth="662.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ChampionshipUIController">
    <children>
-      <Label layoutX="11.0" layoutY="31.0" text="Modalidade do Campeonato" />
-      <TextField fx:id="txtModalidadeCampeonato" layoutX="185.0" layoutY="27.0" prefHeight="25.0" prefWidth="468.0" />
-      <Label layoutX="14.0" layoutY="76.0" text="Nome do Campeonato" />
-      <TextField fx:id="txtNomeCampeonato" layoutX="185.0" layoutY="72.0" prefHeight="25.0" prefWidth="468.0" />
-      <Label layoutX="14.0" layoutY="119.0" text="Data de Inicio" />
-      <Label layoutX="333.0" layoutY="119.0" text="Data Final" />
-      <Label layoutX="14.0" layoutY="163.0" text="Patrocinadores" />
-      <TextField fx:id="txtPatrocinadores" layoutX="111.0" layoutY="159.0" prefHeight="25.0" prefWidth="538.0" />
-      <Label layoutX="14.0" layoutY="205.0" text="Premiação" />
-      <TextField fx:id="txtPremiacao" layoutX="111.0" layoutY="201.0" />
-      <Label layoutX="14.0" layoutY="242.0" text="Times Participantes" />
-      <TableView fx:id="tabelaTime" layoutX="123.0" layoutY="242.0" prefHeight="200.0" prefWidth="528.0">
+      <Label layoutX="8.0" layoutY="46.0" text="Modalidade do Campeonato" />
+      <Label layoutX="10.0" layoutY="108.0" text="Nome do Campeonato" />
+      <TextField fx:id="txtNomeCampeonato" layoutX="154.0" layoutY="105.0" prefHeight="25.0" prefWidth="468.0" />
+      <Label layoutX="12.0" layoutY="155.0" text="Data de Inicio" />
+      <Label layoutX="333.0" layoutY="152.0" text="Data Final" />
+      <Label layoutX="11.0" layoutY="199.0" text="Patrocinadores" />
+      <TextField fx:id="txtPatrocinadores" layoutX="124.0" layoutY="195.0" prefHeight="25.0" prefWidth="528.0" />
+      <Label layoutX="11.0" layoutY="244.0" text="Premiação" />
+      <TextField fx:id="txtPremiacao" layoutX="124.0" layoutY="240.0" />
+      <Label layoutX="11.0" layoutY="284.0" text="Times Participantes" />
+      <TableView fx:id="tabelaTime" layoutX="122.0" layoutY="284.0" prefHeight="200.0" prefWidth="528.0">
         <columns>
           <TableColumn fx:id="idTeam" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="name" prefWidth="75.0" text="TIME" />
         </columns>
       </TableView>
-      <Button fx:id="btnCancelar" layoutX="494.0" layoutY="463.0" mnemonicParsing="false" onAction="#backToPreviousScene" text="Cancelar" />
-      <Button fx:id="btnCriarCampeonato" layoutX="587.0" layoutY="463.0" mnemonicParsing="false" onAction="#createChampionship" prefHeight="25.0" prefWidth="62.0" text="Criar" />
-      <DatePicker fx:id="initialDate" layoutX="111.0" layoutY="115.0" />
-      <DatePicker fx:id="finalDate" layoutX="427.0" layoutY="115.0" />
+      <Button fx:id="btnCancelar" layoutX="500.0" layoutY="518.0" mnemonicParsing="false" onAction="#backToPreviousScene" text="Cancelar" />
+      <Button fx:id="btnCriarCampeonato" layoutX="578.0" layoutY="518.0" mnemonicParsing="false" onAction="#createChampionship" prefHeight="25.0" prefWidth="62.0" text="Criar" />
+      <DatePicker fx:id="initialDate" layoutX="122.0" layoutY="152.0" />
+      <DatePicker fx:id="finalDate" layoutX="427.0" layoutY="148.0" />
+      <ChoiceBox fx:id="modalidadeCampeonato" layoutX="175.0" layoutY="44.0" prefWidth="150.0" />
    </children>
 </AnchorPane>

@@ -5,10 +5,10 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.TeamUIController">
    <children>
-      <Label layoutX="48.0" layoutY="53.0" text="Nome do Time:" />
-      <Label layoutX="48.0" layoutY="117.0" text="Detalhes da Bandeira: " />
-      <TextField fx:id="txtNomeCampeonato" layoutX="186.0" layoutY="49.0" prefHeight="25.0" prefWidth="396.0" />
-      <TextArea fx:id="txtBandeiraCampeonato" layoutX="188.0" layoutY="117.0" prefHeight="155.0" prefWidth="389.0" />
+      <Label layoutX="20.0" layoutY="53.0" text="Nome do Time:" />
+      <Label layoutX="22.0" layoutY="142.0" text="Detalhes da Bandeira: " />
+      <TextField fx:id="txtNomeCampeonato" layoutX="118.0" layoutY="53.0" prefHeight="25.0" prefWidth="465.0" />
+      <TextArea fx:id="txtBandeiraCampeonato" layoutX="146.0" layoutY="146.0" prefHeight="155.0" prefWidth="431.0" />
       <Button fx:id="btnCriarTime" layoutX="513.0" layoutY="340.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="25.0" prefWidth="62.0" text="Criar" />
       <Button fx:id="btnCancelar" layoutX="414.0" layoutY="340.0" mnemonicParsing="false" onAction="#backToPreviousScene" text="Cancelar" />
    </children>
