@@ -1,6 +1,9 @@
 package br.edu.ifsp.domain.entities.championship;
 
 import br.edu.ifsp.domain.entities.team.Team;
+import br.edu.ifsp.domain.services.MatchServices;
+import br.edu.ifsp.domain.services.PhaseServices;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,9 +46,11 @@ public class Knockout extends Championship {
             Team team2 = copyTeams.remove(0);
 
             Match match = new Match(team1, team2);
-            phase.addMatch(match);
+            PhaseServices phaseServices = new PhaseServices();
+            phaseServices.addMatch(phase, match);
         }
-        phase.setPhase();
+        PhaseServices phaseServices = new PhaseServices();
+        phaseServices.setPhase(phase);
         this.getSeeding().add(phase);
     }
     private boolean isPowerTwo(int number) {
@@ -69,8 +74,10 @@ public class Knockout extends Championship {
 
         List<Team> winnersLastRound = new ArrayList<>();
 
+        MatchServices matchServices = new MatchServices();
+
         for (Match match : lastRoundMatchs) {
-            Team winner = match.getWinner();
+            Team winner = matchServices.getWinner(match);
             if (winner != null) {
                 winnersLastRound.add(winner);
             }
@@ -97,8 +104,8 @@ public class Knockout extends Championship {
             return;
         }
 
-        Match endMatch = lastPhase.getMatches().get(0);
-        Team winner = endMatch.getWinner();
+        MatchServices matchServices = new MatchServices();
+        Team winner = matchServices.getWinner(lastPhase.getMatches().get(0));
 
         if (winner != null) {
             this.setChampion(winner);
@@ -110,8 +117,9 @@ public class Knockout extends Championship {
     }
 
     public void printSeedingKnockout() {
+        PhaseServices phaseServices = new PhaseServices();
         for (Phase phase : getSeeding()) {
-            phase.setPhase();
+            phaseServices.setPhase(phase);
             System.out.println("Phase: " + phase.getPhase());
             phase.printPhase();
             System.out.println("=======================");

@@ -2,6 +2,7 @@ package br.edu.ifsp.application.main;
 
 import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
+import br.edu.ifsp.domain.services.MatchServices;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,31 +10,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-/*        Team team1 = new Team(0, "IFSP", "Marcolinha", true);
-        Team team2 = new Team(1, "USP", "Porco", true);
-        Team team3 = new Team(2, "UFSCAR", "Porco", true);
-        Team team4 = new Team(3, "UNIARA", "Porco", true);
-        Team team5 = new Team(4, "UNICEP", "Porco", true);
-        Team team6 = new Team(5, "SLA", "Porco", true);
-
-        // Lista de times
-        List<Team> teams = new ArrayList<>();
-        teams.add(team1);
-        teams.add(team2);
-        teams.add(team3);
-        teams.add(team4);
-        teams.add(team5);
-        teams.add(team6);
-
-        // Configurações do campeonato
-        LocalDate startDate = LocalDate.of(2023, 11, 1);
-        LocalDate endDate = LocalDate.of(2023, 12, 1);
-        String modality = "Futebol";
-        String award = "Prêmio em dinheiro";
-        String sponsorship = "Empresa X";
-        boolean concluded = false;
-
-    }*/
 
         // Criando uma instância de RoundRobin para teste
         List<Team> teams = new ArrayList<>();
@@ -93,5 +69,51 @@ public class Main {
         roundRobin.printStandings();
 
         roundRobin.finishChampionship();
+
+
+        // Create a Knockout instance
+        Knockout knockout = new Knockout(2, LocalDate.now(), LocalDate.now().plusDays(7), "Football", "Trophy", "Sponsor", false, teams, null, null);
+
+        // Draw teams to shuffle their order
+        knockout.drawTeams();
+
+        // Start the knockout with the drawn teams
+        knockout.startKnockout(knockout.getTeams());
+
+        // Simulate updating match results
+        simulateMatchResults(knockout);
+
+        // Print seeding after match results
+        System.out.println("\nAfter Match Results:");
+        knockout.printSeedingKnockout();
+
+        // Simulate advancing to the next phase
+        knockout.nextPhase();
+
+        System.out.println("\nAfter Next Phase:");
+        knockout.printSeedingKnockout();
+
+        // Simulate finishing the knockout
+        knockout.finishKnockout();
+    }
+    private static void simulateMatchResults(Knockout knockout) {
+        // Assuming all matches have two teams
+        for (Phase phase : knockout.getSeeding()) {
+            for (Match match : phase.getMatches()) {
+                // Simulate random scores
+                int score1 = 1;
+                int score2 = 2;
+
+                MatchServices matchServices = new MatchServices();
+                // Update match results
+                matchServices.updateMatchResult(match, score1, score2);
+
+                // Conclude the match
+                matchServices.concludeMatch(match);
+
+                System.out.println("Match Result: " + match.getTeam1().getName() + " " + score1 + " vs " +
+                        match.getTeam2().getName() + " " + score2);
+            }
+        }
     }
 }

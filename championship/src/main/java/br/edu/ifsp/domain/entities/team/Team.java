@@ -8,10 +8,10 @@ public class Team {
     private Boolean isActive;
 
     public Team(Integer idTeam, String name, String crest, Boolean isActive) {
-        this.setIdTeam(idTeam);
-        this.setName(name);
-        this.setCrest(crest);
-        this.setActive(isActive);
+        this.idTeam = idTeam;
+        this.name = name;
+        this.crest = crest;
+        this.isActive = true;
 
     }
 

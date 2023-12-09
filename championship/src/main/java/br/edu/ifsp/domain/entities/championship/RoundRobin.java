@@ -1,6 +1,9 @@
 package br.edu.ifsp.domain.entities.championship;
 
 import br.edu.ifsp.domain.entities.team.Team;
+import br.edu.ifsp.domain.entities.team.TeamStats;
+import br.edu.ifsp.domain.services.MatchServices;
+import br.edu.ifsp.domain.services.TeamStatsService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -163,14 +166,17 @@ public class RoundRobin extends Championship {
 
     // Método para atualizar os pontos dos times com base nos resultados dos jogos
     private void updateTeamStats() {
+        TeamStatsService teamStatsService = new TeamStatsService();
+        MatchServices matchServices = new MatchServices();
+
         for (Round round : table) {
             for (Match match : round.getMatches()) {
-                if (match.isConcluded()) {
+                if (matchServices.isMatchConcluded(match)) {
                     TeamStats teamStat1 = findTeamStats(match.getTeam1());
                     TeamStats teamStat2 = findTeamStats(match.getTeam2());
 
-                    teamStat1.updatePointsStandings(match.getScoreboard1(), match.getScoreboard2());
-                    teamStat2.updatePointsStandings(match.getScoreboard2(), match.getScoreboard1());
+                    teamStatsService.updatePointsStandings(teamStat1, match.getScoreboard1(), match.getScoreboard2());
+                    teamStatsService.updatePointsStandings(teamStat2, match.getScoreboard2(), match.getScoreboard1());
 
                     if (match.getScoreboard1() > match.getScoreboard2()) {
                         teamStat1.registerWin();
@@ -182,7 +188,6 @@ public class RoundRobin extends Championship {
                         teamStat1.registerDraw();
                         teamStat2.registerDraw();
                     }
-
                 }
             }
         }
@@ -198,12 +203,15 @@ public class RoundRobin extends Championship {
         return null;
     }
 
-    public Match updateMatchByIds(int roundId, int matchId, Integer scoreboard1, Integer scoreBoard2) {
+    public Match updateMatchByIds(int roundId, int matchId, Integer scoreBoard1, Integer scoreBoard2) {
+
+        MatchServices matchServices = new MatchServices();
+
         for (Round round : table) {
             if (round.getIdRound() == roundId) {
                 for (Match match : round.getMatches()) {
                     if (match.getIdMatch() == matchId) {
-                        match.updateMatch(scoreboard1,scoreBoard2);
+                        matchServices.updateMatchResult(match, scoreBoard1, scoreBoard2);
                         return match;
                     }
                 }
@@ -212,11 +220,13 @@ public class RoundRobin extends Championship {
         return null;
     }
     public Match finishMatchByIds(int roundId, int matchId) {
+
+        MatchServices matchServices = new MatchServices();
         for (Round round : table) {
             if (round.getIdRound() == roundId) {
                 for (Match match : round.getMatches()) {
                     if (match.getIdMatch() == matchId) {
-                        match.concludeMatch();
+                        matchServices.concludeMatch(match);
 
                         if (allMatchesConcluded(round)) {
                             round.concludeRound();
