@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="440.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ManageChampionshipController">
+    <children>
+        <TableView layoutX="14.0" layoutY="45.0" prefHeight="308.0" prefWidth="772.0">
+            <columns>
+                <TableColumn fx:id="nomeCampeonato" prefWidth="107.0" text="Nome " />
+                <TableColumn fx:id="tipoCampeonato" prefWidth="117.0" text="Tipo" />
+                <TableColumn fx:id="dataIniCampeonato" prefWidth="140.0" text="Data inicial" />
+                <TableColumn fx:id="dataFimCampeonato" prefWidth="143.0" text="Data final" />
+                <TableColumn fx:id="modalidadeCampeonato" prefWidth="140.0" text="Modalidade" />
+                <TableColumn fx:id="statusCampeonato" prefWidth="125.0" text="Status" />
+            </columns>
+        </TableView>
+        <Button fx:id="btnVoltar" layoutX="43.0" layoutY="378.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="36.0" prefWidth="98.0" text="Voltar" />
+        <Button fx:id="btnAcompanharCamp" layoutX="614.0" layoutY="380.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="36.0" prefWidth="170.0" text="Acompanhar Campeonato" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="255.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ChoseChampionshipController">
+   <children>
+      <Label layoutX="122.0" layoutY="61.0" prefHeight="32.0" prefWidth="196.0" text="Escolha o tipo do campeonato">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button fx:id="btnMataMata" layoutX="102.0" layoutY="109.0" mnemonicParsing="false" onAction="#nextSceneMataMata" prefHeight="43.0" prefWidth="103.0" text="Mata-mata" />
+      <Button fx:id="btnPontosCorridos" layoutX="232.0" layoutY="109.0" mnemonicParsing="false" onAction="#nextScenePontosCorridos" prefHeight="43.0" prefWidth="103.0" text="Pontos-Corridos" />
+   </children>
+</AnchorPane>
