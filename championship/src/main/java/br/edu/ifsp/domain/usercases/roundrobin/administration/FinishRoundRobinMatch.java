@@ -3,6 +3,8 @@ package br.edu.ifsp.domain.usercases.roundrobin.administration;
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
+import br.edu.ifsp.domain.entities.team.Team;
+import br.edu.ifsp.domain.entities.team.TeamStats;
 import br.edu.ifsp.domain.services.MatchServices;
 import br.edu.ifsp.domain.services.RoundRobinServices;
 import br.edu.ifsp.domain.services.RoundServices;
@@ -13,6 +15,7 @@ public class FinishRoundRobinMatch {
     RoundRobinServices roundRobinServices = new RoundRobinServices();
 
     public Match finishMatchByIds(RoundRobin roundRobin, int roundId, int matchId) {
+        clearAll(roundRobin);
         for (Round round : roundRobin.getTable()) {
             if (round.getIdRound() == roundId) {
                 for (Match match : round.getMatches()) {
@@ -30,5 +33,16 @@ public class FinishRoundRobinMatch {
             }
         }
         return null;
+    }
+
+    private void clearAll(RoundRobin roundRobin){
+        for (TeamStats teamStats: roundRobin.getTeamStats()
+             ) {
+            teamStats.setWins(0);
+            teamStats.setLosses(0);
+            teamStats.setDraws(0);
+            teamStats.setPoints(0);
+            teamStats.setPointsStandings(0);
+        }
     }
 }
