@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ManageRoundPontosCorridosController">
+<AnchorPane prefHeight="405.0" prefWidth="603.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ManageRoundPontosCorridosController">
    <children>
       <TableView layoutX="300.0" layoutY="33.0" prefHeight="335.0" prefWidth="268.0">
         <columns>
@@ -11,8 +11,8 @@
           <TableColumn fx:id="statusRodada" minWidth="0.0" prefWidth="115.0" text="Status" />
         </columns>
       </TableView>
-      <Button fx:id="btnExportRodada" layoutX="82.0" layoutY="33.0" mnemonicParsing="false" onAction="#exportRodada" prefHeight="33.0" prefWidth="132.0" text="Exportar Rodada" />
-      <Button fx:id="btnGerenciarRodada" layoutX="82.0" layoutY="78.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="33.0" prefWidth="132.0" text="Gerenciar Rodada" />
+      <Button fx:id="btnExportRodada" layoutX="71.0" layoutY="33.0" mnemonicParsing="false" onAction="#exportRodada" prefHeight="33.0" prefWidth="132.0" text="Exportar Rodada" />
+      <Button fx:id="btnGerenciarRodada" layoutX="72.0" layoutY="96.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="33.0" prefWidth="132.0" text="Gerenciar Rodada" />
       <Button fx:id="btnVoltar" layoutX="79.0" layoutY="335.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="33.0" prefWidth="132.0" text="Voltar" />
    </children>
 </AnchorPane>

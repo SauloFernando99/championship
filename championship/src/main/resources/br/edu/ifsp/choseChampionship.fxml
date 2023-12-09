@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="255.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ChoseChampionshipController">
+<AnchorPane prefHeight="222.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ChoseChampionshipController">
    <children>
       <Label layoutX="122.0" layoutY="61.0" prefHeight="32.0" prefWidth="196.0" text="Escolha o tipo do campeonato">
          <font>
