@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="207.0" prefWidth="277.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.WinnerPontosCorridosController">
+   <children>
+      <Label layoutX="82.0" layoutY="59.0" prefHeight="17.0" prefWidth="122.0" text="Parabéns ao Vencedor" />
+      <Button fx:id="btnFechar" layoutX="107.0" layoutY="150.0" mnemonicParsing="false" onAction="#redirectFirstScene" prefHeight="25.0" prefWidth="64.0" text="Fechar" />
+   </children>
+</AnchorPane>

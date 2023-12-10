@@ -33,39 +33,39 @@ public class Main {
         Team team3 = teamUserCases.createTeam("UFSCAR", "123");
         Team team4 = teamUserCases.createTeam("UNIARA", "Arara");
 
-        teamUserCases.updateTeam(team1, "SESC", "MARQUINHO DO GRAU");
+//        teamUserCases.updateTeam(team1, "SESC", "MARQUINHO DO GRAU");
+//
+//        Knockout knockout = createKnockout.createKnockout(LocalDate.now(), LocalDate.now().plusDays(7),
+//                "League of Legends", "Ryze Skin", "Riot");
+//
+//        knockout.addTeam(team1);
+//        knockout.addTeam(team2);
+//        knockout.addTeam(team3);
+//        knockout.addTeam(team4);
+//
+//        startKnockout.StartKnockout(knockout);
+//
+//        knockout.printSeedingKnockout();
+//
+//        updateKnockoutMatch.updateMatchResultByIds(knockout, 1, 1, 1, 3);
+//        finishKnockoutMatch.setMatchConcludedByIds(knockout,1,1);
+//        updateKnockoutMatch.updateMatchResultByIds(knockout, 1, 2, 1, 3);
+//        finishKnockoutMatch.setMatchConcludedByIds(knockout,1,2);
+//
+//        knockout.printSeedingKnockout();
+//
+//        advanceKnockout.advancePhase(knockout);
+//
+//        knockout.printSeedingKnockout();
+//
+//        updateKnockoutMatch.updateMatchResultByIds(knockout, 2, 3, 1, 3);
+//        finishKnockoutMatch.setMatchConcludedByIds(knockout,2,3);
+//
+//        knockout.printSeedingKnockout();
+//
+//        finishKnockout.finishKnockout(knockout);
 
-        Knockout knockout = createKnockout.createKnockout(LocalDate.now(), LocalDate.now().plusDays(7),
-                "League of Legends", "Ryze Skin", "Riot");
-
-        knockout.addTeam(team1);
-        knockout.addTeam(team2);
-        knockout.addTeam(team3);
-        knockout.addTeam(team4);
-
-        startKnockout.StartKnockout(knockout);
-
-        knockout.printSeedingKnockout();
-
-        updateKnockoutMatch.updateMatchResultByIds(knockout, 1, 1, 1, 3);
-        finishKnockoutMatch.setMatchConcludedByIds(knockout,1,1);
-        updateKnockoutMatch.updateMatchResultByIds(knockout, 1, 2, 1, 3);
-        finishKnockoutMatch.setMatchConcludedByIds(knockout,1,2);
-
-        knockout.printSeedingKnockout();
-
-        advanceKnockout.advancePhase(knockout);
-
-        knockout.printSeedingKnockout();
-
-        updateKnockoutMatch.updateMatchResultByIds(knockout, 2, 3, 1, 3);
-        finishKnockoutMatch.setMatchConcludedByIds(knockout,2,3);
-
-        knockout.printSeedingKnockout();
-
-        finishKnockout.finishKnockout(knockout);
-
-/*        RoundRobin roundRobin = createRoundRobin.createRoundRobin(LocalDate.now(),
+        RoundRobin roundRobin = createRoundRobin.createRoundRobin(LocalDate.now(),
                 LocalDate.now().plusDays(7), "Futebol", "Troféu", "Nike");
 
         roundRobin.addTeam(team1);
@@ -80,42 +80,14 @@ public class Main {
 
         updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 1, 1, 2);
         finishRoundRobinMatch.finishMatchByIds(roundRobin,1,1);
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 6, 1, 3);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,1,6);
-        roundRobin.printTable();
-        roundRobin.printStandings();
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 2, 2, 1, 2);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,2,2);
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 2, 5, 1, 3);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,2,5);
-        roundRobin.printTable();
-        roundRobin.printStandings();
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 3, 3, 1, 2);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,3,3);
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 3, 4, 1, 3);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,3,4);
-        roundRobin.printTable();
-        roundRobin.printStandings();
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 4, 7, 1, 1);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,4,7);
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 4, 8, 1, 1);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,4,8);
-        roundRobin.printTable();
-        roundRobin.printStandings();
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 5, 9, 1, 1);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,5,9);
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 5, 10, 1, 1);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,5,10);
-        roundRobin.printTable();
-        roundRobin.printStandings();
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 6, 11, 1, 1);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,6,11);
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 6, 12, 1, 1);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,6,12);
 
-        roundRobin.printTable();
-        roundRobin.printStandings();
+        String pdfFilePath = "C:\\Users\\User\\Downloads\\rodada.pdf";
+        roundServices.exportRoundToPDF(1, pdfFilePath, roundRobin.getTable());
 
-        finishRoundRobin.finishChampionship(roundRobin);*/
+//        updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 6, 1, 3);
+//        finishRoundRobinMatch.finishMatchByIds(roundRobin,1,6);
+//        roundRobin.printTable();
+//        roundRobin.printStandings();
+
     }
 }

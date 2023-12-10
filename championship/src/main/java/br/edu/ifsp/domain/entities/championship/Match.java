@@ -85,4 +85,10 @@ public class Match {
         System.out.println(team1.getName() + " vs. " + team2.getName());
         System.out.println("Placar: " + scoreboard1 + " - " + scoreboard2);
     }
+    @Override
+    public String toString() {
+        return "Match: " + team1.getName() + " vs. " + team2.getName() +
+                " - Score: " + scoreboard1 + " - " + scoreboard2 +
+                " - Concluded: " + concluded;
+    }
 }
