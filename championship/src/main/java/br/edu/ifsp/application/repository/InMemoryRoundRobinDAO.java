@@ -1,39 +1,41 @@
 package br.edu.ifsp.application.repository;
 
+import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
+import br.edu.ifsp.domain.usecases.roundrobin.dao.RoundRobinDAO;
 import br.edu.ifsp.domain.usecases.team.TeamDAO;
 
 import java.util.*;
 
-public class InMemoryTeamDAO implements TeamDAO {
-    private static final Map<Integer, Team> db = new LinkedHashMap<>();
+public class InMemoryRoundRobinDAO implements RoundRobinDAO {
+    private static final Map<Integer, RoundRobin> db = new LinkedHashMap<>();
     private static int idCounter;
 
     @Override
-    public Integer create(Team team) {
+    public Integer create(RoundRobin roundRobin) {
         idCounter++;
-        team.setIdTeam(idCounter);
-        db.put(idCounter, team);
+        roundRobin.setIdChampionship(idCounter);
+        db.put(idCounter, roundRobin);
         return idCounter;
     }
 
     @Override
-    public Optional<Team> findOne(Integer key) {
+    public Optional<RoundRobin> findOne(Integer key) {
         if(db.containsKey(key))
             return Optional.of(db.get(key));
         return Optional.empty();
     }
 
     @Override
-    public List<Team> findAll() {
+    public List<RoundRobin> findAll() {
         return new ArrayList<>(db.values());
     }
 
     @Override
-    public boolean update(Team team) {
-        Integer id = team.getIdTeam();
+    public boolean update(RoundRobin roundRobin) {
+        Integer id = roundRobin.getIdChampionship();
         if(db.containsKey(id)) {
-            db.replace(id, team);
+            db.replace(id, roundRobin);
             return true;
         }
         return false;
@@ -49,7 +51,7 @@ public class InMemoryTeamDAO implements TeamDAO {
     }
 
     @Override
-    public boolean delete(Team team) {
-        return deleteByKey(team.getIdTeam());
+    public boolean delete(RoundRobin roundRobin) {
+        return deleteByKey(roundRobin.getIdChampionship());
     }
 }
