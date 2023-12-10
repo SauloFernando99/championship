@@ -9,6 +9,7 @@ import java.util.Map;
 
 public abstract class Championship {
     private Integer idChampionship;
+    private String name;
     private LocalDate initialDate;
     private LocalDate finalDate;
     private String modality;
@@ -17,8 +18,9 @@ public abstract class Championship {
     private Boolean concluded = false;
     private List<Team> teams = new ArrayList<>();
 
-    public Championship(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
+    public Championship(Integer idChampionship, String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
         this.idChampionship = idChampionship;
+        this.name = name;
         this.initialDate = initialDate;
         this.finalDate = finalDate;
         this.modality = modality;
@@ -32,7 +34,13 @@ public abstract class Championship {
         this.teams = teams;
     }
 
-    public Championship(LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship) {
+    public Championship(String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship) {
+        this.name = name;
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
+        this.modality = modality;
+        this.award = award;
+        this.sponsorship = sponsorship;
     }
 
     public Integer getIdChampionship() {
@@ -41,6 +49,14 @@ public abstract class Championship {
 
     public void setIdChampionship(Integer idChampionship) {
         this.idChampionship = idChampionship;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public LocalDate getInitialDate() {

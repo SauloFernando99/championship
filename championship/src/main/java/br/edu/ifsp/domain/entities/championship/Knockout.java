@@ -13,14 +13,14 @@ public class Knockout extends Championship {
     private List<Phase> seeding = new ArrayList<>();
     private Team champion;
 
-    public Knockout(Integer idChampionship, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams, List<Phase> seeding, Team champion) {
-        super(idChampionship, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
+    public Knockout(Integer idChampionship, String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams, List<Phase> seeding, Team champion) {
+        super(idChampionship, name, initialDate, finalDate, modality, award, sponsorship, concluded, teams);
         this.setSeeding(new ArrayList<>());
         this.setChampion(null);
     }
 
-    public Knockout (LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship){
-        super(initialDate, finalDate, modality, award, sponsorship);
+    public Knockout (String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship){
+        super(name, initialDate, finalDate, modality, award, sponsorship);
         this.setChampion(null);
     }
 
