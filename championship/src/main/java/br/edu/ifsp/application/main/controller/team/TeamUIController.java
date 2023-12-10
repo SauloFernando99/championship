@@ -1,4 +1,4 @@
-package br.edu.ifsp.application.main.controller;
+package br.edu.ifsp.application.main.controller.team;
 
 import br.edu.ifsp.domain.entities.team.Team;
 import javafx.event.ActionEvent;
@@ -31,7 +31,7 @@ public class TeamUIController {
         }
 
         System.out.println("Time criado: " + "\n ID: " + team.getIdTeam() + "\n Nome: " + team.getName()
-        + "\n Bandeira: " + team.getCrest() + "\n Status: " + team.getActive());
+        + "\n Bandeira: " + team.getCrest() + "\n Status: " + team.getIsActive());
 
         backToPreviousScene(actionEvent);
     }

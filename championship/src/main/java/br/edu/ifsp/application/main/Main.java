@@ -23,20 +23,6 @@ public class Main {
 
         configureInjection();
 
-/*        RoundServices roundServices = new RoundServices();
-        CreateRoundRobin createRoundRobin = new CreateRoundRobin();
-        StartRoundRobin startRoundRobin = new StartRoundRobin();
-        UpdateRoundRobinMatch updateRoundRobinMatch = new UpdateRoundRobinMatch();
-        FinishRoundRobinMatch finishRoundRobinMatch = new FinishRoundRobinMatch();
-        FinishRoundRobin finishRoundRobin = new FinishRoundRobin();
-        CreateKnockout createKnockout = new CreateKnockout();
-        KnockoutServices knockoutServices = new KnockoutServices();
-        StartKnockout startKnockout = new StartKnockout();
-        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
-        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
-        FinishKnockout finishKnockout = new FinishKnockout();*/
-
         Team team1 = new Team("IFSP", "Marquinho");
         Team team2 = new Team("USP", "Porco");
         Team team3 = new Team("UFSCAR", "123");
@@ -48,14 +34,6 @@ public class Main {
         createTeamUseCase.insert(team4);
 
         HelloApplication.main(args);
-
-        /*String pdfFilePath = "C:\\Users\\User\\Downloads\\rodada.pdf";
-        roundServices.exportRoundToPDF(1, pdfFilePath, roundRobin.getTable());*/
-
-/*       updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 6, 1, 3);
-       finishRoundRobinMatch.finishMatchByIds(roundRobin,1,6);
-       roundRobin.printTable();
-       roundRobin.printStandings();*/
 
     }
 

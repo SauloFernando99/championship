@@ -35,7 +35,7 @@ public class Team {
         this.crest = crest;
     }
 
-    public Boolean getActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 

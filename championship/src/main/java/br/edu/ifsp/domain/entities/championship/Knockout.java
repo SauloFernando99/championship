@@ -31,7 +31,7 @@ public class Knockout extends Championship {
     }
 
     public void addTeam(Team team) {
-        if (team.getActive()) {
+        if (team.getIsActive()) {
             getTeams().add(team);
         } else {
             System.out.println("An inactive team can not be included in a championship");
