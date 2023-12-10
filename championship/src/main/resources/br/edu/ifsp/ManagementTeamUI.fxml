@@ -9,8 +9,8 @@
         <columns>
           <TableColumn fx:id="idTeam" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="nomeTeam" prefWidth="220.0" text="Nome" />
-            <TableColumn fx:id="bandeiraTeam" prefWidth="144.0" text="Bandeira" />
-            <TableColumn fx:id="statusTeam" prefWidth="126.0" text="Status" />
+          <TableColumn fx:id="bandeiraTeam" prefWidth="144.0" text="Bandeira" />
+          <TableColumn fx:id="statusTeam" prefWidth="126.0" text="Status" />
         </columns>
       </TableView>
       <Button fx:id="btnDelete" layoutX="319.0" layoutY="419.0" mnemonicParsing="false" onAction="#deleteTeam" prefHeight="25.0" prefWidth="67.0" text="Deletar" />

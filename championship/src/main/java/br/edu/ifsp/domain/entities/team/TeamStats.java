@@ -1,9 +1,6 @@
 package br.edu.ifsp.domain.entities.team;
 
 public class TeamStats {
-
-    private static int teamStatsIdCounter = 1;
-    private int idTeamStats;
     private Team team;
     private Integer wins = 0;
     private Integer losses = 0;
@@ -12,7 +9,6 @@ public class TeamStats {
     private Integer pointsStandings = 0;
 
     public TeamStats(Team team) {
-        this.idTeamStats = teamStatsIdCounter++;
         this.team = team;
     }
 

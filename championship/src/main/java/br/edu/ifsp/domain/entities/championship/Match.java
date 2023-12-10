@@ -7,8 +7,7 @@ import java.util.Objects;
 
 public class Match {
 
-    private static int matchIdCounter = 1;
-    private int idMatch;
+    private Integer idMatch;
     private LocalDate date;
     private Integer scoreboard1 = 0;
     private Integer scoreboard2 = 0;
@@ -17,18 +16,17 @@ public class Match {
     private Boolean concluded = false;
 
     public Match(Team team1, Team team2) {
-        this.idMatch = matchIdCounter++;
         this.team1 = team1;
         this.team2 = team2;
     }
 
     public Match(){}
 
-    public int getIdMatch() {
+    public Integer getIdMatch() {
         return idMatch;
     }
 
-    public void setIdMatch(int idMatch) {
+    public void setIdMatch(Integer idMatch) {
         this.idMatch = idMatch;
     }
 
@@ -80,11 +78,6 @@ public class Match {
         this.concluded = concluded;
     }
 
-    public void printMatch() {
-        System.out.println("ID da Partida: " + idMatch);
-        System.out.println(team1.getName() + " vs. " + team2.getName());
-        System.out.println("Placar: " + scoreboard1 + " - " + scoreboard2);
-    }
     @Override
     public String toString() {
         return "Match: " + team1.getName() + " vs. " + team2.getName() +

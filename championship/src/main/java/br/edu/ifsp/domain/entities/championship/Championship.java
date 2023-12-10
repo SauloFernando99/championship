@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class Championship {
-    private static int championshipIdCounter = 1;
     private Integer idChampionship;
     private LocalDate initialDate;
     private LocalDate finalDate;
@@ -34,7 +33,6 @@ public abstract class Championship {
     }
 
     public Championship(LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship) {
-        this.idChampionship = championshipIdCounter++;
     }
 
     public Integer getIdChampionship() {

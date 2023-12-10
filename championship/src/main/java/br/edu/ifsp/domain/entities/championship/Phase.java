@@ -8,26 +8,23 @@ import java.util.List;
 
 public class Phase {
 
-    private static int phaseIdCounter = 1;
-    private int idPhase;
+    private Integer idPhase;
     private String phase;
     private List<Match> matches = new ArrayList<>();
-
     private Boolean finished = false;
 
     public Phase() {
-        this.idPhase = phaseIdCounter++;
     }
 
     public void addMatch(Match match) {
         matches.add(match);
     }
 
-    public int getIdPhase() {
+    public Integer getIdPhase() {
         return idPhase;
     }
 
-    public void setIdPhase(int idPhase) {
+    public void setIdPhase(Integer idPhase) {
         this.idPhase = idPhase;
     }
 
@@ -58,7 +55,7 @@ public class Phase {
     public void printPhase() {
         if (matches != null) {
             for (Match match : matches) {
-                match.printMatch();
+                match.toString();
                 if (match.getConcluded() != null && match.getConcluded()) {
                     System.out.print("Concluded\n");
                 }

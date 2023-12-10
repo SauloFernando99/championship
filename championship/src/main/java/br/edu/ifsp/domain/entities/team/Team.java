@@ -1,18 +1,14 @@
 package br.edu.ifsp.domain.entities.team;
 
 public class Team {
-
-    private static int teamIdCounter = 1;
-    private int idTeam;
+    private Integer idTeam;
     private String name;
     private String crest;
     private Boolean isActive = true;
 
     public Team(String name, String crest) {
-        this.idTeam = teamIdCounter++;
         this.name = name;
         this.crest = crest;
-
     }
 
     public Integer getIdTeam() {

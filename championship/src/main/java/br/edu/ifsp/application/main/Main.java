@@ -1,20 +1,29 @@
 package br.edu.ifsp.application.main;
 
+import br.edu.ifsp.HelloApplication;
+import br.edu.ifsp.application.repository.InMemoryTeamDAO;
 import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.RoundServices;
-import br.edu.ifsp.domain.usercases.knockout.administration.*;
-import br.edu.ifsp.domain.usercases.roundrobin.administration.*;
-import br.edu.ifsp.domain.usercases.team.TeamUserCases;
+import br.edu.ifsp.domain.usecases.knockout.administration.*;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.*;
+import br.edu.ifsp.domain.usecases.team.*;
 
 import java.time.LocalDate;
 
 public class Main {
+
+    public static CreateTeamUseCase createTeamUseCase;
+    public static FindTeamUseCase findTeamUseCase;
+    public static UpdateTeamUseCase updateTeamUseCase;
+    public static RemoveTeamUseCase removeTeamUseCase;
+
     public static void main(String[] args) {
 
-        TeamUserCases teamUserCases = new TeamUserCases();
-        RoundServices roundServices = new RoundServices();
+        configureInjection();
+
+/*        RoundServices roundServices = new RoundServices();
         CreateRoundRobin createRoundRobin = new CreateRoundRobin();
         StartRoundRobin startRoundRobin = new StartRoundRobin();
         UpdateRoundRobinMatch updateRoundRobinMatch = new UpdateRoundRobinMatch();
@@ -26,68 +35,36 @@ public class Main {
         UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
         FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
         AdvanceKnockout advanceKnockout = new AdvanceKnockout();
-        FinishKnockout finishKnockout = new FinishKnockout();
+        FinishKnockout finishKnockout = new FinishKnockout();*/
 
-        Team team1 = teamUserCases.createTeam("IFSP", "Marquinho");
-        Team team2 = teamUserCases.createTeam("USP", "Porco");
-        Team team3 = teamUserCases.createTeam("UFSCAR", "123");
-        Team team4 = teamUserCases.createTeam("UNIARA", "Arara");
+        Team team1 = new Team("IFSP", "Marquinho");
+        Team team2 = new Team("USP", "Porco");
+        Team team3 = new Team("UFSCAR", "123");
+        Team team4 = new Team("UNIARA", "Arara");
 
-//        teamUserCases.updateTeam(team1, "SESC", "MARQUINHO DO GRAU");
-//
-//        Knockout knockout = createKnockout.createKnockout(LocalDate.now(), LocalDate.now().plusDays(7),
-//                "League of Legends", "Ryze Skin", "Riot");
-//
-//        knockout.addTeam(team1);
-//        knockout.addTeam(team2);
-//        knockout.addTeam(team3);
-//        knockout.addTeam(team4);
-//
-//        startKnockout.StartKnockout(knockout);
-//
-//        knockout.printSeedingKnockout();
-//
-//        updateKnockoutMatch.updateMatchResultByIds(knockout, 1, 1, 1, 3);
-//        finishKnockoutMatch.setMatchConcludedByIds(knockout,1,1);
-//        updateKnockoutMatch.updateMatchResultByIds(knockout, 1, 2, 1, 3);
-//        finishKnockoutMatch.setMatchConcludedByIds(knockout,1,2);
-//
-//        knockout.printSeedingKnockout();
-//
-//        advanceKnockout.advancePhase(knockout);
-//
-//        knockout.printSeedingKnockout();
-//
-//        updateKnockoutMatch.updateMatchResultByIds(knockout, 2, 3, 1, 3);
-//        finishKnockoutMatch.setMatchConcludedByIds(knockout,2,3);
-//
-//        knockout.printSeedingKnockout();
-//
-//        finishKnockout.finishKnockout(knockout);
+        createTeamUseCase.insert(team1);
+        createTeamUseCase.insert(team2);
+        createTeamUseCase.insert(team3);
+        createTeamUseCase.insert(team4);
 
-        RoundRobin roundRobin = createRoundRobin.createRoundRobin(LocalDate.now(),
-                LocalDate.now().plusDays(7), "Futebol", "Troféu", "Nike");
+        HelloApplication.main(args);
 
-        roundRobin.addTeam(team1);
-        roundRobin.addTeam(team2);
-        roundRobin.addTeam(team3);
-        roundRobin.addTeam(team4);
+        /*String pdfFilePath = "C:\\Users\\User\\Downloads\\rodada.pdf";
+        roundServices.exportRoundToPDF(1, pdfFilePath, roundRobin.getTable());*/
 
-        startRoundRobin.startRoundRobin(roundRobin);
+/*       updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 6, 1, 3);
+       finishRoundRobinMatch.finishMatchByIds(roundRobin,1,6);
+       roundRobin.printTable();
+       roundRobin.printStandings();*/
 
-        roundRobin.printTable();
-        roundRobin.printStandings();
+    }
 
-        updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 1, 1, 2);
-        finishRoundRobinMatch.finishMatchByIds(roundRobin,1,1);
-
-        String pdfFilePath = "C:\\Users\\User\\Downloads\\rodada.pdf";
-        roundServices.exportRoundToPDF(1, pdfFilePath, roundRobin.getTable());
-
-//        updateRoundRobinMatch.updateMatchByIds(roundRobin, 1, 6, 1, 3);
-//        finishRoundRobinMatch.finishMatchByIds(roundRobin,1,6);
-//        roundRobin.printTable();
-//        roundRobin.printStandings();
+    private static void configureInjection() {
+        TeamDAO teamDAO = new InMemoryTeamDAO();
+        createTeamUseCase = new CreateTeamUseCase(teamDAO);
+        updateTeamUseCase = new UpdateTeamUseCase(teamDAO);
+        findTeamUseCase = new FindTeamUseCase(teamDAO);
+        removeTeamUseCase = new RemoveTeamUseCase(teamDAO);
 
     }
 }

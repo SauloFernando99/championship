@@ -5,31 +5,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Round {
-    private static int roundIdCounter = 1; // Contador de IDs de Round
-    private int idRound;
+    private Integer idRound;
     private LocalDate date;
     private List<Match> matches = new ArrayList<>();
     private Boolean isFinished = false;
 
     public Round(LocalDate date, List<Match> matches) {
-        this.idRound = roundIdCounter++;
         this.date = date;
         this.matches = matches;
     }
 
     public Round(){
-        this.idRound = roundIdCounter++;
     }
 
     public void addMatch(Match match){
         matches.add(match);
     }
 
-    public int getIdRound() {
+    public Integer getIdRound() {
         return idRound;
     }
 
-    public void setIdRound(int idRound) {
+    public void setIdRound(Integer idRound) {
         this.idRound = idRound;
     }
 
