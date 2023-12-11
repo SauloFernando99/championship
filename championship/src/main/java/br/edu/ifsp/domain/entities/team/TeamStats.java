@@ -1,6 +1,7 @@
 package br.edu.ifsp.domain.entities.team;
 
 public class TeamStats {
+    private Integer idTeamStats;
     private Team team;
     private Integer wins = 0;
     private Integer losses = 0;
@@ -33,6 +34,14 @@ public class TeamStats {
 
     public void updatePointsStandings(Integer pointsScored, Integer pointsConceded) {
         this.pointsStandings += pointsScored - pointsConceded;
+    }
+
+    public Integer getIdTeamStats() {
+        return idTeamStats;
+    }
+
+    public void setIdTeamStats(Integer idTeamStats) {
+        this.idTeamStats = idTeamStats;
     }
 
     public Team getTeam() {

@@ -5,8 +5,7 @@ import br.edu.ifsp.domain.entities.team.Team;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Match {
-
+public abstract class Match {
     private Integer idMatch;
     private LocalDate date;
     private Integer scoreboard1 = 0;

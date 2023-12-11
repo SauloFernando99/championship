@@ -3,6 +3,7 @@ package br.edu.ifsp.domain.services;
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
+import br.edu.ifsp.domain.entities.championship.RoundRobinMatch;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.entities.team.TeamStats;
 
@@ -32,15 +33,15 @@ public class RoundRobinServices {
         initializeTeamStats(roundRobin, teams);
 
         int numTeams = teams.size();
-        List<Match> allMatches = generateAllMatches(teams);
+        List<RoundRobinMatch> allMatches = generateAllMatches(teams);
 
         int matchesPerRound = numTeams / 2;
 
         for (int roundNumber = 0; roundNumber < numTeams - 1; roundNumber++) {
-            Round round = new Round();
+            Round round = new Round(roundRobin);
 
             for (int i = 0; i < matchesPerRound; i++) {
-                Match match = findMatchForRound(allMatches, round.getMatches());
+                RoundRobinMatch match = findMatchForRound(allMatches, round.getMatches());
                 if (match != null) {
                     round.addMatch(match);
                     allMatches.remove(match);
@@ -51,8 +52,8 @@ public class RoundRobinServices {
         }
     }
 
-    public Match findMatchForRound(List<Match> allMatches, List<Match> currentRoundMatches) {
-        for (Match match : allMatches) {
+    public RoundRobinMatch findMatchForRound(List<RoundRobinMatch> allMatches, List<RoundRobinMatch> currentRoundMatches) {
+        for (RoundRobinMatch match : allMatches) {
             Team team1 = match.getTeam1();
             Team team2 = match.getTeam2();
 
@@ -66,8 +67,8 @@ public class RoundRobinServices {
         return null;
     }
 
-    public boolean playedInRound(Team team, List<Match> matches) {
-        for (Match match : matches) {
+    public boolean playedInRound(Team team, List<RoundRobinMatch> matches) {
+        for (RoundRobinMatch match : matches) {
             if (match.getTeam1().equals(team) || match.getTeam2().equals(team)) {
                 return true;
             }
@@ -75,8 +76,8 @@ public class RoundRobinServices {
         return false;
     }
 
-    public List<Match> generateAllMatches(List<Team> teams) {
-        List<Match> allMatches = new ArrayList<>();
+    public List<RoundRobinMatch> generateAllMatches(List<Team> teams) {
+        List<RoundRobinMatch> allMatches = new ArrayList<>();
 
         int numTeams = teams.size();
         for (int i = 0; i < numTeams - 1; i++) {
@@ -84,7 +85,7 @@ public class RoundRobinServices {
                 Team team1 = teams.get(i);
                 Team team2 = teams.get(j);
 
-                Match match = new Match(team1, team2);
+                RoundRobinMatch match = new RoundRobinMatch(team1, team2);
                 allMatches.add(match);
             }
         }
@@ -96,10 +97,10 @@ public class RoundRobinServices {
         List<Round> returnRounds = new ArrayList<>();
 
         for (Round round : roundRobin.getTable()) {
-            Round returnRound = new Round();
+            Round returnRound = new Round(roundRobin);
 
             for (Match match : round.getMatches()) {
-                Match returnMatch = new Match(match.getTeam2(), match.getTeam1());
+                RoundRobinMatch returnMatch = new RoundRobinMatch(match.getTeam2(), match.getTeam1(), round);
                 returnRound.addMatch(returnMatch);
             }
 

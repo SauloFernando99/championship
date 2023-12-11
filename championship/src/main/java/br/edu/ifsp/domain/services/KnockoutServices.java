@@ -1,6 +1,7 @@
 package br.edu.ifsp.domain.services;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.team.Team;
@@ -20,7 +21,7 @@ public class KnockoutServices {
 
     public void createFirstPhaseMatches(Knockout knockout) {
         // Obtém a primeira fase do campeonato eliminatório
-        Phase firstPhase = new Phase();
+        Phase firstPhase = new Phase(knockout);
         knockout.addPhase(firstPhase);
 
         // Obtém a lista de times do campeonato
@@ -30,11 +31,11 @@ public class KnockoutServices {
         Collections.shuffle(teams);
 
         // Cria as partidas
-        List<Match> matches = new ArrayList<>();
+        List<KnockoutMatch> matches = new ArrayList<>();
         for (int i = 0; i < teams.size(); i += 2) {
             Team team1 = teams.get(i);
             Team team2 = teams.get(i + 1);
-            Match match = new Match(team1, team2);
+            KnockoutMatch match = new KnockoutMatch(team1, team2, firstPhase);
             matches.add(match);
         }
 
@@ -62,18 +63,18 @@ public class KnockoutServices {
         if (lastPhaseIndex == -1) {
             throw new IllegalStateException("There is no previous phase to create the next.");
         }
-        Phase newPhase = new Phase();
+        Phase newPhase = new Phase(knockout);
 
-        List<Match> matches = new ArrayList<>();
+        List<KnockoutMatch> matches = new ArrayList<>();
         for (int i = 0; i < teams.size(); i += 2) {
             Team team1 = teams.get(i);
             Team team2 = teams.get(i + 1);
-            Match match = new Match(team1, team2);
+            KnockoutMatch match = new KnockoutMatch(team1, team2, newPhase);
             matches.add(match);
         }
 
-        for (Match match : matches) {
-            newPhase.addMatch(match);
+        for (KnockoutMatch knockoutMatch : matches) {
+            newPhase.addMatch(knockoutMatch);
         }
 
         knockout.addPhase(newPhase);

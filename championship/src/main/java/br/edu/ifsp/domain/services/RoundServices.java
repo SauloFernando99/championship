@@ -2,6 +2,7 @@ package br.edu.ifsp.domain.services;
 
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Round;
+import br.edu.ifsp.domain.entities.championship.RoundRobinMatch;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -16,7 +17,7 @@ public class RoundServices {
 
     MatchServices matchServices = new MatchServices();
 
-    public void addMatch(Round round, Match match){
+    public void addMatch(Round round, RoundRobinMatch match){
         round.addMatch(match);
     }
 

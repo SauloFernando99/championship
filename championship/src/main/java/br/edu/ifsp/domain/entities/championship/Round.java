@@ -6,19 +6,21 @@ import java.util.List;
 
 public class Round {
     private Integer idRound;
+    private Integer number;
     private LocalDate date;
-    private List<Match> matches = new ArrayList<>();
+    private List<RoundRobinMatch> matches = new ArrayList<>();
     private Boolean isFinished = false;
+    private RoundRobin roundRobin;
 
-    public Round(LocalDate date, List<Match> matches) {
+    public Round(LocalDate date, List<RoundRobinMatch> matches) {
         this.date = date;
         this.matches = matches;
     }
 
-    public Round(){
+    public Round(RoundRobin roundRobin){
     }
 
-    public void addMatch(Match match){
+    public void addMatch(RoundRobinMatch match){
         matches.add(match);
     }
 
@@ -30,6 +32,22 @@ public class Round {
         this.idRound = idRound;
     }
 
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+    public RoundRobin getRoundRobin() {
+        return roundRobin;
+    }
+
+    public void setRoundRobin(RoundRobin roundRobin) {
+        this.roundRobin = roundRobin;
+    }
+
     public LocalDate getDate() {
         return date;
     }
@@ -38,11 +56,11 @@ public class Round {
         this.date = date;
     }
 
-    public List<Match> getMatches() {
+    public List<RoundRobinMatch> getMatches() {
         return matches;
     }
 
-    public void setMatches(List<Match> matches) {
+    public void setMatches(List<RoundRobinMatch> matches) {
         this.matches = matches;
     }
 

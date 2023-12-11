@@ -12,8 +12,10 @@ public class Phase {
     private String phase;
     private List<Match> matches = new ArrayList<>();
     private Boolean finished = false;
+    private Knockout knockout;
 
-    public Phase() {
+    public Phase(Knockout knockout) {
+        this.knockout = knockout;
     }
 
     public void addMatch(Match match) {
