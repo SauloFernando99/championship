@@ -1,44 +1,29 @@
 package br.edu.ifsp.domain.usecases.knockout.administration;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.services.MatchServices;
+import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
+
+import static br.edu.ifsp.application.main.Main.*;
+import static br.edu.ifsp.application.main.Main.updateKnockoutMatchUseCase;
 
 public class UpdateKnockoutMatch {
     MatchServices matchServices = new MatchServices();
-    public void updateMatchResultByIds(Knockout knockout, int phaseId, int matchId, int score1, int score2) {
-        Phase targetPhase = findPhaseById(knockout, phaseId);
 
-        if (targetPhase != null) {
-            Match targetMatch = findMatchById(targetPhase, matchId);
+    public void updateMatchResultByIds(
+           int matchId, Integer score1, Integer score2
+    ) {
 
-            if (targetMatch != null) {
-                matchServices.updateMatchResult(targetMatch, score1, score2);
-            }
-        }
-    }
+        KnockoutMatch match = findKnockoutMatchUseCase.findOne(matchId)
+                .orElseThrow(() -> new EntityNotFoundException("Can not find a KnockoutMatch with id: "
+                        + matchId));
 
-    private Phase findPhaseById(Knockout knockout, int phaseId) {
-        for (Phase phase : knockout.getSeeding()) {
-            if (phase.getIdPhase() == phaseId) {
-                return phase;
-            }
-        }
-        return null;
-    }
+        matchServices.updateMatchResult(match, score1, score2);
 
-    private Match findMatchById(Phase phase, int matchId) {
-        for (Match match : phase.getMatches()) {
-            if (match.getIdMatch() == matchId) {
-                return match;
-            }
-        }
-        return null;
-    }
+        updateKnockoutMatchUseCase.update(match);
 
-    private void updateMatchResults(Match match, int score1, int score2) {
-        match.setScoreboard1(score1);
-        match.setScoreboard1(score2);
     }
 }

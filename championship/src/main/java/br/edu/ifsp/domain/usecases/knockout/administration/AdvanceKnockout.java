@@ -1,19 +1,30 @@
 package br.edu.ifsp.domain.usecases.knockout.administration;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.PhaseServices;
+import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
 import java.util.List;
+
+import static br.edu.ifsp.application.main.Main.*;
 
 public class AdvanceKnockout {
 
     KnockoutServices knockoutServices = new KnockoutServices();
     PhaseServices phaseServices = new PhaseServices();
 
-    public void advancePhase(Knockout knockout) {
+    public void advancePhase(Integer knockoutId) {
+
+        if (knockoutId == null)
+            throw new IllegalArgumentException("Knockout ID is null");
+
+        Knockout knockout = findKnockoutUseCase.findOne(knockoutId)
+                .orElseThrow(() -> new EntityNotFoundException("Can not find a Knockout with id: "
+                        + knockoutId));
 
         int lastNonEmptyPhaseIndex = knockoutServices.getLastPhaseIndex(knockout);
 
@@ -27,6 +38,16 @@ public class AdvanceKnockout {
                     knockoutServices.generateNextPhase(knockout, winners);
 
                     lastNonEmptyPhase.setFinished(true);
+
+                    updatePhaseUseCase.update(lastNonEmptyPhase);
+
+                    createPhaseUseCase.insert(knockout.getSeeding().get(lastNonEmptyPhaseIndex + 1));
+
+                    for (KnockoutMatch match: knockout.getSeeding().get(lastNonEmptyPhaseIndex + 1).getMatches()
+                         ) {
+                        createKnockoutMatchUseCase.insert(match);
+                    }
+
                 } else {
                     throw new IllegalStateException("The list of winners is empty. Cannot advance to the next phase.");
                 }

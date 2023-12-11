@@ -67,10 +67,10 @@ public class Knockout extends Championship {
     }
 
     public void printSeedingKnockout() {
-        PhaseServices phaseServices = new PhaseServices();
+
         for (Phase phase : getSeeding()) {
-            phaseServices.setPhase(phase);
-            System.out.println("Phase: " + phase.getPhase() + " ID: " + phase.getIdPhase());
+            System.out.println("Phase: " + phase.getPhase() + " ID: " + phase.getIdPhase() +
+                    " Concluded: " + phase.getFinished());
             phase.printPhase();
             System.out.println("=======================");
         }

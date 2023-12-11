@@ -10,11 +10,12 @@ public class Phase {
 
     private Integer idPhase;
     private String phase;
-    private List<Match> matches = new ArrayList<>();
-    private Boolean finished = false;
+    private List<KnockoutMatch> matches = new ArrayList<>();
+    private Boolean finished;
     private Knockout knockout;
 
     public Phase(Knockout knockout) {
+        this.finished = false;
         this.knockout = knockout;
     }
 
@@ -22,7 +23,7 @@ public class Phase {
         this.phase = phase;
     }
 
-    public void addMatch(Match match) {
+    public void addMatch(KnockoutMatch match) {
         matches.add(match);
     }
 
@@ -50,18 +51,26 @@ public class Phase {
         this.finished = finished;
     }
 
-    public List<Match> getMatches() {
+    public List<KnockoutMatch> getMatches() {
         return matches;
     }
 
-    public void setMatches(List<Match> matches) {
+    public void setMatches(List<KnockoutMatch> matches) {
         this.matches = matches;
+    }
+
+    public Knockout getKnockout() {
+        return knockout;
+    }
+
+    public void setKnockout(Knockout knockout) {
+        this.knockout = knockout;
     }
 
     public void printPhase() {
         if (matches != null) {
-            for (Match match : matches) {
-                match.toString();
+            for (KnockoutMatch match : matches) {
+                System.out.println(match.toString());
                 if (match.getConcluded() != null && match.getConcluded()) {
                     System.out.print("Concluded\n");
                 }

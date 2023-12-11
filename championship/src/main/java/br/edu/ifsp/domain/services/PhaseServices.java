@@ -1,5 +1,7 @@
 package br.edu.ifsp.domain.services;
 
+import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.team.Team;
@@ -10,7 +12,7 @@ import java.util.List;
 public class PhaseServices {
 
     MatchServices matchServices = new MatchServices();
-    public void addMatch(Phase phase, Match match) {
+    public void addMatch(Phase phase, KnockoutMatch match) {
         phase.getMatches().add(match);
     }
 
@@ -40,9 +42,9 @@ public class PhaseServices {
         }
     }
 
-    public Boolean allMatchesFinished(List<Match> matches){
+    public Boolean allMatchesFinished(List<KnockoutMatch> matches){
         if (matches != null) {
-            for (Match match : matches) {
+            for (KnockoutMatch match : matches) {
                 if (!match.getConcluded()) {
                     return false;
                 }
@@ -52,10 +54,10 @@ public class PhaseServices {
         return false;
     }
 
-    public List<Team> getWinners (List<Match> matches){
+    public List<Team> getWinners (List<KnockoutMatch> matches){
         List<Team> winners = new ArrayList<>();
         if (allMatchesFinished(matches)){
-            for (Match match : matches) {
+            for (KnockoutMatch match : matches) {
                 winners.add(matchServices.getWinner(match));
             }
         }

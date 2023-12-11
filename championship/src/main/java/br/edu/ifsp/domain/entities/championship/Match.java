@@ -81,6 +81,6 @@ public abstract class Match {
     public String toString() {
         return "Match: " + team1.getName() + " vs. " + team2.getName() +
                 " - Score: " + scoreboard1 + " - " + scoreboard2 +
-                " - Concluded: " + concluded;
+                " - Concluded: " + concluded + " - ID: " + idMatch;
     }
 }

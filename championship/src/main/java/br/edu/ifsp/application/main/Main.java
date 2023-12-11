@@ -2,7 +2,9 @@ package br.edu.ifsp.application.main;
 
 import br.edu.ifsp.HelloApplication;
 import br.edu.ifsp.application.repository.*;
+import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.team.Team;
+import br.edu.ifsp.domain.usecases.knockout.administration.*;
 import br.edu.ifsp.domain.usecases.knockout.dao.*;
 import br.edu.ifsp.domain.usecases.knockoutmatch.*;
 import br.edu.ifsp.domain.usecases.phase.*;
@@ -11,6 +13,10 @@ import br.edu.ifsp.domain.usecases.roundrobin.dao.*;
 import br.edu.ifsp.domain.usecases.roundrobinmatch.*;
 import br.edu.ifsp.domain.usecases.team.*;
 import br.edu.ifsp.domain.usecases.teamstats.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -69,7 +75,45 @@ public class Main {
         createTeamUseCase.insert(team3);
         createTeamUseCase.insert(team4);
 
-        HelloApplication.main(args);
+        List<Team> teams = new ArrayList<>();
+
+        teams.add(team1);
+        teams.add(team2);
+        teams.add(team3);
+        teams.add(team4);
+
+        Knockout knockout = new Knockout(
+                "Teste Knockout", LocalDate.now(), LocalDate.now().plusDays(7),
+                "LoL", "100k", "Riot", teams
+        );
+
+        createKnockoutUseCase.insert(knockout);
+
+        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
+        startKnockoutUseCase.StartKnockout(1);
+
+        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
+        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
+        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
+
+        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
+        finishKnockoutMatch.setMatchConcludedByIds(1);
+        finishKnockoutMatch.setMatchConcludedByIds(2);
+
+        knockout.printSeedingKnockout();
+
+        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
+        advanceKnockout.advancePhase(1);
+
+        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
+        finishKnockoutMatch.setMatchConcludedByIds(3);
+
+        FinishKnockout finishKnockout = new FinishKnockout();
+        finishKnockout.finishKnockout(1);
+
+        knockout.printSeedingKnockout();
+
+        //HelloApplication.main(args);
     }
 
     private static void configureInjection() {

@@ -5,20 +5,31 @@ import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.MatchServices;
+import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
 import java.util.List;
+
+import static br.edu.ifsp.application.main.Main.*;
 
 public class FinishKnockout {
 
     KnockoutServices knockoutServices = new KnockoutServices();
     MatchServices matchServices = new MatchServices();
 
-    public void finishKnockout(Knockout knockout) {
-        List<Phase> phases = knockout.getSeeding();
+    public void finishKnockout(Integer knockoutId) {
+
+        if (knockoutId == null)
+            throw new IllegalArgumentException("Knockout ID is null");
+
+        Knockout knockout = findKnockoutUseCase.findOne(knockoutId)
+                .orElseThrow(() -> new EntityNotFoundException("Can not find a Knockout with id: "
+                        + knockoutId));
+
         int lastNonEmptyPhaseIndex = knockoutServices.getLastPhaseIndex(knockout);
 
         if (lastNonEmptyPhaseIndex != -1) {
-            Phase lastNonEmptyPhase = phases.get(lastNonEmptyPhaseIndex);
+            Phase lastNonEmptyPhase = knockout.getSeeding().get(lastNonEmptyPhaseIndex);
+
             if (lastNonEmptyPhase.getMatches().size() == 1) {
                 Team champion = matchServices.getWinner(lastNonEmptyPhase.getMatches().get(0));
 
@@ -28,7 +39,10 @@ public class FinishKnockout {
 
                 knockout.setConcluded(true);
 
-                System.out.println("Champion: " + champion.getName());
+                updateKnockoutUseCase.update(knockout);
+                updatePhaseUseCase.update(lastNonEmptyPhase);
+
+                System.out.println("\nChampion: " + knockout.getChampion().getName());
             }
         }
     }

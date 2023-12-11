@@ -20,17 +20,14 @@ public class KnockoutServices {
     }
 
     public void createFirstPhaseMatches(Knockout knockout) {
-        // Obtém a primeira fase do campeonato eliminatório
+
         Phase firstPhase = new Phase(knockout);
         knockout.addPhase(firstPhase);
 
-        // Obtém a lista de times do campeonato
         List<Team> teams = knockout.getTeams();
 
-        // Embaralha os times para garantir aleatoriedade
         Collections.shuffle(teams);
 
-        // Cria as partidas
         List<KnockoutMatch> matches = new ArrayList<>();
         for (int i = 0; i < teams.size(); i += 2) {
             Team team1 = teams.get(i);
@@ -39,12 +36,10 @@ public class KnockoutServices {
             matches.add(match);
         }
 
-        // Adiciona as partidas à primeira fase
-        for (Match match : matches) {
+        for (KnockoutMatch match : matches) {
             firstPhase.addMatch(match);
         }
 
-        // Define o nome da fase com base no número de partidas
         phaseServices.setPhase(firstPhase);
     }
 
@@ -76,6 +71,8 @@ public class KnockoutServices {
         for (KnockoutMatch knockoutMatch : matches) {
             newPhase.addMatch(knockoutMatch);
         }
+
+        phaseServices.setPhase(newPhase);
 
         knockout.addPhase(newPhase);
     }

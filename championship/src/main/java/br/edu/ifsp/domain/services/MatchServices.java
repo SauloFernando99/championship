@@ -43,10 +43,9 @@ public class MatchServices {
         if (match.getScoreboard1() > match.getScoreboard2()){
             return match.getTeam1();
         } else if (match.getScoreboard1() < match.getScoreboard2()) {
-            return match.getTeam1();
+            return match.getTeam2();
         } else {
             return null;
         }
     }
-
 }
