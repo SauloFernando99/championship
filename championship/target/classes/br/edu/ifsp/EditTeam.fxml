@@ -8,8 +8,11 @@
         <Label layoutX="20.0" layoutY="53.0" text="Editar Nome do Time:" />
         <Label layoutX="22.0" layoutY="142.0" text="Detalhes da Bandeira: " />
         <TextField fx:id="txtNomeTime" layoutX="158.0" layoutY="53.0" prefHeight="25.0" prefWidth="425.0" />
-        <TextArea fx:id="txtBandeiraTime" layoutX="146.0" layoutY="146.0" prefHeight="155.0" prefWidth="431.0" />
+        <TextArea fx:id="txtBandeiraTime" layoutX="152.0" layoutY="146.0" prefHeight="110.0" prefWidth="425.0" />
         <Button fx:id="btnSalvar" layoutX="513.0" layoutY="340.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="25.0" prefWidth="62.0" text="Salvar" />
         <Button fx:id="btnCancelar" layoutX="414.0" layoutY="340.0" mnemonicParsing="false" onAction="#cancelEdit" text="Cancelar" />
+      <Button fx:id="btnAtivarTime" layoutX="152.0" layoutY="298.0" mnemonicParsing="false" onAction="#ativarTime" text="Ativar" />
+      <Button fx:id="btnInativar" layoutX="210.0" layoutY="298.0" mnemonicParsing="false" onAction="#inativarTime" text="Inativar" />
+      <Label layoutX="56.0" layoutY="302.0" text="Status do time:" />
     </children>
 </AnchorPane>

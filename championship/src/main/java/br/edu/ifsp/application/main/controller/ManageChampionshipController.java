@@ -1,11 +1,157 @@
 package br.edu.ifsp.application.main.controller;
 
+import br.edu.ifsp.domain.entities.championship.Championship;
+import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.RoundRobin;
+import br.edu.ifsp.domain.entities.team.Team;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import static br.edu.ifsp.application.main.Main.*;
+
 
 public class ManageChampionshipController {
-    public void nextScene(ActionEvent actionEvent) {
+
+
+    @FXML
+    private Button btnVoltar;
+
+    @FXML
+    private Button btnAcompanharCamp;
+
+    @FXML
+    private TableView<RoundRobin> tabelaCampeonatosPontosCorridos;
+    @FXML
+    private TableView<Knockout> tabelaCampeonatosMataMata;
+
+    private ObservableList<RoundRobin> tableDataRoundRobin;
+    private ObservableList<Knockout> tableDataKnockout;
+
+    @FXML
+    private TableColumn<RoundRobin, String> nomeCampeonatoPontosCorridos;
+    @FXML
+    private TableColumn<RoundRobin, LocalDate> dataIniCampeonatoPontosCorridos;
+    @FXML
+    private TableColumn<RoundRobin, LocalDate> dataFimCampeonatoPontosCorridos;
+    @FXML
+    private TableColumn<RoundRobin, String> modalidadeCampeonatoPontosCorridos;
+    @FXML
+    private TableColumn<RoundRobin, String> statusCampeonatoPontosCorridos;
+    @FXML
+    private TableColumn<Knockout, String> nomeCampeonatoMataMata;
+
+    @FXML
+    private TableColumn<Knockout, LocalDate> dataIniCampeonatoMataMata;
+    @FXML
+    private TableColumn<Knockout, LocalDate> dataFimCampeonatoMataMata;
+    @FXML
+    private TableColumn<Knockout, String> modalidadeCampeonatoMataMata;
+    @FXML
+    private TableColumn<Knockout, String> statusCampeonatoMataMata;
+
+    @FXML
+    public void initialize() {
+        if (findKnockoutUseCase == null && findRoundRobinUseCase == null) {
+            showAlert("Error", "Nenhum campeonato foi cadastrado!");
+        } else {
+            blindTableViewToItemListPontosCorridos();
+            blindColumnsToValueSourcesPontosCorridos();
+            loadDataAndShowPontosCorridos();
+            blindTableViewToItemListMataMata();
+            blindColumnsToValueSourcesMataMata();
+            loadDataAndShowMataMata();
+        }
     }
 
-    public void previousScene(ActionEvent actionEvent) {
+    private void blindTableViewToItemListPontosCorridos(){
+        tableDataRoundRobin = FXCollections.observableArrayList();
+        tabelaCampeonatosPontosCorridos.setItems(tableDataRoundRobin);
     }
+
+    private void blindColumnsToValueSourcesPontosCorridos(){
+        nomeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("nomeCampeonatoPontosCorridos"));
+        dataIniCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("dataIniCampeonatoPontosCorridos"));
+        dataFimCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("dataFimCampeonatoPontosCorridos"));
+        modalidadeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("modalidadeCampeonatoPontosCorridos"));
+        statusCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("statusCampeonatoPontosCorridos"));
+    }
+
+    private void loadDataAndShowPontosCorridos(){
+        List<RoundRobin> roundRobins = findRoundRobinUseCase.findAll();
+        tableDataRoundRobin.clear();
+        tableDataRoundRobin.addAll(roundRobins);
+    }
+
+    private void blindTableViewToItemListMataMata(){
+        tableDataKnockout = FXCollections.observableArrayList();
+        tabelaCampeonatosMataMata.setItems(tableDataKnockout);
+    }
+
+    private void blindColumnsToValueSourcesMataMata(){
+        nomeCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("name"));
+        dataIniCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("initialDate"));
+        dataFimCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("finalDate"));
+        modalidadeCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("modality"));
+//        statusCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("concluded"));
+    }
+
+    private void loadDataAndShowMataMata(){
+        List<Knockout> knockouts = findKnockoutUseCase.findAll();
+        tableDataKnockout.clear();
+        tableDataKnockout.addAll(knockouts);
+    }
+
+    public void nextScene(ActionEvent actionEvent) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageChampionship.fxml"));
+                Parent root = loader.load();
+
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();
+                stage.setScene(scene);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+    }
+
+
+    public void previousScene(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/FirstScene.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) btnVoltar.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
 }

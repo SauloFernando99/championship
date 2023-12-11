@@ -3,19 +3,32 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="440.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ManageChampionshipController">
+<AnchorPane prefHeight="574.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ManageChampionshipController">
     <children>
-        <TableView layoutX="14.0" layoutY="45.0" prefHeight="308.0" prefWidth="772.0">
+
+        <Label layoutX="16.0" layoutY="10.0" text="Tabela de Campeonatos de Pontos - Corridos" />
+        <TableView fx:id="tabelaCampeonatosPontosCorridos" layoutX="14.0" layoutY="36.0" prefHeight="202.0" prefWidth="772.0">
             <columns>
-                <TableColumn fx:id="nomeCampeonato" prefWidth="107.0" text="Nome " />
-                <TableColumn fx:id="tipoCampeonato" prefWidth="117.0" text="Tipo" />
-                <TableColumn fx:id="dataIniCampeonato" prefWidth="140.0" text="Data inicial" />
-                <TableColumn fx:id="dataFimCampeonato" prefWidth="143.0" text="Data final" />
-                <TableColumn fx:id="modalidadeCampeonato" prefWidth="140.0" text="Modalidade" />
-                <TableColumn fx:id="statusCampeonato" prefWidth="125.0" text="Status" />
+                <TableColumn fx:id="nomeCampeonatoPontosCorridos" prefWidth="226.0" text="Nome " />
+                <TableColumn fx:id="dataIniCampeonatoPontosCorridos" prefWidth="140.0" text="Data inicial" />
+                <TableColumn fx:id="dataFimCampeonatoPontosCorridos" prefWidth="140.0" text="Data final" />
+                <TableColumn fx:id="modalidadeCampeonatoPontosCorridos" prefWidth="135.0" text="Modalidade" />
+                <TableColumn fx:id="statusCampeonatoPontosCorridos" prefWidth="130.0" text="Status" />
             </columns>
         </TableView>
-        <Button fx:id="btnVoltar" layoutX="43.0" layoutY="378.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="36.0" prefWidth="98.0" text="Voltar" />
-        <Button fx:id="btnAcompanharCamp" layoutX="614.0" layoutY="380.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="36.0" prefWidth="170.0" text="Acompanhar Campeonato" />
+
+
+      <Label layoutX="19.0" layoutY="258.0" text="Tabela de Campeonatos de Mata - Mata" />
+      <TableView fx:id="tabelaCampeonatosMataMata" layoutX="19.0" layoutY="285.0" prefHeight="215.0" prefWidth="772.0">
+        <columns>
+            <TableColumn fx:id="nomeCampeonatoMataMata" prefWidth="226.0" text="Nome" />
+            <TableColumn fx:id="dataIniCampeonatoMataMata" prefWidth="140.0" text="Data Inicial" />
+            <TableColumn fx:id="dataFimCampeonatoMataMata" prefWidth="140.0" text="Data Final" />
+            <TableColumn fx:id="modalidadeCampeonatoMataMata" prefWidth="135.0" text="Modalidade" />
+            <TableColumn fx:id="statusCampeonatoMataMat" prefWidth="130.0" text="Status" />
+        </columns>
+      </TableView>
+        <Button fx:id="btnVoltar" layoutX="22.0" layoutY="518.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="36.0" prefWidth="98.0" text="Voltar" />
+        <Button fx:id="btnAcompanharCamp" layoutX="618.0" layoutY="518.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="36.0" prefWidth="170.0" text="Acompanhar Campeonato" />
     </children>
 </AnchorPane>

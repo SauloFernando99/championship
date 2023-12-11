@@ -120,6 +120,5 @@ public class Main {
         updateKnockoutMatchUseCase = new UpdateKnockoutMatchUseCase(knockoutMatchDAO);
         findKnockoutMatchUseCase = new FindKnockoutMatchUseCase(knockoutMatchDAO);
         removeKnockoutMatchUseCase = new RemoveKnockoutMatchUseCase(knockoutMatchDAO);
-
     }
 }
