@@ -1,16 +1,16 @@
 package br.edu.ifsp.application.main;
 
 import br.edu.ifsp.HelloApplication;
+import br.edu.ifsp.application.repository.InMemoryKnockoutDAO;
 import br.edu.ifsp.application.repository.InMemoryTeamDAO;
 import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.RoundServices;
 import br.edu.ifsp.domain.usecases.knockout.administration.*;
+import br.edu.ifsp.domain.usecases.knockout.dao.*;
 import br.edu.ifsp.domain.usecases.roundrobin.administration.*;
 import br.edu.ifsp.domain.usecases.team.*;
-
-import java.time.LocalDate;
 
 public class Main {
 
@@ -18,6 +18,11 @@ public class Main {
     public static FindTeamUseCase findTeamUseCase;
     public static UpdateTeamUseCase updateTeamUseCase;
     public static RemoveTeamUseCase removeTeamUseCase;
+
+    public static CreateKnockoutUseCase createKnockoutUseCase;
+    public static FindKnockoutUseCase findKnockoutUseCase;
+    public static UpdateKnockoutUseCase updateKnockoutUseCase;
+    public static RemoveKnockoutUseCase removeKnockoutUseCase;
 
     public static void main(String[] args) {
 
@@ -43,6 +48,12 @@ public class Main {
         updateTeamUseCase = new UpdateTeamUseCase(teamDAO);
         findTeamUseCase = new FindTeamUseCase(teamDAO);
         removeTeamUseCase = new RemoveTeamUseCase(teamDAO);
+
+        KnockoutDAO knockoutDAO = new InMemoryKnockoutDAO();
+        createKnockoutUseCase = new CreateKnockoutUseCase(knockoutDAO);
+        updateKnockoutUseCase = new UpdateKnockoutUseCase(knockoutDAO);
+        findKnockoutUseCase = new FindKnockoutUseCase(knockoutDAO);
+        removeKnockoutUseCase = new RemoveKnockoutUseCase(knockoutDAO);
 
     }
 }

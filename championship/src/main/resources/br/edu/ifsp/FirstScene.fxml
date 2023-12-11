@@ -7,7 +7,7 @@
    <children>
       <Button fx:id="btnCriarTime" layoutX="312.0" layoutY="-1.0" mnemonicParsing="false" onAction="#sceneTeamUI" prefHeight="25.0" prefWidth="156.0" text="Criar Time" />
       <Button fx:id="btnEditTeam" layoutX="468.0" layoutY="-1.0" mnemonicParsing="false" onAction="#sceneManagementTeamUI" prefHeight="25.0" prefWidth="156.0" text="Editar Time" />
-      <Button fx:id="btnCriarCampeonato" layoutY="-1.0" mnemonicParsing="false" onAction="#scenChampionshipUI" prefHeight="25.0" prefWidth="156.0" text="Criar Campeonato" />
+      <Button fx:id="btnCriarCampeonato" layoutY="-1.0" mnemonicParsing="false" onAction="#sceneChampionshipUI" prefHeight="25.0" prefWidth="156.0" text="Criar Campeonato" />
       <Button fx:id="btnAcompanhar" layoutX="156.0" layoutY="-1.0" mnemonicParsing="false" onAction="#sceneAcompanhar" text="Acompanhar Campeonato" />
       <Button fx:id="btnSair" layoutX="546.0" layoutY="194.0" mnemonicParsing="false" onAction="#closeSoft" prefHeight="25.0" prefWidth="61.0" text="Sair" />
       <Label layoutX="272.0" layoutY="82.0" text="Bem-vindo ao" />

@@ -78,4 +78,8 @@ public class KnockoutServices {
 
         knockout.addPhase(newPhase);
     }
+
+    public boolean isPowerTwo(int number) {
+        return (number & (number - 1)) == 0 && number != 0;
+    }
 }

@@ -40,7 +40,20 @@ public class FirstSceneController {
         }
     }
 
-    public void scenChampionshipUI(ActionEvent actionEvent) {
+    public void sceneChampionshipUI(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/ChoseChampionship.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void sceneAcompanhar(ActionEvent actionEvent) {

@@ -19,8 +19,8 @@ public class Knockout extends Championship {
         this.setChampion(null);
     }
 
-    public Knockout (String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship){
-        super(name, initialDate, finalDate, modality, award, sponsorship);
+    public Knockout (String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, List<Team> teams){
+        super(name, initialDate, finalDate, modality, award, sponsorship, teams);
         this.setChampion(null);
     }
 

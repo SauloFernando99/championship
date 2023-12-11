@@ -18,8 +18,8 @@ public class RoundRobin extends Championship {
     RoundServices roundServices = new RoundServices();
 
     public RoundRobin(String name, LocalDate initialDate, LocalDate finalDate, String modality,
-                      String award, String sponsorship) {
-        super(name, initialDate, finalDate, modality, award, sponsorship);
+                      String award, String sponsorship, List<Team> teams) {
+        super(name, initialDate, finalDate, modality, award, sponsorship, teams);
     }
 
     public void addTeam(Team team){

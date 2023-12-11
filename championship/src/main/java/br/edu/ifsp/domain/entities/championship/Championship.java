@@ -34,13 +34,14 @@ public abstract class Championship {
         this.teams = teams;
     }
 
-    public Championship(String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship) {
+    public Championship(String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, List<Team> teams) {
         this.name = name;
         this.initialDate = initialDate;
         this.finalDate = finalDate;
         this.modality = modality;
         this.award = award;
         this.sponsorship = sponsorship;
+        this.teams = teams;
     }
 
     public Integer getIdChampionship() {
