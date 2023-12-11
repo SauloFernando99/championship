@@ -85,35 +85,36 @@ public class Main {
         Knockout knockout = new Knockout(
                 "Teste Knockout", LocalDate.now(), LocalDate.now().plusDays(7),
                 "LoL", "100k", "Riot", teams
+
         );
 
         createKnockoutUseCase.insert(knockout);
 
-        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
-        startKnockoutUseCase.StartKnockout(1);
+//        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
+//        startKnockoutUseCase.StartKnockout(1);
+//
+//        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
+//        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
+//        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
+//
+//        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
+//        finishKnockoutMatch.setMatchConcludedByIds(1);
+//        finishKnockoutMatch.setMatchConcludedByIds(2);
+//
+//        knockout.printSeedingKnockout();
+//
+//        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
+//        advanceKnockout.advancePhase(1);
+//
+//        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
+//        finishKnockoutMatch.setMatchConcludedByIds(3);
+//
+//        FinishKnockout finishKnockout = new FinishKnockout();
+//        finishKnockout.finishKnockout(1);
+//
+//        knockout.printSeedingKnockout();
 
-        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
-        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
-
-        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
-        finishKnockoutMatch.setMatchConcludedByIds(1);
-        finishKnockoutMatch.setMatchConcludedByIds(2);
-
-        knockout.printSeedingKnockout();
-
-        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
-        advanceKnockout.advancePhase(1);
-
-        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
-        finishKnockoutMatch.setMatchConcludedByIds(3);
-
-        FinishKnockout finishKnockout = new FinishKnockout();
-        finishKnockout.finishKnockout(1);
-
-        knockout.printSeedingKnockout();
-
-        //HelloApplication.main(args);
+         HelloApplication.main(args);
     }
 
     private static void configureInjection() {
