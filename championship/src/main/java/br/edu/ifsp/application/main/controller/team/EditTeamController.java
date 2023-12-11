@@ -1,6 +1,7 @@
     package br.edu.ifsp.application.main.controller.team;
 
     import br.edu.ifsp.domain.entities.team.Team;
+    import javafx.event.ActionEvent;
     import javafx.fxml.FXML;
     import javafx.scene.control.Button;
     import javafx.scene.control.TextArea;
@@ -16,10 +17,13 @@
 
         @FXML
         private TextArea txtBandeiraTime;
-
+        private boolean  status;
+        @FXML
+        private Button btnAtivarTime;
+        @FXML
+        private Button btnInativar;
         @FXML
         private Button btnCancelar;
-
         private Team teamToEdit;
 
         public void initializeData(Team team) {
@@ -36,6 +40,7 @@
 
             teamToEdit.setName(newName);
             teamToEdit.setCrest(newCrest);
+            teamToEdit.setActive(status);
 
             boolean updateSuccess = updateTeamUseCase.update(teamToEdit);
 
@@ -55,5 +60,15 @@
         private void closeStage() {
             Stage stage = (Stage) btnCancelar.getScene().getWindow();
             stage.close();
+        }
+
+        @FXML
+        private void ativarTime() {
+            this.status = true;
+        }
+
+        @FXML
+        private void inativarTime() {
+            this.status = false;
         }
     }

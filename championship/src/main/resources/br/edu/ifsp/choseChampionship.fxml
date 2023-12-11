@@ -12,5 +12,6 @@
          </font></Label>
       <Button fx:id="btnMataMata" layoutX="102.0" layoutY="109.0" mnemonicParsing="false" onAction="#nextSceneMataMata" prefHeight="43.0" prefWidth="103.0" text="Mata-mata" />
       <Button fx:id="btnPontosCorridos" layoutX="232.0" layoutY="109.0" mnemonicParsing="false" onAction="#nextScenePontosCorridos" prefHeight="43.0" prefWidth="103.0" text="Pontos-Corridos" />
+      <Button fx:id="btnVoltar" layoutX="194.0" layoutY="183.0" mnemonicParsing="false" onAction="#previousScene" text="Voltar" />
    </children>
 </AnchorPane>
