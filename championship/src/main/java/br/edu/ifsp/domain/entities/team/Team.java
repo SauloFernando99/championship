@@ -1,5 +1,7 @@
 package br.edu.ifsp.domain.entities.team;
 
+import br.edu.ifsp.domain.entities.championship.Championship;
+
 public class Team {
     private Integer idTeam;
     private String name;

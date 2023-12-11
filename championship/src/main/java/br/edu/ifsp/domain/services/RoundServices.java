@@ -80,7 +80,7 @@ public class RoundServices {
                 yPosition -= LINE_HEIGHT;
 
                 for (Match match : round.getMatches()) {
-                    addText(contentStream, margin, yPosition, ""+ match.toString());
+                    addText(contentStream, margin, yPosition, "" + match.toString());
                     yPosition -= LINE_HEIGHT;
                 }
             }

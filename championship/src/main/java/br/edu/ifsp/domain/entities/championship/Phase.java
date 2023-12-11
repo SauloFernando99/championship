@@ -18,6 +18,10 @@ public class Phase {
         this.knockout = knockout;
     }
 
+    public Phase(String phase){
+        this.phase = phase;
+    }
+
     public void addMatch(Match match) {
         matches.add(match);
     }

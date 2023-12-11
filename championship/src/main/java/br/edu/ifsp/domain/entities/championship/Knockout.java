@@ -24,12 +24,20 @@ public class Knockout extends Championship {
         this.setChampion(null);
     }
 
+    public Knockout (String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship){
+        super(name, initialDate, finalDate, modality, award, sponsorship);
+        this.setChampion(null);
+    }
+
     public Knockout(List<Team> teams) {
         super(teams);
         this.setSeeding(new ArrayList<>());
         this.setChampion(null);
     }
 
+    public Knockout(){
+        super();
+    }
     public void addTeam(Team team) {
         if (team.getIsActive()) {
             getTeams().add(team);

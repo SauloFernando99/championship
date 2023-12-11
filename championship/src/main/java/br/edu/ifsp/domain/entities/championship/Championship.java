@@ -30,6 +30,17 @@ public abstract class Championship {
         this.teams = teams;
     }
 
+    public Championship(Integer idChampionship, String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded) {
+        this.idChampionship = idChampionship;
+        this.name = name;
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
+        this.modality = modality;
+        this.award = award;
+        this.sponsorship = sponsorship;
+        this.concluded = concluded;
+    }
+
     public Championship(List<Team> teams) {
         this.teams = teams;
     }
@@ -42,6 +53,19 @@ public abstract class Championship {
         this.award = award;
         this.sponsorship = sponsorship;
         this.teams = teams;
+    }
+
+    public Championship(String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship) {
+        this.name = name;
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
+        this.modality = modality;
+        this.award = award;
+        this.sponsorship = sponsorship;
+    }
+
+    public Championship(){
+
     }
 
     public Integer getIdChampionship() {
