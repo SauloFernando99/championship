@@ -10,7 +10,13 @@
          <font>
             <Font size="14.0" />
          </font></Label>
+<<<<<<< HEAD
       <Button fx:id="btnMataMata" layoutX="82.0" layoutY="103.0" mnemonicParsing="false" onAction="#nextSceneMataMata" prefHeight="32.0" prefWidth="111.0" text="Mata-mata" />
       <Button fx:id="btnPontosCorridos" layoutX="260.0" layoutY="103.0" mnemonicParsing="false" onAction="#nextScenePontosCorridos" prefHeight="32.0" prefWidth="111.0" text="Pontos-Corridos" />
+=======
+      <Button fx:id="btnMataMata" layoutX="102.0" layoutY="109.0" mnemonicParsing="false" onAction="#nextSceneMataMata" prefHeight="43.0" prefWidth="103.0" text="Mata-mata" />
+      <Button fx:id="btnPontosCorridos" layoutX="232.0" layoutY="109.0" mnemonicParsing="false" onAction="#nextScenePontosCorridos" prefHeight="43.0" prefWidth="103.0" text="Pontos-Corridos" />
+      <Button fx:id="btnVoltar" layoutX="194.0" layoutY="183.0" mnemonicParsing="false" onAction="#previousScene" text="Voltar" />
+>>>>>>> e05f24c329968a94029e9d2b1e05620d8eb4648d
    </children>
 </AnchorPane>
