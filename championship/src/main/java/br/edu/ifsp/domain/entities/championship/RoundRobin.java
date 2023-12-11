@@ -84,4 +84,8 @@ public class RoundRobin extends Championship {
     public void setTeamStats(List<TeamStats> teamStats) {
         this.teamStats = teamStats;
     }
+    @Override
+    public String getChampionshipType() {
+        return "Pontos-Corridos";
+    }
 }

@@ -54,6 +54,5 @@ public class Main {
         updateKnockoutUseCase = new UpdateKnockoutUseCase(knockoutDAO);
         findKnockoutUseCase = new FindKnockoutUseCase(knockoutDAO);
         removeKnockoutUseCase = new RemoveKnockoutUseCase(knockoutDAO);
-
     }
 }

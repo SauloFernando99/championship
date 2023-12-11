@@ -18,7 +18,7 @@ public abstract class Championship {
     private Boolean concluded = false;
     private List<Team> teams = new ArrayList<>();
 
-    public Championship(Integer idChampionship, String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship, Boolean concluded, List<Team> teams) {
+    public Championship(Integer idChampionship, String name, LocalDate initialDate, LocalDate finalDate, String modality, String award, String sponsorship,  List<Team> teams) {
         this.idChampionship = idChampionship;
         this.name = name;
         this.initialDate = initialDate;
@@ -26,7 +26,6 @@ public abstract class Championship {
         this.modality = modality;
         this.award = award;
         this.sponsorship = sponsorship;
-        this.concluded = concluded;
         this.teams = teams;
     }
 
@@ -115,4 +114,5 @@ public abstract class Championship {
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
+    public abstract String getChampionshipType();
 }
