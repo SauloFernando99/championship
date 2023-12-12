@@ -110,28 +110,28 @@ public class Main {
         StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
         startKnockoutUseCase.StartKnockout(1);
 
-        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
-        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
-
-        System.out.println("\nID knockout: " + knockout.getIdChampionship());
-
-        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
-        finishKnockoutMatch.setMatchConcludedByIds(1);
-        finishKnockoutMatch.setMatchConcludedByIds(2);
-
-        knockout.printSeedingKnockout();
-
-        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
-        advanceKnockout.advancePhase(1);
-
-        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
-        finishKnockoutMatch.setMatchConcludedByIds(3);
-
-        FinishKnockout finishKnockout = new FinishKnockout();
-        finishKnockout.finishKnockout(1);
-
-        knockout.printSeedingKnockout();
+//        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
+//        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
+//        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
+//
+//        System.out.println("\nID knockout: " + knockout.getIdChampionship());
+//
+//        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
+//        finishKnockoutMatch.setMatchConcludedByIds(1);
+//        finishKnockoutMatch.setMatchConcludedByIds(2);
+//
+//        knockout.printSeedingKnockout();
+//
+//        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
+//        advanceKnockout.advancePhase(1);
+//
+//        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
+//        finishKnockoutMatch.setMatchConcludedByIds(3);
+//
+//        FinishKnockout finishKnockout = new FinishKnockout();
+//        finishKnockout.finishKnockout(1);
+//
+//        knockout.printSeedingKnockout();
 
         RoundRobin roundRobin = new RoundRobin("TesteRoundRobin", LocalDate.now(),
                 LocalDate.now().plusDays(7), "LOL", "100K dol",

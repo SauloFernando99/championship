@@ -105,6 +105,8 @@ public class ManagementPartidaMataMataController {
                 }
             } else {
                 System.out.println("Partida é um empate.");
+                showAlert("A partida não pode terminar em empate. Insira os placares novamente.");
+                return;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageChampionship.fxml"));
