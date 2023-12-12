@@ -110,7 +110,7 @@ public class Main {
 
         UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
         updateKnockoutMatch.updateMatchResultByIds(1,1,2);
-        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
+        updateKnockoutMatch.updateMatchResultByIds(2,1,1);
 
         System.out.println("\nID knockout: " + knockout.getIdChampionship());
 

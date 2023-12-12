@@ -20,6 +20,10 @@ public class FinishKnockoutMatch {
                 .orElseThrow(() -> new EntityNotFoundException("Can not find a KnockoutMatch with id: "
                         + matchId));
 
+        if (match.getScoreboard2() == match.getScoreboard2()) {
+            throw new IllegalArgumentException("Match result can not be a draw.");
+        }
+
         match.setConcluded(true);
 
         updateKnockoutMatchUseCase.update(match);
