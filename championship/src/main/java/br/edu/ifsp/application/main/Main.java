@@ -105,14 +105,14 @@ public class Main {
         updateTeamUseCase.update(team3);
         updateTeamUseCase.update(team4);
 
-        System.out.println("\nID knockout: " + knockout.getIdChampionship());
-
         StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
         startKnockoutUseCase.StartKnockout(1);
 
         UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
         updateKnockoutMatch.updateMatchResultByIds(1,1,2);
         updateKnockoutMatch.updateMatchResultByIds(2,1,2);
+
+        System.out.println("\nID knockout: " + knockout.getIdChampionship());
 
         FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
         finishKnockoutMatch.setMatchConcludedByIds(1);
