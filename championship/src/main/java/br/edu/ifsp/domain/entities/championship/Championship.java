@@ -26,7 +26,6 @@ public abstract class Championship {
         this.modality = modality;
         this.award = award;
         this.sponsorship = sponsorship;
-
         this.teams = teams;
     }
 
