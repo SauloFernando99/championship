@@ -117,19 +117,38 @@ public class ManageChampionshipController {
 
 
     public void nextScene(ActionEvent actionEvent) {
+        Knockout selectKnockout = tabelaCampeonatosMataMata.getSelectionModel().getSelectedItem();
+        RoundRobin selectRoundRobin = tabelaCampeonatosPontosCorridos.getSelectionModel().getSelectedItem();
+        if(selectKnockout != null){
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageChampionship.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/managementMataMata.fxml"));
                 Parent root = loader.load();
 
                 Scene scene = new Scene(root);
 
                 Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();
+
                 stage.setScene(scene);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(selectRoundRobin != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/pontosCorridosManage.fxml"));
+                Parent root = loader.load();
 
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();
+
+                stage.setScene(scene);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
 
     public void previousScene(ActionEvent actionEvent) {

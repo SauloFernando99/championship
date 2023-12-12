@@ -63,6 +63,7 @@ public class KnockoutUIController {
 
     private List<Team> teams = new ArrayList<>();
 
+
     @FXML
     public void initialize() {
         blindTableViewToItemList();
@@ -71,7 +72,6 @@ public class KnockoutUIController {
         tabelaTime.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Team selectedTeam = tabelaTime.getSelectionModel().getSelectedItem();
-
                 showConfirmationDialog(selectedTeam);
             }
         });
