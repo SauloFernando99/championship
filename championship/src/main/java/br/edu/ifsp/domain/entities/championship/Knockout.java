@@ -34,13 +34,13 @@ public class Knockout extends Championship {
         this.setSeeding(new ArrayList<>());
         this.setChampion(null);
     }
-
     public Knockout(){
         super();
     }
     public void addTeam(Team team) {
         if (team.getIsActive()) {
             getTeams().add(team);
+            team.addKnockout(this);
         } else {
             System.out.println("An inactive team can not be included in a championship");
         }

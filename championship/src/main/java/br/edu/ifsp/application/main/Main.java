@@ -93,102 +93,104 @@ public class Main {
 
         );
 
+        team1.addKnockout(knockout);
+        team2.addKnockout(knockout);
+        team3.addKnockout(knockout);
+        team4.addKnockout(knockout);
+
         createKnockoutUseCase.insert(knockout);
 
-//        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
-//        startKnockoutUseCase.StartKnockout(1);
-//
-//        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-//        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
-//        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
-//
-//        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
-//        finishKnockoutMatch.setMatchConcludedByIds(1);
-//        finishKnockoutMatch.setMatchConcludedByIds(2);
-//
-//        knockout.printSeedingKnockout();
-//
-//        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
-//        advanceKnockout.advancePhase(1);
-//
-//        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
-//        finishKnockoutMatch.setMatchConcludedByIds(3);
-//
-//        FinishKnockout finishKnockout = new FinishKnockout();
-//        finishKnockout.finishKnockout(1);
-//
-//        knockout.printSeedingKnockout();
+        updateTeamUseCase.update(team1);
+        updateTeamUseCase.update(team2);
+        updateTeamUseCase.update(team3);
+        updateTeamUseCase.update(team4);
 
-//        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-//        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
-//        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
-//
-//        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
-//        finishKnockoutMatch.setMatchConcludedByIds(1);
-//        finishKnockoutMatch.setMatchConcludedByIds(2);
-//
-//        knockout.printSeedingKnockout();
-//
-//        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
-//        advanceKnockout.advancePhase(1);
-//
-//        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
-//        finishKnockoutMatch.setMatchConcludedByIds(3);
-//
-//        FinishKnockout finishKnockout = new FinishKnockout();
-//        finishKnockout.finishKnockout(1);
-//
-//        knockout.printSeedingKnockout();
+        System.out.println("\nID knockout: " + knockout.getIdChampionship());
 
+        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
+        startKnockoutUseCase.StartKnockout(1);
+
+        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
+        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
+        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
+
+        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
+        finishKnockoutMatch.setMatchConcludedByIds(1);
+        finishKnockoutMatch.setMatchConcludedByIds(2);
+
+        knockout.printSeedingKnockout();
+
+        AdvanceKnockout advanceKnockout = new AdvanceKnockout();
+        advanceKnockout.advancePhase(1);
+
+        updateKnockoutMatch.updateMatchResultByIds(3, 2, 3);
+        finishKnockoutMatch.setMatchConcludedByIds(3);
+
+        FinishKnockout finishKnockout = new FinishKnockout();
+        finishKnockout.finishKnockout(1);
+
+        knockout.printSeedingKnockout();
 
         RoundRobin roundRobin = new RoundRobin("TesteRoundRobin", LocalDate.now(),
                 LocalDate.now().plusDays(7), "LOL", "100K dol",
                 "Riot", teams);
 
+        team1.addRoundRobin(roundRobin);
+        team2.addRoundRobin(roundRobin);
+        team3.addRoundRobin(roundRobin);
+        team4.addRoundRobin(roundRobin);
+
+        System.out.println(team1.getKnockouts().get(0).getName());
+        System.out.println(team1.getRoundRobins().get(0).getName());
 
         createRoundRobinUseCase.insert(roundRobin);
 
-//        roundRobin.printStandings();
-//
-//        StartRoundRobin startRoundRobin = new StartRoundRobin();
-//        startRoundRobin.startRoundRobin(1);
-//
-//        roundRobin.printStandings();
-//        roundRobin.printTable();
-//
-//        UpdateRoundRobinMatch updateRoundRobinMatch = new UpdateRoundRobinMatch();
-//        FinishRoundRobinMatch finishRoundRobinMatch = new FinishRoundRobinMatch();
-//
-//        updateRoundRobinMatch.updateMatchByIds(1,1,2);
-//        finishRoundRobinMatch.finishMatchByIds(1);
-//        updateRoundRobinMatch.updateMatchByIds(2,1,3);
-//        finishRoundRobinMatch.finishMatchByIds(2);
-//        updateRoundRobinMatch.updateMatchByIds(3,2,1);
-//        finishRoundRobinMatch.finishMatchByIds(3);
-//        updateRoundRobinMatch.updateMatchByIds(4,4,2);
-//        finishRoundRobinMatch.finishMatchByIds(4);
-//        updateRoundRobinMatch.updateMatchByIds(5,1,3);
-//        finishRoundRobinMatch.finishMatchByIds(5);
-//        updateRoundRobinMatch.updateMatchByIds(6,4,2);
-//        finishRoundRobinMatch.finishMatchByIds(6);
-//        updateRoundRobinMatch.updateMatchByIds(7,1,5);
-//        finishRoundRobinMatch.finishMatchByIds(7);
-//        updateRoundRobinMatch.updateMatchByIds(8,2,1);
-//        finishRoundRobinMatch.finishMatchByIds(8);
-//        updateRoundRobinMatch.updateMatchByIds(9,3,1);
-//        finishRoundRobinMatch.finishMatchByIds(9);
-//        updateRoundRobinMatch.updateMatchByIds(10,3,4);
-//        finishRoundRobinMatch.finishMatchByIds(10);
-//        updateRoundRobinMatch.updateMatchByIds(11,1,2);
-//        finishRoundRobinMatch.finishMatchByIds(11);
-//        updateRoundRobinMatch.updateMatchByIds(12,0,0);
-//        finishRoundRobinMatch.finishMatchByIds(12);
-//
-//        roundRobin.printTable();
-//        roundRobin.printStandings();
-//
-//        FinishRoundRobin finishRoundRobin = new FinishRoundRobin();
-//        finishRoundRobin.finishChampionship(1);
+        updateTeamUseCase.update(team1);
+        updateTeamUseCase.update(team2);
+        updateTeamUseCase.update(team3);
+        updateTeamUseCase.update(team4);
+
+        roundRobin.printStandings();
+
+        StartRoundRobin startRoundRobin = new StartRoundRobin();
+        startRoundRobin.startRoundRobin(1);
+
+        roundRobin.printStandings();
+        roundRobin.printTable();
+
+        UpdateRoundRobinMatch updateRoundRobinMatch = new UpdateRoundRobinMatch();
+        FinishRoundRobinMatch finishRoundRobinMatch = new FinishRoundRobinMatch();
+
+        updateRoundRobinMatch.updateMatchByIds(1,1,2);
+        finishRoundRobinMatch.finishMatchByIds(1);
+        updateRoundRobinMatch.updateMatchByIds(2,1,3);
+        finishRoundRobinMatch.finishMatchByIds(2);
+        updateRoundRobinMatch.updateMatchByIds(3,2,1);
+        finishRoundRobinMatch.finishMatchByIds(3);
+        updateRoundRobinMatch.updateMatchByIds(4,4,2);
+        finishRoundRobinMatch.finishMatchByIds(4);
+        updateRoundRobinMatch.updateMatchByIds(5,1,3);
+        finishRoundRobinMatch.finishMatchByIds(5);
+        updateRoundRobinMatch.updateMatchByIds(6,4,2);
+        finishRoundRobinMatch.finishMatchByIds(6);
+        updateRoundRobinMatch.updateMatchByIds(7,1,5);
+        finishRoundRobinMatch.finishMatchByIds(7);
+        updateRoundRobinMatch.updateMatchByIds(8,2,1);
+        finishRoundRobinMatch.finishMatchByIds(8);
+        updateRoundRobinMatch.updateMatchByIds(9,3,1);
+        finishRoundRobinMatch.finishMatchByIds(9);
+        updateRoundRobinMatch.updateMatchByIds(10,3,4);
+        finishRoundRobinMatch.finishMatchByIds(10);
+        updateRoundRobinMatch.updateMatchByIds(11,1,2);
+        finishRoundRobinMatch.finishMatchByIds(11);
+        updateRoundRobinMatch.updateMatchByIds(12,0,0);
+        finishRoundRobinMatch.finishMatchByIds(12);
+
+        roundRobin.printTable();
+        roundRobin.printStandings();
+
+        FinishRoundRobin finishRoundRobin = new FinishRoundRobin();
+        finishRoundRobin.finishChampionship(1);
 
         HelloApplication.main(args);
 
