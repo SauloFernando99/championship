@@ -50,7 +50,7 @@ public class ManageChampionshipController {
     @FXML
     private TableColumn<RoundRobin, String> modalidadeCampeonatoPontosCorridos;
     @FXML
-    private TableColumn<RoundRobin, String> statusCampeonatoPontosCorridos;
+    private TableColumn<RoundRobin, Boolean> statusCampeonatoPontosCorridos;
     @FXML
     private TableColumn<Knockout, String> nomeCampeonatoMataMata;
 
@@ -61,7 +61,8 @@ public class ManageChampionshipController {
     @FXML
     private TableColumn<Knockout, String> modalidadeCampeonatoMataMata;
     @FXML
-    private TableColumn<Knockout, String> statusCampeonatoMataMata;
+    private TableColumn<Knockout, Boolean> statusCampeonatoMataMata;
+
 
     @FXML
     public void initialize() {
@@ -83,11 +84,11 @@ public class ManageChampionshipController {
     }
 
     private void blindColumnsToValueSourcesPontosCorridos(){
-        nomeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("nomeCampeonatoPontosCorridos"));
-        dataIniCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("dataIniCampeonatoPontosCorridos"));
-        dataFimCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("dataFimCampeonatoPontosCorridos"));
-        modalidadeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("modalidadeCampeonatoPontosCorridos"));
-        statusCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("statusCampeonatoPontosCorridos"));
+        nomeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("name"));
+        dataIniCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("initialDate"));
+        dataFimCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("finalDate"));
+        modalidadeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("modality"));
+        statusCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("concluded"));
     }
 
     private void loadDataAndShowPontosCorridos(){
@@ -106,7 +107,7 @@ public class ManageChampionshipController {
         dataIniCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("initialDate"));
         dataFimCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("finalDate"));
         modalidadeCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("modality"));
-//        statusCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("concluded"));
+        statusCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("concluded"));
     }
 
     private void loadDataAndShowMataMata(){
@@ -115,19 +116,38 @@ public class ManageChampionshipController {
         tableDataKnockout.addAll(knockouts);
     }
 
+
     public void nextScene(ActionEvent actionEvent) {
+        Knockout selectKnockout = tabelaCampeonatosMataMata.getSelectionModel().getSelectedItem();
+        RoundRobin selectRoundRobin = tabelaCampeonatosPontosCorridos.getSelectionModel().getSelectedItem();
+        if(selectKnockout != null){
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageChampionship.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/managementMataMata.fxml"));
                 Parent root = loader.load();
 
                 Scene scene = new Scene(root);
 
                 Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();
+
                 stage.setScene(scene);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        if(selectRoundRobin != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/pontosCorridosManage.fxml"));
+                Parent root = loader.load();
 
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();
+
+                stage.setScene(scene);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 
@@ -145,6 +165,7 @@ public class ManageChampionshipController {
         }
 
     }
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

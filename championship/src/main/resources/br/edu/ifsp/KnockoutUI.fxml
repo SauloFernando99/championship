@@ -19,6 +19,7 @@
             <columns>
                 <TableColumn fx:id="cIdTeam" prefWidth="75.0" text="ID" />
                 <TableColumn fx:id="cNameTeam" prefWidth="75.0" text="TIME" />
+                <TableColumn fx:id="cStatus" prefWidth="85.0" text="STATUS" />
             </columns>
         </TableView>
         <Button fx:id="btnCancelar" layoutX="500.0" layoutY="518.0" mnemonicParsing="false" onAction="#backToPreviousScene" text="Cancelar" />

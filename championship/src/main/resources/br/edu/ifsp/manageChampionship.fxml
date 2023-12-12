@@ -25,7 +25,7 @@
             <TableColumn fx:id="dataIniCampeonatoMataMata" prefWidth="140.0" text="Data Inicial" />
             <TableColumn fx:id="dataFimCampeonatoMataMata" prefWidth="140.0" text="Data Final" />
             <TableColumn fx:id="modalidadeCampeonatoMataMata" prefWidth="135.0" text="Modalidade" />
-            <TableColumn fx:id="statusCampeonatoMataMat" prefWidth="130.0" text="Status" />
+            <TableColumn fx:id="statusCampeonatoMataMata" prefWidth="130.0" text="Status" />
         </columns>
       </TableView>
         <Button fx:id="btnVoltar" layoutX="22.0" layoutY="518.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="36.0" prefWidth="98.0" text="Voltar" />

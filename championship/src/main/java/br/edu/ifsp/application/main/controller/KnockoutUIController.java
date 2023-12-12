@@ -63,6 +63,7 @@ public class KnockoutUIController {
 
     private List<Team> teams = new ArrayList<>();
 
+
     @FXML
     public void initialize() {
         blindTableViewToItemList();
@@ -71,7 +72,6 @@ public class KnockoutUIController {
         tabelaTime.setOnMouseClicked(event -> {
             if (event.getClickCount() == 1) {
                 Team selectedTeam = tabelaTime.getSelectionModel().getSelectedItem();
-
                 showConfirmationDialog(selectedTeam);
             }
         });
@@ -126,13 +126,14 @@ public class KnockoutUIController {
 
         Knockout knockout = new Knockout(nomeCampeonato, dataInicial, dataFinal, modalidade, patrocinadores, premiacao, teams);
 
-        Integer idChampionship = createKnockoutUseCase.insert(knockout);
+        if (knockoutServices.isPowerTwo(knockout.getTeams().size()) && knockout.getTeams().size() > 1) {
 
-        if (idChampionship != null && knockoutServices.isPowerTwo(knockout.getTeams().size())
-                && knockout.getTeams().size() > 1) {
+            Integer idChampionship = createKnockoutUseCase.insert(knockout);
+
             System.out.println("Campeonato criado com sucesso! ID: " + idChampionship);
             backToPreviousScene(actionEvent);
         } else {
+            showAlert("Error", "Número de times insuficiente ou não é potência de 2!");
             System.out.println("Número de times insuficiente ou não é potência de 2.");
         }
     }
@@ -150,5 +151,13 @@ public class KnockoutUIController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }
