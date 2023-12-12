@@ -1,8 +1,7 @@
 package br.edu.ifsp.application.main.controller;
 
-import br.edu.ifsp.domain.entities.championship.Championship;
-import br.edu.ifsp.domain.entities.championship.Knockout;
-import br.edu.ifsp.domain.entities.championship.RoundRobin;
+import br.edu.ifsp.application.main.controller.team.EditTeamController;
+import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -124,6 +123,11 @@ public class ManageChampionshipController {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/managementMataMata.fxml"));
                 Parent root = loader.load();
+                List<Phase> phases = selectKnockout.getSeeding();
+                Phase ultimoElemento = phases.get(phases.size() -1);
+                List<KnockoutMatch> matches = ultimoElemento.getMatches();
+                ManagementMataMataController managementMataMataController = loader.getController();
+                managementMataMataController.initialize(matches);
 
                 Scene scene = new Scene(root);
 

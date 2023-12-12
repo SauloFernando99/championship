@@ -3,6 +3,7 @@ package br.edu.ifsp.application.main.controller;
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
+import br.edu.ifsp.domain.usecases.knockout.administration.StartKnockoutUseCase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -129,6 +130,8 @@ public class KnockoutUIController {
         if (knockoutServices.isPowerTwo(knockout.getTeams().size()) && knockout.getTeams().size() > 1) {
 
             Integer idChampionship = createKnockoutUseCase.insert(knockout);
+            StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
+            startKnockoutUseCase.StartKnockout(knockout.getIdChampionship());
 
             System.out.println("Campeonato criado com sucesso! ID: " + idChampionship);
             backToPreviousScene(actionEvent);

@@ -11,4 +11,7 @@ public class PontosCorridosManageController {
 
     public void previousScene(ActionEvent actionEvent) {
     }
+
+    public void finishiChampionship(ActionEvent actionEvent) {
+    }
 }
