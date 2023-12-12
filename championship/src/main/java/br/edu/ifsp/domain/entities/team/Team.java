@@ -1,16 +1,31 @@
 package br.edu.ifsp.domain.entities.team;
 
 import br.edu.ifsp.domain.entities.championship.Championship;
+import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.RoundRobin;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Team {
     private Integer idTeam;
     private String name;
     private String crest;
     private Boolean isActive = true;
+    private List<Knockout> knockouts = new ArrayList<>();
+    private List<RoundRobin> roundRobins = new ArrayList<>();
 
     public Team(String name, String crest) {
         this.name = name;
         this.crest = crest;
+    }
+
+    public void addKnockout(Knockout knockout){
+        knockouts.add(knockout);
+    }
+
+    public void addRoundRobin(RoundRobin roundRobin){
+        roundRobins.add(roundRobin);
     }
 
     public Integer getIdTeam() {
@@ -43,5 +58,25 @@ public class Team {
 
     public void setActive(Boolean active) {
         isActive = active;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public List<Knockout> getKnockouts() {
+        return knockouts;
+    }
+
+    public void setKnockouts(List<Knockout> knockouts) {
+        this.knockouts = knockouts;
+    }
+
+    public List<RoundRobin> getRoundRobins() {
+        return roundRobins;
+    }
+
+    public void setRoundRobins(List<RoundRobin> roundRobins) {
+        this.roundRobins = roundRobins;
     }
 }

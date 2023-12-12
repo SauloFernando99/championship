@@ -24,6 +24,7 @@ public class RoundRobin extends Championship {
 
     public void addTeam(Team team){
         this.getTeams().add(team);
+        team.addRoundRobin(this);
     }
 
     public void printTable() {

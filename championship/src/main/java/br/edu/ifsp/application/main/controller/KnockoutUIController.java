@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static br.edu.ifsp.application.main.Main.createKnockoutUseCase;
-import static br.edu.ifsp.application.main.Main.findTeamUseCase;
+import static br.edu.ifsp.application.main.Main.*;
 
 public class KnockoutUIController {
 
@@ -130,6 +129,13 @@ public class KnockoutUIController {
         if (knockoutServices.isPowerTwo(knockout.getTeams().size()) && knockout.getTeams().size() > 1) {
 
             Integer idChampionship = createKnockoutUseCase.insert(knockout);
+
+            for (Team team: teams
+            ) {
+                team.addKnockout(knockout);
+                updateTeamUseCase.update(team);
+            }
+
             StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
             startKnockoutUseCase.StartKnockout(knockout.getIdChampionship());
 
