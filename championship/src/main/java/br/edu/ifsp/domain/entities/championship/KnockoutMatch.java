@@ -21,4 +21,12 @@ public class KnockoutMatch extends Match{
     public void setPhase(Phase phase) {
         this.phase = phase;
     }
+
+    public String getNameTeam1() {
+        return getTeam1().getName();
+    }
+
+    public String getNameTeam2() {
+        return getTeam2().getName();
+    }
 }

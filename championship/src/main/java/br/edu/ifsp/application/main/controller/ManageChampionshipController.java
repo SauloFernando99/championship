@@ -115,30 +115,29 @@ public class ManageChampionshipController {
         tableDataKnockout.addAll(knockouts);
     }
 
-
+    @FXML
     public void nextScene(ActionEvent actionEvent) {
         Knockout selectKnockout = tabelaCampeonatosMataMata.getSelectionModel().getSelectedItem();
         RoundRobin selectRoundRobin = tabelaCampeonatosPontosCorridos.getSelectionModel().getSelectedItem();
-        if(selectKnockout != null){
+
+        if (selectKnockout != null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/managementMataMata.fxml"));
                 Parent root = loader.load();
-                List<Phase> phases = selectKnockout.getSeeding();
-                Phase ultimoElemento = phases.get(phases.size() -1);
-                List<KnockoutMatch> matches = ultimoElemento.getMatches();
+
                 ManagementMataMataController managementMataMataController = loader.getController();
-                managementMataMataController.initialize(matches);
+                managementMataMataController.initialize(selectKnockout);
 
                 Scene scene = new Scene(root);
 
                 Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();
-
                 stage.setScene(scene);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        if(selectRoundRobin != null) {
+
+        if (selectRoundRobin != null) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/pontosCorridosManage.fxml"));
                 Parent root = loader.load();
@@ -146,7 +145,6 @@ public class ManageChampionshipController {
                 Scene scene = new Scene(root);
 
                 Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();
-
                 stage.setScene(scene);
             } catch (Exception e) {
                 e.printStackTrace();

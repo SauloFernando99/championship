@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
@@ -33,12 +34,19 @@ public class ManagementMataMataController {
 
     @FXML
     private TableColumn<Team, String> time2;
+
     private ObservableList<KnockoutMatch> tableData;
+    private Knockout selectedKnockout;
+
+    public ManagementMataMataController() {
+    }
 
     @FXML
-    public void initialize(List<KnockoutMatch> matches) {
+    public void initialize(Knockout selectedKnockout) {
+        this.selectedKnockout = selectedKnockout;
         blindTableViewToItemList();
         blindColumnsToValueSources();
+        List<KnockoutMatch> matches = getMatchesForKnockout();
         loadDataAndShow(matches);
     }
 
@@ -47,18 +55,27 @@ public class ManagementMataMataController {
         tableView.setItems(tableData);
     }
 
-    private void blindColumnsToValueSources(){
-        time1.setCellValueFactory(new PropertyValueFactory<>("name"));
-        time2.setCellValueFactory(new PropertyValueFactory<>("name"));
+    private void blindColumnsToValueSources() {
+        time1.setCellValueFactory(new PropertyValueFactory<>("nameTeam1"));
+        time2.setCellValueFactory(new PropertyValueFactory<>("nameTeam2"));
     }
 
-    private void loadDataAndShow(List<KnockoutMatch> matches){
-        matches = findKnockoutMatchUseCase.findAll();
-        for(KnockoutMatch knockoutMatch: matches){
-            tableData.clear();
-            tableData.addAll(knockoutMatch);
-        }
+    private void loadDataAndShow(List<KnockoutMatch> matches) {
+        tableData.clear();
+        tableData.addAll(matches);
     }
+
+    private List<KnockoutMatch> getMatchesForKnockout() {
+        List<KnockoutMatch> matches = new ArrayList<>();
+        if (this.selectedKnockout != null) {
+            for (Phase phase : this.selectedKnockout.getSeeding()) {
+                matches.addAll(phase.getMatches());
+            }
+        }
+        return matches;
+    }
+
+
     public void previousScene(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageChampionship.fxml"));
