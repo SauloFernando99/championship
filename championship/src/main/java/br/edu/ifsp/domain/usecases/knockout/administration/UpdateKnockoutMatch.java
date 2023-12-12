@@ -14,7 +14,7 @@ public class UpdateKnockoutMatch {
     MatchServices matchServices = new MatchServices();
 
     public void updateMatchResultByIds(
-           int matchId, Integer score1, Integer score2
+           Integer matchId, Integer score1, Integer score2
     ) {
 
         KnockoutMatch match = findKnockoutMatchUseCase.findOne(matchId)

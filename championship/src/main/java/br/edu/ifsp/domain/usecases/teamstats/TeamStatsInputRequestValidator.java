@@ -16,7 +16,7 @@ public class TeamStatsInputRequestValidator extends Validator<TeamStats> {
             notification.addError("TeamStats is null");
             return notification;
         }
-        if(nullOrEmpty((Collection) teamStats.getTeam()))
+        if(nullOrEmpty(String.valueOf(teamStats.getTeam())))
             notification.addError("Team is null or empty");
 
         return notification;

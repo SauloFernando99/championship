@@ -11,9 +11,14 @@ public class RoundRobinMatch extends Match{
     }
 
     public RoundRobinMatch(Team team1, Team team2){
+        super(team1, team2);
     }
 
     public RoundRobinMatch(Round round) {
+        this.round = round;
+    }
+
+    public void addRound(Round round){
         this.round = round;
     }
 

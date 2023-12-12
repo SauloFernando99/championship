@@ -29,7 +29,8 @@ public class RoundRobin extends Championship {
     public void printTable() {
         Integer i = 1;
         for (Round round : table) {
-            System.out.println("Round: " + round.getIdRound());
+            System.out.println("ID: " + round.getIdRound() + " Round: " + round.getNumber() +
+                    " Status: " + round.getFinished());
             for (Match match : round.getMatches()) {
                 System.out.print("ID: " + match.getIdMatch() + "  " + match.getTeam1().getName() +
                         " vs " + match.getTeam2().getName());
@@ -51,15 +52,14 @@ public class RoundRobin extends Championship {
 
     public void printStandings() {
 
-        // Ordena a lista de TeamStats com base nos pontos (em ordem decrescente)
         Collections.sort(teamStats, Comparator.comparingInt(TeamStats::getPoints).reversed());
-
-        // Imprime a tabela de classificação
-        System.out.println("Tabela de Classificação:");
-        System.out.printf("%-15s%-10s%-10s%-10s%-10s%-15s%n", "Time", "Pontos", "Vitórias", "Empates", "Derrotas", "Saldo");
+        System.out.println("ID: " + getIdChampionship() + "Nome: " + getName());
+        System.out.println("\nTabela de Classificação:");
+        System.out.printf("%-10s%-15s%-10s%-10s%-10s%-10s%-15s%n","ID", "Time", "Pontos", "Vitórias", "Empates", "Derrotas", "Saldo");
 
         for (TeamStats teamStat : teamStats) {
-            System.out.printf("%-15s%-10d%-10d%-10d%-10d%-15d%n",
+            System.out.printf("%-10d%-15s%-10d%-10d%-10d%-10d%-15d%n",
+                    teamStat.getTeam().getIdTeam(),
                     teamStat.getTeam().getName(),
                     teamStat.getPoints(),
                     teamStat.getWins(),

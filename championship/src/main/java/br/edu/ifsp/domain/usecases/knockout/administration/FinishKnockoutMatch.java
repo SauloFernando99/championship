@@ -14,7 +14,7 @@ public class FinishKnockoutMatch {
 
     MatchServices matchServices = new MatchServices();
 
-    public void setMatchConcludedByIds(int matchId) {
+    public void setMatchConcludedByIds(Integer matchId) {
 
         KnockoutMatch match = findKnockoutMatchUseCase.findOne(matchId)
                 .orElseThrow(() -> new EntityNotFoundException("Can not find a KnockoutMatch with id: "

@@ -18,6 +18,7 @@ public class Round {
     }
 
     public Round(RoundRobin roundRobin){
+        this.roundRobin = roundRobin;
     }
 
     public void addMatch(RoundRobinMatch match){

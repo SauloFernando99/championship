@@ -3,12 +3,17 @@ package br.edu.ifsp.application.main;
 import br.edu.ifsp.HelloApplication;
 import br.edu.ifsp.application.repository.*;
 import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.knockout.administration.*;
 import br.edu.ifsp.domain.usecases.knockout.dao.*;
 import br.edu.ifsp.domain.usecases.knockoutmatch.*;
 import br.edu.ifsp.domain.usecases.phase.*;
 import br.edu.ifsp.domain.usecases.round.*;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.FinishRoundRobin;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.FinishRoundRobinMatch;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.StartRoundRobin;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.UpdateRoundRobinMatch;
 import br.edu.ifsp.domain.usecases.roundrobin.dao.*;
 import br.edu.ifsp.domain.usecases.roundrobinmatch.*;
 import br.edu.ifsp.domain.usecases.team.*;
@@ -82,7 +87,7 @@ public class Main {
         teams.add(team3);
         teams.add(team4);
 
-        Knockout knockout = new Knockout(
+        /*Knockout knockout = new Knockout(
                 "Teste Knockout", LocalDate.now(), LocalDate.now().plusDays(7),
                 "LoL", "100k", "Riot", teams
         );
@@ -112,6 +117,56 @@ public class Main {
         finishKnockout.finishKnockout(1);
 
         knockout.printSeedingKnockout();
+*/
+
+        RoundRobin roundRobin = new RoundRobin("TesteRoundRobin", LocalDate.now(),
+                LocalDate.now().plusDays(7), "LOL", "100K dol",
+                "Riot", teams);
+
+
+        createRoundRobinUseCase.insert(roundRobin);
+
+        roundRobin.printStandings();
+
+        StartRoundRobin startRoundRobin = new StartRoundRobin();
+        startRoundRobin.startRoundRobin(1);
+
+        roundRobin.printStandings();
+        roundRobin.printTable();
+
+        UpdateRoundRobinMatch updateRoundRobinMatch = new UpdateRoundRobinMatch();
+        FinishRoundRobinMatch finishRoundRobinMatch = new FinishRoundRobinMatch();
+
+        updateRoundRobinMatch.updateMatchByIds(1,1,2);
+        finishRoundRobinMatch.finishMatchByIds(1);
+        updateRoundRobinMatch.updateMatchByIds(2,1,3);
+        finishRoundRobinMatch.finishMatchByIds(2);
+        updateRoundRobinMatch.updateMatchByIds(3,2,1);
+        finishRoundRobinMatch.finishMatchByIds(3);
+        updateRoundRobinMatch.updateMatchByIds(4,4,2);
+        finishRoundRobinMatch.finishMatchByIds(4);
+        updateRoundRobinMatch.updateMatchByIds(5,1,3);
+        finishRoundRobinMatch.finishMatchByIds(5);
+        updateRoundRobinMatch.updateMatchByIds(6,4,2);
+        finishRoundRobinMatch.finishMatchByIds(6);
+        updateRoundRobinMatch.updateMatchByIds(7,1,5);
+        finishRoundRobinMatch.finishMatchByIds(7);
+        updateRoundRobinMatch.updateMatchByIds(8,2,1);
+        finishRoundRobinMatch.finishMatchByIds(8);
+        updateRoundRobinMatch.updateMatchByIds(9,3,1);
+        finishRoundRobinMatch.finishMatchByIds(9);
+        updateRoundRobinMatch.updateMatchByIds(10,3,4);
+        finishRoundRobinMatch.finishMatchByIds(10);
+        updateRoundRobinMatch.updateMatchByIds(11,1,2);
+        finishRoundRobinMatch.finishMatchByIds(11);
+        updateRoundRobinMatch.updateMatchByIds(12,0,0);
+        finishRoundRobinMatch.finishMatchByIds(12);
+
+        roundRobin.printTable();
+        roundRobin.printStandings();
+
+        FinishRoundRobin finishRoundRobin = new FinishRoundRobin();
+        finishRoundRobin.finishChampionship(1);
 
         //HelloApplication.main(args);
     }

@@ -39,10 +39,12 @@ public class RoundRobinServices {
 
         for (int roundNumber = 0; roundNumber < numTeams - 1; roundNumber++) {
             Round round = new Round(roundRobin);
+            round.setNumber(roundNumber + 1);
 
             for (int i = 0; i < matchesPerRound; i++) {
                 RoundRobinMatch match = findMatchForRound(allMatches, round.getMatches());
                 if (match != null) {
+                    match.addRound(round);
                     round.addMatch(match);
                     allMatches.remove(match);
                 }
@@ -95,12 +97,16 @@ public class RoundRobinServices {
 
     public void generateSecondLeg(RoundRobin roundRobin) {
         List<Round> returnRounds = new ArrayList<>();
-
+        Integer i = 1;
         for (Round round : roundRobin.getTable()) {
+
             Round returnRound = new Round(roundRobin);
 
+            returnRound.setNumber(roundRobin.getTable().size() + i);
+            i++;
             for (Match match : round.getMatches()) {
-                RoundRobinMatch returnMatch = new RoundRobinMatch(match.getTeam2(), match.getTeam1(), round);
+
+                RoundRobinMatch returnMatch = new RoundRobinMatch(match.getTeam2(), match.getTeam1(), returnRound);
                 returnRound.addMatch(returnMatch);
             }
 
