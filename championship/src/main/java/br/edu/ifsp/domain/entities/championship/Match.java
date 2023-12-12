@@ -12,6 +12,7 @@ public abstract class Match {
     private Integer scoreboard2 = 0;
     private Team team1;
     private Team team2;
+    private Team winner;
     private Boolean concluded = false;
 
     public Match(Team team1, Team team2) {
@@ -21,6 +22,13 @@ public abstract class Match {
 
     public Match(){}
 
+    public Team getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Team winner) {
+        this.winner = winner;
+    }
     public Integer getIdMatch() {
         return idMatch;
     }

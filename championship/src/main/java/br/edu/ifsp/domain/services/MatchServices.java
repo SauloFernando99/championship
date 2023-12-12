@@ -12,11 +12,8 @@ public class MatchServices {
         match.setScoreboard2(scoreboard2);
     }
 
-    public Boolean notDraw(Match match) throws IllegalArgumentException {
-        if (Objects.equals(match.getScoreboard1(), match.getScoreboard2())) {
-            throw new IllegalArgumentException("O resultado da partida não pode ser um empate");
-        }
-        return true;
+    public Boolean notDraw(Match match) {
+        return !Objects.equals(match.getScoreboard1(), match.getScoreboard2());
     }
 
     public Boolean isDraw(Match match) {
@@ -47,5 +44,12 @@ public class MatchServices {
         } else {
             return null;
         }
+    }
+    public void setWinner(Match match, Team winner) {
+
+        if (match.getConcluded()) {
+            throw new IllegalStateException("A partida já terminou.");
+        }
+        match.setWinner(winner);
     }
 }

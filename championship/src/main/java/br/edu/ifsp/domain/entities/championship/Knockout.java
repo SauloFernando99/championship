@@ -70,7 +70,7 @@ public class Knockout extends Championship {
 
         for (Phase phase : getSeeding()) {
             System.out.println("Phase: " + phase.getPhase() + " ID: " + phase.getIdPhase() +
-                    "Championship" + getConcluded() +
+                    " Championship" + getName() +
                     " Concluded: " + phase.getFinished());
             phase.printPhase();
             System.out.println("=======================");
