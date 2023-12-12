@@ -95,12 +95,12 @@ public class Main {
 
         createKnockoutUseCase.insert(knockout);
 
-//        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
-//        startKnockoutUseCase.StartKnockout(1);
+        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
+        startKnockoutUseCase.StartKnockout(1);
 //
-//        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-//        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
-//        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
+        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
+        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
+        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
 //
 //        FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
 //        finishKnockoutMatch.setMatchConcludedByIds(1);

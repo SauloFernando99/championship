@@ -14,9 +14,9 @@ public class MatchServices {
 
     public Boolean notDraw(Match match) throws IllegalArgumentException {
         if (Objects.equals(match.getScoreboard1(), match.getScoreboard2())) {
-            throw new IllegalArgumentException("The match result can not be a draw");
+            throw new IllegalArgumentException("O resultado da partida não pode ser um empate");
         }
-        return false;
+        return true;
     }
 
     public Boolean isDraw(Match match) {

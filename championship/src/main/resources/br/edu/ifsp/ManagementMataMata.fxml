@@ -8,11 +8,11 @@
       <TableView fx:id="tableView" layoutX="23.0" layoutY="53.0" prefHeight="329.0" prefWidth="828.0">
         <columns>
           <TableColumn fx:id="time1" prefWidth="407.0" text="Time 1" />
-          <TableColumn fx:id="time2" minWidth="0.0" prefWidth="399.0" text="Time 2" />
+          <TableColumn fx:id="time2" minWidth="0.0" prefWidth="420.0" text="Time 2" />
         </columns>
       </TableView>
-      <Button fx:id="btnVoltar" layoutX="23.0" layoutY="421.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="25.0" prefWidth="70.0" text="Voltar" />
-      <Button fx:id="btnEditResult" layoutX="596.0" layoutY="421.0" mnemonicParsing="false" onAction="#editarResultado" text="Editar Resultado" />
+      <Button fx:id="btnVoltar" layoutX="23.0" layoutY="421.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="25.0" prefWidth="103.0" text="Voltar" />
+      <Button fx:id="btnEditResult" layoutX="596.0" layoutY="421.0" mnemonicParsing="false" onAction="#editarResultado" prefHeight="25.0" prefWidth="103.0" text="Salvar Placar" />
       <Button fx:id="btnProximaFase" layoutX="748.0" layoutY="421.0" mnemonicParsing="false" onAction="#nextSeed" prefHeight="25.0" prefWidth="103.0" text="Próxima Fase" />
    </children>
 </AnchorPane>

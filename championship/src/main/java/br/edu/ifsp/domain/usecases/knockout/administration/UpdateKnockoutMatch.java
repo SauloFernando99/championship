@@ -11,7 +11,7 @@ import static br.edu.ifsp.application.main.Main.*;
 import static br.edu.ifsp.application.main.Main.updateKnockoutMatchUseCase;
 
 public class UpdateKnockoutMatch {
-    MatchServices matchServices = new MatchServices();
+    public MatchServices matchServices = new MatchServices();
 
     public void updateMatchResultByIds(
            Integer matchId, Integer score1, Integer score2
