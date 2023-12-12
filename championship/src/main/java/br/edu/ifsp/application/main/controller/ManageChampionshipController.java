@@ -63,6 +63,7 @@ public class ManageChampionshipController {
     @FXML
     private TableColumn<Knockout, Boolean> statusCampeonatoMataMata;
 
+
     @FXML
     public void initialize() {
         if (findKnockoutUseCase == null && findRoundRobinUseCase == null) {
@@ -150,7 +151,6 @@ public class ManageChampionshipController {
     }
 
 
-
     public void previousScene(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/FirstScene.fxml"));
@@ -165,6 +165,7 @@ public class ManageChampionshipController {
         }
 
     }
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
