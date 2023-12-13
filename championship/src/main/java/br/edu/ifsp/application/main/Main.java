@@ -154,8 +154,8 @@ public class Main {
 
 //        roundRobin.printStandings();
 //
-//        StartRoundRobin startRoundRobin = new StartRoundRobin();
-//        startRoundRobin.startRoundRobin(1);
+        StartRoundRobin startRoundRobin = new StartRoundRobin();
+        startRoundRobin.startRoundRobin(1);
 //
 //        roundRobin.printStandings();
 //        roundRobin.printTable();
