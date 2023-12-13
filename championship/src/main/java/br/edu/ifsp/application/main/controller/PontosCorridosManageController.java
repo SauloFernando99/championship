@@ -1,5 +1,6 @@
 package br.edu.ifsp.application.main.controller;
 
+import br.edu.ifsp.application.main.export.PDFExporterClassificacao;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
@@ -16,14 +17,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PontosCorridosManageController {
     @FXML
     private Button btnVoltar;
+
+    @FXML
+    private Button btnExportClassificacao;
     @FXML
     private Button btnAcompanharRodada;
     private RoundRobin selectedRoundRobin;
@@ -88,7 +94,21 @@ public class PontosCorridosManageController {
     }
 
     public void ExportClassificacao(ActionEvent actionEvent) {
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar Classificação");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivos PDF", "*.pdf"));
+
+        Stage stage = (Stage) btnExportClassificacao.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+
+            PDFExporterClassificacao.exportTableToPDF(tableData, file.getAbsolutePath());
+        }
     }
+
+
 
     public void previousScene(ActionEvent actionEvent) {
         try {
