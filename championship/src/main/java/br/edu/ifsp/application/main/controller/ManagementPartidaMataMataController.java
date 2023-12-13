@@ -15,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
+import static br.edu.ifsp.application.main.Main.updateKnockoutMatchUseCase;
+
 public class ManagementPartidaMataMataController {
 
     @FXML
@@ -94,6 +96,7 @@ public class ManagementPartidaMataMataController {
                 System.out.println("Partida não é um empate.");
 
                 updateKnockoutMatch.matchServices.concludeMatch(selectedMatch);
+                updateKnockoutMatchUseCase.update(selectedMatch);
 
                 Team vencedor = updateKnockoutMatch.matchServices.getWinner(selectedMatch);
 
