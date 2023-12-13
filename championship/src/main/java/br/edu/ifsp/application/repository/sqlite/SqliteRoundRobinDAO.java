@@ -31,10 +31,13 @@ public class SqliteRoundRobinDAO implements RoundRobinDAO {
             stmt.setBoolean(7, roundRobin.getConcluded());
             stmt.execute();
 
-            ResultSet resultSet = stmt.getGeneratedKeys();
+/*            ResultSet resultSet = stmt.getGeneratedKeys();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
-            }
+            }*/
+            ResultSet resultSet = stmt.getGeneratedKeys();
+            int generatedKey = resultSet.getInt(1);
+            return generatedKey;
         } catch (SQLException e) {
             e.printStackTrace();
         }

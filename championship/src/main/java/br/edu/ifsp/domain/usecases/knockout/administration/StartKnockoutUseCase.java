@@ -49,12 +49,14 @@ public class StartKnockoutUseCase {
 
             for (Phase phase: knockout.getSeeding()
                  ) {
-                createPhaseUseCase.insert(phase);
 
+                Integer id = createPhaseUseCase.insert(phase);
+                phase.setIdPhase(id);
                 System.out.println("Phase: " + phase.getPhase());
 
                 for (KnockoutMatch match : phase.getMatches()) {
                     match.setDate(LocalDate.now());
+                    match.setPhase(phase);
                     createKnockoutMatchUseCase.insert(match);
                 }
             }

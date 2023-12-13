@@ -34,9 +34,8 @@ public class SqliteRoundRobinMatchDAO implements RoundRobinMatchDAO {
             stmt.execute();
 
             ResultSet resultSet = stmt.getGeneratedKeys();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
+            int generatedKey = resultSet.getInt(1);
+            return generatedKey;
         } catch (SQLException e) {
             e.printStackTrace();
         }

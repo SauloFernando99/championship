@@ -29,17 +29,15 @@ public class SqlitePhaseDAO implements PhaseDAO {
             stmt.execute();
 
             ResultSet resultSet = stmt.getGeneratedKeys();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
+            int generatedKey = resultSet.getInt(1);
+            return generatedKey;
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-
-        @Override
+    @Override
     public Optional<Phase> findOne(Integer key) {
         String sql = "SELECT * FROM Phase WHERE idPhase = ?";
         Phase phase = null;

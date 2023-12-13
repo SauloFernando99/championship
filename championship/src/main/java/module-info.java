@@ -3,7 +3,7 @@ module br.edu.ifsp {
     requires javafx.fxml;
     requires java.desktop;
     requires java.sql;
-    requires org.xerial.sqlitejdbc;
+    requires sqlite.jdbc;
     requires itextpdf;
 
 
