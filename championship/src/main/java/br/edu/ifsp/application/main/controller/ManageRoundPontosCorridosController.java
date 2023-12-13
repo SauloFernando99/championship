@@ -31,6 +31,8 @@ public class ManageRoundPontosCorridosController {
     @FXML
     private Button btnVoltar;
     @FXML
+    private Button btnGerenciarRodada;
+    @FXML
     private Button btnExportRodada;
     @FXML
     private TableView<Round> tableView;
@@ -101,7 +103,7 @@ public class ManageRoundPontosCorridosController {
 
             Scene scene = new Scene(root);
 
-            Stage stage = (Stage) btnVoltar.getScene().getWindow();
+            Stage stage = (Stage) btnGerenciarRodada.getScene().getWindow();
             stage.setScene(scene);
         } catch (Exception e) {
             e.printStackTrace();

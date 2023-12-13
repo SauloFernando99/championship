@@ -65,7 +65,7 @@ public class ViewPartidaPontosCorridosController {
     }
 
     private void loadDataAndShow(List<RoundRobinMatch> roundRobinMatches) {
-        System.out.println(roundRobinMatches);
+        //System.out.println(roundRobinMatches);
         tableData.clear();
         tableData.addAll(roundRobinMatches);
     }
