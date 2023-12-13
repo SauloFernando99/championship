@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import static br.edu.ifsp.application.main.Main.*;
 
-public class UpdateRoundRobinMatch {
+public class UpdateRoundRobinMatchUseCase {
 
     public MatchServices matchServices = new MatchServices();
     public Match updateMatchByIds(Integer matchId, Integer scoreBoard1, Integer scoreBoard2) {

@@ -92,7 +92,6 @@ public class FirstSceneController {
     }
 
     public void closeSoft(ActionEvent actionEvent) {
-        // Encerrar a aplicação
         Platform.exit();
     }
 }

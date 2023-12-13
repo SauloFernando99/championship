@@ -3,12 +3,12 @@ package br.edu.ifsp.domain.usecases.knockout.administration;
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Phase;
-import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.PhaseServices;
-import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
 
-public class AdvanceKnockout {
+public class AdvanceKnockoutUseCase {
     KnockoutServices knockoutServices = new KnockoutServices();
     PhaseServices phaseServices = new PhaseServices();
 
@@ -31,7 +31,7 @@ public class AdvanceKnockout {
 
         for (Phase phase: foundPhases
              ) {
-            if(phase.getKnockout().getIdChampionship() == knockoutId){
+            if(phase.getKnockout().getIdChampionship() == knockout.getIdChampionship()){
                 registeredPhases.add(phase);
             }
         }

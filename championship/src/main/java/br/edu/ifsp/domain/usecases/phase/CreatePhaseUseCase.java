@@ -19,7 +19,6 @@ public class CreatePhaseUseCase {
         if(notification.hasErros())
             throw new IllegalArgumentException(notification.errorMessage());
 
-
         return phaseDAO.create(phase);
     }
 }

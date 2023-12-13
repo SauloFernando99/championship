@@ -1,12 +1,10 @@
 package br.edu.ifsp.application.main.controller;
 
-import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.application.main.Main;
 import br.edu.ifsp.domain.entities.championship.Round;
-import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.championship.RoundRobinMatch;
 import br.edu.ifsp.domain.entities.team.Team;
-import br.edu.ifsp.domain.usecases.roundrobin.administration.FinishRoundRobinMatch;
-import br.edu.ifsp.domain.usecases.roundrobin.administration.UpdateRoundRobinMatch;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.UpdateRoundRobinMatchUseCase;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,8 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.util.List;
-
-import static br.edu.ifsp.application.main.Main.updateRoundRobinMatchUseCase;
 
 public class ManagePartidaPontosCorridosController {
 
@@ -102,13 +98,13 @@ public class ManagePartidaPontosCorridosController {
                 return;
             }
 
-            UpdateRoundRobinMatch updateRoundRobinMatch = new UpdateRoundRobinMatch();
-            updateRoundRobinMatch.updateMatchByIds(selectedMatch.getIdMatch(), placarTime1Value, placarTime2Value);
+            UpdateRoundRobinMatchUseCase updateRoundRobinMatchUseCase = new UpdateRoundRobinMatchUseCase();
+            updateRoundRobinMatchUseCase.updateMatchByIds(selectedMatch.getIdMatch(), placarTime1Value, placarTime2Value);
 
-            updateRoundRobinMatch.matchServices.concludeMatch(selectedMatch);
-            updateRoundRobinMatchUseCase.update(selectedMatch);
+            updateRoundRobinMatchUseCase.matchServices.concludeMatch(selectedMatch);
+            Main.updateRoundRobinMatchUseCase.update(selectedMatch);
 
-            Team vencedor = updateRoundRobinMatch.matchServices.getWinner(selectedMatch);
+            Team vencedor = updateRoundRobinMatchUseCase.matchServices.getWinner(selectedMatch);
 
             if (vencedor != null) {
                 System.out.println("Vencedor identificado corretamente: " + vencedor.getName());

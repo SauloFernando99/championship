@@ -8,6 +8,7 @@ import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import static br.edu.ifsp.application.main.Main.*;
 public class StartKnockoutUseCase {
     private KnockoutServices knockoutServices = new KnockoutServices();
 
-    public void StartKnockout(Integer knockoutId) {
+    public void startKnockout(Integer knockoutId) {
 
         if (knockoutId == null)
             throw new IllegalArgumentException("Knockout ID is null");
@@ -34,6 +35,8 @@ public class StartKnockoutUseCase {
             registeredTeams.add(combination.getTeam());
         }
 
+        knockout.getTeams().addAll(registeredTeams);
+
         if (knockoutServices.isPowerTwo(knockout.getTeams().size())) {
 
             knockoutServices.drawTeams(knockout);
@@ -42,14 +45,21 @@ public class StartKnockoutUseCase {
 
             updateKnockoutUseCase.update(knockout);
 
+            System.out.println("Campeonato Iniciado");
+
             for (Phase phase: knockout.getSeeding()
                  ) {
                 createPhaseUseCase.insert(phase);
 
+                System.out.println("Phase: " + phase.getPhase());
+
                 for (KnockoutMatch match : phase.getMatches()) {
+                    match.setDate(LocalDate.now());
                     createKnockoutMatchUseCase.insert(match);
                 }
             }
+        } else {
+            throw new IllegalArgumentException("Number of teams must be power of 2");
         }
     }
 }

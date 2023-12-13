@@ -1,6 +1,5 @@
 package br.edu.ifsp.domain.usecases.roundrobin.administration;
 
-import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
@@ -14,7 +13,7 @@ import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
 
-public class FinishRoundRobin {
+public class FinishRoundRobinUseCase {
 
     RoundRobinServices roundRobinServices = new RoundRobinServices();
 

@@ -1,6 +1,5 @@
 package br.edu.ifsp.application.repository.sqlite;
 
-import br.edu.ifsp.application.repository.sqlite.ConnectionFactory;
 import br.edu.ifsp.domain.entities.championship.RoundRobinMatch;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;

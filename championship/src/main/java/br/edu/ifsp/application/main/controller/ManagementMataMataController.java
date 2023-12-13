@@ -4,7 +4,7 @@ import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.team.Team;
-import br.edu.ifsp.domain.usecases.knockout.administration.AdvanceKnockout;
+import br.edu.ifsp.domain.usecases.knockout.administration.AdvanceKnockoutUseCase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,8 +21,6 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static br.edu.ifsp.application.main.Main.*;
 
 public class ManagementMataMataController {
     @FXML
@@ -133,7 +131,7 @@ public class ManagementMataMataController {
 
     public void nextSeed(ActionEvent actionEvent) {
         if (isAllMatchesFinished(getAllMatchesInAllPhases(selectedKnockout.getSeeding()))) {
-            AdvanceKnockout advanceKnockout = new AdvanceKnockout();
+            AdvanceKnockoutUseCase advanceKnockout = new AdvanceKnockoutUseCase();
             advanceKnockout.advancePhase(selectedKnockout);
 
             tableView.getItems().clear();

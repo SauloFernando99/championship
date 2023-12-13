@@ -1,8 +1,6 @@
 package br.edu.ifsp.application.repository.sqlite;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
-import br.edu.ifsp.domain.entities.championship.Phase;
-import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.knockout.dao.KnockoutDAO;
 
@@ -67,18 +65,6 @@ public class SqliteKnockoutDAO implements KnockoutDAO {
         boolean concluded = rs.getBoolean("concluded");
         Integer championId = rs.getInt("champion");
 
-        List<Phase> foundSeeding = findPhaseUseCase.findAll();
-
-        List<Phase> correctSeeding = new ArrayList<>();
-
-        for (Phase phase: foundSeeding) {
-            if(Objects.equals(phase.getKnockout().getIdChampionship(), knockoutId)){
-                correctSeeding.add(phase);
-            }
-        }
-
-        correctSeeding.sort(Comparator.comparingInt(phase -> phase.getMatches().size()));
-
         Team champion;
 
         if (championId == null) {
@@ -97,7 +83,6 @@ public class SqliteKnockoutDAO implements KnockoutDAO {
                 award,
                 sponsorship,
                 concluded,
-                correctSeeding,
                 champion
                 );
     }
@@ -133,7 +118,7 @@ public class SqliteKnockoutDAO implements KnockoutDAO {
             stmt.setString(5, knockout.getAward());
             stmt.setString(6, knockout.getSponsorship());
             stmt.setBoolean(7, knockout.getConcluded());
-            stmt.setInt(8, (knockout.getChampion() != null) ? knockout.getChampion().getIdTeam() : null);
+            stmt.setInt(8, (knockout.getChampion() != null) ? knockout.getChampion().getIdTeam() : 0);
             stmt.setInt(9, knockout.getIdChampionship());
 
             int rowsAffected = stmt.executeUpdate();

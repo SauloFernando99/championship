@@ -1,7 +1,5 @@
 package br.edu.ifsp.application.repository.sqlite;
 
-import br.edu.ifsp.domain.entities.championship.Knockout;
-import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.team.TeamDAO;
 
@@ -11,8 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static br.edu.ifsp.application.main.Main.findTeamKnockoutUseCase;
 
 public class SqliteTeamDAO implements TeamDAO {
 

@@ -1,12 +1,13 @@
 package br.edu.ifsp.application.main.controller;
 
+import br.edu.ifsp.application.main.Main;
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.PhaseServices;
-import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockoutMatch;
-import br.edu.ifsp.domain.usecases.knockout.administration.UpdateKnockoutMatch;
-import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockout;
+import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockoutMatchUseCase;
+import br.edu.ifsp.domain.usecases.knockout.administration.UpdateKnockoutMatchUseCase;
+import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockoutUseCase;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,8 +21,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
 import java.util.List;
-
-import static br.edu.ifsp.application.main.Main.updateKnockoutMatchUseCase;
 
 public class ManagementPartidaMataMataController {
 
@@ -101,16 +100,16 @@ public class ManagementPartidaMataMataController {
                 return;
             }
 
-            UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-            updateKnockoutMatch.updateMatchResultByIds(selectedMatch.getIdMatch(), placarTime1Value, placarTime2Value);
+            UpdateKnockoutMatchUseCase updateKnockoutMatchUseCase = new UpdateKnockoutMatchUseCase();
+            updateKnockoutMatchUseCase.updateMatchResultByIds(selectedMatch.getIdMatch(), placarTime1Value, placarTime2Value);
 
-            if (updateKnockoutMatch.matchServices.notDraw(selectedMatch)) {
+            if (updateKnockoutMatchUseCase.matchServices.notDraw(selectedMatch)) {
                 System.out.println("Partida não é um empate.");
 
-                updateKnockoutMatch.matchServices.concludeMatch(selectedMatch);
-                updateKnockoutMatchUseCase.update(selectedMatch);
+                updateKnockoutMatchUseCase.matchServices.concludeMatch(selectedMatch);
+                Main.updateKnockoutMatchUseCase.update(selectedMatch);
 
-                Team vencedor = updateKnockoutMatch.matchServices.getWinner(selectedMatch);
+                Team vencedor = updateKnockoutMatchUseCase.matchServices.getWinner(selectedMatch);
 
                 if (vencedor != null) {
                     System.out.println("Vencedor identificado corretamente: " + vencedor.getName());
@@ -124,15 +123,15 @@ public class ManagementPartidaMataMataController {
 
                             Knockout knockout = getKnockoutFromSelectedMatch();
                             if (knockout != null) {
-                                FinishKnockout finishKnockout = new FinishKnockout();
-                                finishKnockout.finishKnockout(knockout.getId());
+                                FinishKnockoutUseCase finishKnockoutUseCase = new FinishKnockoutUseCase();
+                                finishKnockoutUseCase.finishKnockout(knockout.getId());
                             } else {
                                 System.out.println("Não foi possível obter o campeonato para finalização.");
                             }
                         }
                     }
-                    FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
-                    finishKnockoutMatch.setMatchConcludedByIds(selectedMatch.getIdMatch());
+                    FinishKnockoutMatchUseCase finishKnockoutMatchUseCase = new FinishKnockoutMatchUseCase();
+                    finishKnockoutMatchUseCase.setMatchConcludedByIds(selectedMatch.getIdMatch());
                 } else {
                     System.out.println("Erro: Vencedor não identificado.");
                 }

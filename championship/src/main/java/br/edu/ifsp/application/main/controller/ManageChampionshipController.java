@@ -1,6 +1,10 @@
 package br.edu.ifsp.application.main.controller;
 
 import br.edu.ifsp.domain.entities.championship.*;
+import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
+import br.edu.ifsp.domain.entities.dbsupport.TeamRoundRobin;
+import br.edu.ifsp.domain.usecases.knockout.administration.StartKnockoutUseCase;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.StartRoundRobinUseCase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,12 +12,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.scene.control.Alert;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -70,7 +71,6 @@ public class ManageChampionshipController {
     @FXML
     private TableColumn<Knockout, Boolean> statusCampeonatoMataMata;
 
-
     @FXML
     public void initialize() {
         if (findKnockoutUseCase == null && findRoundRobinUseCase == null) {
@@ -85,12 +85,12 @@ public class ManageChampionshipController {
         }
     }
 
-    private void blindTableViewToItemListPontosCorridos(){
+    private void blindTableViewToItemListPontosCorridos() {
         tableDataRoundRobin = FXCollections.observableArrayList();
         tabelaCampeonatosPontosCorridos.setItems(tableDataRoundRobin);
     }
 
-    private void blindColumnsToValueSourcesPontosCorridos(){
+    private void blindColumnsToValueSourcesPontosCorridos() {
         idCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("idChampionship"));
         nomeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("name"));
         dataIniCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("initialDate"));
@@ -99,18 +99,29 @@ public class ManageChampionshipController {
         statusCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("concluded"));
     }
 
-    private void loadDataAndShowPontosCorridos(){
+    private void loadDataAndShowPontosCorridos() {
+
         List<RoundRobin> roundRobins = findRoundRobinUseCase.findAll();
+
+        for (RoundRobin roundRobin : roundRobins){
+            List<TeamRoundRobin> teamRoundRobins =
+                    findTeamRoundRobinUseCase.findAllByRoundRobin(roundRobin.getIdChampionship());
+            for (TeamRoundRobin teamRoundRobin: teamRoundRobins
+            ) {
+                roundRobin.addTeam(teamRoundRobin.getTeam());
+            }
+        }
+
         tableDataRoundRobin.clear();
         tableDataRoundRobin.addAll(roundRobins);
     }
 
-    private void blindTableViewToItemListMataMata(){
+    private void blindTableViewToItemListMataMata() {
         tableDataKnockout = FXCollections.observableArrayList();
         tabelaCampeonatosMataMata.setItems(tableDataKnockout);
     }
 
-    private void blindColumnsToValueSourcesMataMata(){
+    private void blindColumnsToValueSourcesMataMata() {
         idCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("idChampionship"));
         nomeCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("name"));
         dataIniCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("initialDate"));
@@ -119,8 +130,20 @@ public class ManageChampionshipController {
         statusCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("concluded"));
     }
 
-    private void loadDataAndShowMataMata(){
+    private void loadDataAndShowMataMata() {
+
         List<Knockout> knockouts = findKnockoutUseCase.findAll();
+
+        for (Knockout knockout : knockouts){
+            List<TeamKnockout> teamKnockouts =
+                    findTeamKnockoutUseCase.findAllByKnockout(knockout.getIdChampionship());
+            for (TeamKnockout teamknockout: teamKnockouts
+                 ) {
+                System.out.println("Adicionado");
+                knockout.addTeam(teamknockout.getTeam());
+            }
+        }
+
         tableDataKnockout.clear();
         tableDataKnockout.addAll(knockouts);
     }
@@ -171,45 +194,108 @@ public class ManageChampionshipController {
         RoundRobin selectRoundRobin = tabelaCampeonatosPontosCorridos.getSelectionModel().getSelectedItem();
 
         if (selectKnockout != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesMataMata.fxml"));
-                Parent root = loader.load();
+            if (selectKnockout.getSeeding().size() >= 1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Aviso");
+                alert.setHeaderText("Campeonato Mata-Mata já iniciado");
+                alert.setContentText("O campeonato Mata-Mata já foi iniciado e novos times não podem ser adicionados.");
+                alert.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesMataMata.fxml"));
+                    Parent root = loader.load();
 
-                AdicionarTimesMataMataController adicionarTimesMataMataController = loader.getController();
-                adicionarTimesMataMataController.initialize(selectKnockout);
+                    AdicionarTimesMataMataController adicionarTimesMataMataController = loader.getController();
+                    adicionarTimesMataMataController.initialize(selectKnockout);
 
-                Scene scene = new Scene(root);
+                    Scene scene = new Scene(root);
 
-                Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
-                stage.setScene(scene);
-            } catch (Exception e) {
-                e.printStackTrace();
+                    Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
+                    stage.setScene(scene);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-        if (selectRoundRobin != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesRoundRobin.fxml"));
-                Parent root = loader.load();
+            if (selectRoundRobin != null) {
+                if (selectRoundRobin.getTable().size() >= 1) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Aviso");
+                    alert.setHeaderText("Campeonato Pontos-Corridos já iniciado");
+                    alert.setContentText("O campeonato Pontos-Corridos já foi iniciado e novos times não podem ser adicionados.");
+                    alert.showAndWait();
+                } else {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesRoundRobin.fxml"));
+                        Parent root = loader.load();
 
-                AdicionarTimesRoundRobinController adicionarTimesRoundRobinController = loader.getController();
-                adicionarTimesRoundRobinController.initialize(selectRoundRobin);
+                        AdicionarTimesRoundRobinController adicionarTimesRoundRobinController = loader.getController();
+                        adicionarTimesRoundRobinController.initialize(selectRoundRobin);
 
-                Scene scene = new Scene(root);
+                        Scene scene = new Scene(root);
 
-                Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
-                stage.setScene(scene);
-            } catch (Exception e) {
-                e.printStackTrace();
+                        Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
+                        stage.setScene(scene);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
 
     @FXML
     private void iniciarCampeonato(ActionEvent event) {
-        // Lógica para iniciar o campeonato selecionado
-    }
+        Knockout selectKnockout = tabelaCampeonatosMataMata.getSelectionModel().getSelectedItem();
+        RoundRobin selectRoundRobin = tabelaCampeonatosPontosCorridos.getSelectionModel().getSelectedItem();
 
+        StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
+        StartRoundRobinUseCase startRoundRobinUseCase = new StartRoundRobinUseCase();
+
+        if (selectKnockout != null) {
+
+            if (selectKnockout.getSeeding().size() >= 1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Aviso");
+                alert.setHeaderText("Campeonato Mata-Mata já iniciado");
+                alert.setContentText("O campeonato Mata-Mata já foi iniciado e não pode ser reiniciado.");
+                alert.showAndWait();
+
+            } else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação");
+                alert.setHeaderText("Iniciar Campeonato Mata-Mata");
+                alert.setContentText("Deseja realmente iniciar o campeonato Mata-Mata?");
+                alert.showAndWait();
+
+                if (alert.getResult() == ButtonType.OK) {
+                    try {
+
+                        startKnockoutUseCase.startKnockout(selectKnockout.getIdChampionship());
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        if (selectRoundRobin != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmação");
+            alert.setHeaderText("Iniciar Campeonato Pontos Corridos");
+            alert.setContentText("Deseja realmente iniciar o campeonato Pontos Corridos?");
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.OK) {
+                try {
+                    startRoundRobinUseCase.startRoundRobin(selectRoundRobin.getIdChampionship());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     public void previousScene(ActionEvent actionEvent) {
         try {

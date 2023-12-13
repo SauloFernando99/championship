@@ -1,7 +1,6 @@
 package br.edu.ifsp.application.repository.sqlite;
 
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
-import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.roundrobin.dao.RoundRobinDAO;
 
@@ -68,17 +67,6 @@ public class SqliteRoundRobinDAO implements RoundRobinDAO {
         boolean concluded = rs.getBoolean("concluded");
         Integer championId = rs.getInt("champion");
 
-
-        List<Round> foundRounds = findRoundUseCase.findAll();
-
-        List<Round> correctRounds = new ArrayList<>();
-
-        for (Round round: foundRounds) {
-            if(round.getRoundRobin().getIdChampionship() == roundRobinId){
-                correctRounds.add(round);
-            }
-        }
-
         Team champion;
 
         if(championId == null){
@@ -96,7 +84,6 @@ public class SqliteRoundRobinDAO implements RoundRobinDAO {
                 award,
                 sponsorship,
                 concluded,
-                correctRounds,
                 champion
         );
     }

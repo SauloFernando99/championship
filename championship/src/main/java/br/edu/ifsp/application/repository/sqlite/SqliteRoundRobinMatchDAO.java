@@ -2,7 +2,6 @@ package br.edu.ifsp.application.repository.sqlite;
 
 import br.edu.ifsp.domain.entities.championship.RoundRobinMatch;
 import br.edu.ifsp.domain.entities.championship.Round;
-import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.roundrobinmatch.RoundRobinMatchDAO;
 

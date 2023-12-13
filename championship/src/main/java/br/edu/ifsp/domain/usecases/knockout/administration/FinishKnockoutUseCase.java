@@ -14,7 +14,7 @@ import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
 
-public class FinishKnockout {
+public class FinishKnockoutUseCase {
 
     KnockoutServices knockoutServices = new KnockoutServices();
     MatchServices matchServices = new MatchServices();

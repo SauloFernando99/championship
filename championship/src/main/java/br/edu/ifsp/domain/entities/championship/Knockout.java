@@ -41,10 +41,9 @@ public class Knockout extends Championship {
 
     public Knockout(Integer knockoutId, String name, LocalDate initialDate,
                     LocalDate finalDate, String modality,
-                    String award, String sponsorship, boolean concluded, List<Phase> seeding,
+                    String award, String sponsorship, boolean concluded,
                     Team champion) {
         super(knockoutId, name, initialDate, finalDate, modality, award, sponsorship, concluded);
-        this.seeding = seeding;
         this.champion = champion;
     }
 

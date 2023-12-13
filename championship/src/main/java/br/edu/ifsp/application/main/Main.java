@@ -1,13 +1,7 @@
 package br.edu.ifsp.application.main;
 
 import br.edu.ifsp.HelloApplication;
-import br.edu.ifsp.application.repository.inmemory.*;
 import br.edu.ifsp.application.repository.sqlite.*;
-import br.edu.ifsp.domain.entities.championship.Knockout;
-import br.edu.ifsp.domain.entities.championship.RoundRobin;
-import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
-import br.edu.ifsp.domain.entities.dbsupport.TeamRoundRobin;
-import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.dbsupport.teamknockout.CreateTeamKnockoutUseCase;
 import br.edu.ifsp.domain.usecases.dbsupport.teamknockout.FindTeamKnockoutUseCase;
 import br.edu.ifsp.domain.usecases.dbsupport.teamknockout.RemoveTeamKnockoutUseCase;
@@ -16,24 +10,14 @@ import br.edu.ifsp.domain.usecases.dbsupport.teamroundrobin.CreateTeamRoundRobin
 import br.edu.ifsp.domain.usecases.dbsupport.teamroundrobin.FindTeamRoundRobinUseCase;
 import br.edu.ifsp.domain.usecases.dbsupport.teamroundrobin.RemoveTeamRoundRobinUseCase;
 import br.edu.ifsp.domain.usecases.dbsupport.teamroundrobin.TeamRoundRobinDAO;
-import br.edu.ifsp.domain.usecases.knockout.administration.*;
 import br.edu.ifsp.domain.usecases.knockout.dao.*;
 import br.edu.ifsp.domain.usecases.knockoutmatch.*;
 import br.edu.ifsp.domain.usecases.phase.*;
 import br.edu.ifsp.domain.usecases.round.*;
-import br.edu.ifsp.domain.usecases.roundrobin.administration.FinishRoundRobin;
-import br.edu.ifsp.domain.usecases.roundrobin.administration.FinishRoundRobinMatch;
-import br.edu.ifsp.domain.usecases.roundrobin.administration.StartRoundRobin;
-import br.edu.ifsp.domain.usecases.roundrobin.administration.UpdateRoundRobinMatch;
 import br.edu.ifsp.domain.usecases.roundrobin.dao.*;
 import br.edu.ifsp.domain.usecases.roundrobinmatch.*;
 import br.edu.ifsp.domain.usecases.team.*;
 import br.edu.ifsp.domain.usecases.teamstats.*;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class Main {
 

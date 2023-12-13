@@ -1,6 +1,5 @@
 package br.edu.ifsp.application.repository.sqlite;
 
-import br.edu.ifsp.application.repository.sqlite.ConnectionFactory;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.championship.Knockout;
@@ -39,7 +38,8 @@ public class SqlitePhaseDAO implements PhaseDAO {
         return null;
     }
 
-    @Override
+
+        @Override
     public Optional<Phase> findOne(Integer key) {
         String sql = "SELECT * FROM Phase WHERE idPhase = ?";
         Phase phase = null;
