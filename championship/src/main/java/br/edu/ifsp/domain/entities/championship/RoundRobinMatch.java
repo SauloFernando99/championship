@@ -29,4 +29,10 @@ public class RoundRobinMatch extends Match{
     public void setRound(Round round) {
         this.round = round;
     }
+    public String getNameTeam1() {
+        return getTeam1().getName();
+    }
+    public String getNameTeam2() {
+        return getTeam2().getName();
+    }
 }

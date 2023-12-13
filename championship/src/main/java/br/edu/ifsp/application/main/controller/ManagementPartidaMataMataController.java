@@ -4,6 +4,7 @@ import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.PhaseServices;
+import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockoutMatch;
 import br.edu.ifsp.domain.usecases.knockout.administration.UpdateKnockoutMatch;
 import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockout;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
@@ -95,6 +96,11 @@ public class ManagementPartidaMataMataController {
             Integer placarTime1Value = Integer.parseInt(placarTime1.getText());
             Integer placarTime2Value = Integer.parseInt(placarTime2.getText());
 
+            if (placarTime1Value < 0 || placarTime2Value < 0) {
+                showAlert("Insira valores válidos para os placares.");
+                return;
+            }
+
             UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
             updateKnockoutMatch.updateMatchResultByIds(selectedMatch.getIdMatch(), placarTime1Value, placarTime2Value);
 
@@ -125,6 +131,8 @@ public class ManagementPartidaMataMataController {
                             }
                         }
                     }
+                    FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
+                    finishKnockoutMatch.setMatchConcludedByIds(selectedMatch.getIdMatch());
                 } else {
                     System.out.println("Erro: Vencedor não identificado.");
                 }

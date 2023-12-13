@@ -11,7 +11,7 @@
           <TableColumn fx:id="placarTime1" prefWidth="87.0" text="Placar time 1" />
             <TableColumn fx:id="placarTime2" prefWidth="94.0" text="Placar time 2" />
             <TableColumn fx:id="time2" prefWidth="142.0" text="Time 2" />
-            <TableColumn fx:id="statusPartida" prefWidth="103.0" text="Status" />
+            <TableColumn fx:id="statusPartida" prefWidth="103.0" text="Concluido" />
         </columns>
       </TableView>
       <Button fx:id="btnGerenciarPartida" layoutX="464.0" layoutY="331.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="33.0" prefWidth="128.0" text="Computar placar" />

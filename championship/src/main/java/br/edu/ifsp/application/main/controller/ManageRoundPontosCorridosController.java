@@ -51,7 +51,6 @@ public class ManageRoundPontosCorridosController {
         blindColumnsToValueSources();
         loadDataAndShow();
     }
-
     private void blindTableViewToItemList(){
         tableData = FXCollections.observableArrayList();
         tableView.setItems(tableData);
@@ -94,7 +93,7 @@ public class ManageRoundPontosCorridosController {
 
     public void nextScene(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/viewPartidaPontosCorridos.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/ViewPartidaPontosCorridos.fxml"));
             Parent root = loader.load();
 
             ViewPartidaPontosCorridosController viewPartidaPontosCorridosController = loader.getController();

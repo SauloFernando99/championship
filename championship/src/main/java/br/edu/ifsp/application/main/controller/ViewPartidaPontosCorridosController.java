@@ -1,9 +1,6 @@
 package br.edu.ifsp.application.main.controller;
 
-import br.edu.ifsp.domain.entities.championship.Match;
-import br.edu.ifsp.domain.entities.championship.Round;
-import br.edu.ifsp.domain.entities.championship.RoundRobin;
-import br.edu.ifsp.domain.entities.championship.RoundRobinMatch;
+import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,6 +24,8 @@ import static br.edu.ifsp.application.main.Main.findRoundUseCase;
 public class ViewPartidaPontosCorridosController {
     @FXML
     private Button btnVoltar;
+    @FXML
+    private Button btnGerenciarPartida;
     private List<Round> selectedRoundList;
     private List<RoundRobinMatch> roundRobinMatches;
     @FXML
@@ -69,7 +69,36 @@ public class ViewPartidaPontosCorridosController {
         tableData.clear();
         tableData.addAll(roundRobinMatches);
     }
+    @FXML
     public void nextScene(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/managePartidaPontosCorridos.fxml"));
+            Parent root = loader.load();
+
+            ManagePartidaPontosCorridosController partidaPontosCorridos = loader.getController();
+            RoundRobinMatch roundRobinMatch = tableView.getSelectionModel().getSelectedItem();
+
+            if (roundRobinMatch != null) {
+                partidaPontosCorridos.initialize(roundRobinMatch);
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) btnGerenciarPartida.getScene().getWindow();
+                stage.setScene(scene);
+            } else {
+                showAlert("Nenhuma partida foi selecionada!");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 
     public void previousScene(ActionEvent actionEvent) {
@@ -91,4 +120,11 @@ public class ViewPartidaPontosCorridosController {
 
     public void concluirRodada(ActionEvent actionEvent) {
     }
+
+    public void updateData(List<Round> roundList, Round round) {
+        selectedRoundList = roundList;
+        roundRobinMatches = round.getMatches();
+        loadDataAndShow(roundRobinMatches);
+    }
+
 }
