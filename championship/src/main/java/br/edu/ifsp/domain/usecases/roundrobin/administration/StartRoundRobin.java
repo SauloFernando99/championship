@@ -30,6 +30,10 @@ public class StartRoundRobin {
             throw new IllegalArgumentException("The number of teams must be even to start the Round Robin.");
         }
 
+        if(teams.size() == 0){
+            throw new IllegalArgumentException("RoundRobin dont have teams");
+        }
+
         roundRobinServices.generateTable(roundRobin,teams);
 
         updateRoundRobinUseCase.update(roundRobin);

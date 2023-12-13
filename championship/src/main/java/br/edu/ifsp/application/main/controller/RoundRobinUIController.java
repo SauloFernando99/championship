@@ -5,6 +5,7 @@ import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.RoundRobinServices;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.StartRoundRobin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -136,6 +137,9 @@ public class RoundRobinUIController {
 
         if (par == true && roundRobin.getTeams().size() > 1) {
             Integer idChampionship = createRoundRobinUseCase.insert(roundRobin);
+
+            StartRoundRobin startRoundRobin = new StartRoundRobin();
+            startRoundRobin.startRoundRobin(roundRobin.getIdChampionship());
             System.out.println("Campeonato criado com sucesso! ID: " + idChampionship);
 
             backToPreviousScene(actionEvent);
