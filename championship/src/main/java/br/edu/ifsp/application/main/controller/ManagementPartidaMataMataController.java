@@ -1,8 +1,12 @@
 package br.edu.ifsp.application.main.controller;
 
+import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.team.Team;
+import br.edu.ifsp.domain.services.PhaseServices;
+import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockoutMatch;
 import br.edu.ifsp.domain.usecases.knockout.administration.UpdateKnockoutMatch;
+import br.edu.ifsp.domain.usecases.knockout.administration.FinishKnockout;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +18,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
+
+import java.util.List;
+
+import static br.edu.ifsp.application.main.Main.updateKnockoutMatchUseCase;
 
 public class ManagementPartidaMataMataController {
 
@@ -37,6 +45,7 @@ public class ManagementPartidaMataMataController {
     @FXML
     private TextField placarTime2;
 
+    private PhaseServices phaseServices = new PhaseServices();
 
 
     public void initialize(KnockoutMatch selectedMatch) {
@@ -87,6 +96,11 @@ public class ManagementPartidaMataMataController {
             Integer placarTime1Value = Integer.parseInt(placarTime1.getText());
             Integer placarTime2Value = Integer.parseInt(placarTime2.getText());
 
+            if (placarTime1Value < 0 || placarTime2Value < 0) {
+                showAlert("Insira valores válidos para os placares.");
+                return;
+            }
+
             UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
             updateKnockoutMatch.updateMatchResultByIds(selectedMatch.getIdMatch(), placarTime1Value, placarTime2Value);
 
@@ -94,17 +108,38 @@ public class ManagementPartidaMataMataController {
                 System.out.println("Partida não é um empate.");
 
                 updateKnockoutMatch.matchServices.concludeMatch(selectedMatch);
+                updateKnockoutMatchUseCase.update(selectedMatch);
 
                 Team vencedor = updateKnockoutMatch.matchServices.getWinner(selectedMatch);
 
                 if (vencedor != null) {
-                    System.out.println("Vencedor: " + vencedor.getName());
+                    System.out.println("Vencedor identificado corretamente: " + vencedor.getName());
                     showAlert("O vencedor é: " + vencedor.getName());
+
+                    List<KnockoutMatch> matches = selectedMatch.getPhase().getMatches();
+                    if (phaseServices.allMatchesFinished(matches)) {
+                        if (phaseServices.isFinalMatch(selectedMatch)) {
+                            showAlert("                             Parabéns ao campeão \n" +
+                                    "                                          " + vencedor.getName());
+
+                            Knockout knockout = getKnockoutFromSelectedMatch();
+                            if (knockout != null) {
+                                FinishKnockout finishKnockout = new FinishKnockout();
+                                finishKnockout.finishKnockout(knockout.getId());
+                            } else {
+                                System.out.println("Não foi possível obter o campeonato para finalização.");
+                            }
+                        }
+                    }
+                    FinishKnockoutMatch finishKnockoutMatch = new FinishKnockoutMatch();
+                    finishKnockoutMatch.setMatchConcludedByIds(selectedMatch.getIdMatch());
                 } else {
-                    System.out.println("Empate!");
+                    System.out.println("Erro: Vencedor não identificado.");
                 }
             } else {
                 System.out.println("Partida é um empate.");
+                showAlert("A partida não pode terminar em empate. Insira os placares novamente.");
+                return;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageChampionship.fxml"));
@@ -122,5 +157,13 @@ public class ManagementPartidaMataMataController {
         }
     }
 
+
+
+    private Knockout getKnockoutFromSelectedMatch() {
+        if (selectedMatch != null && selectedMatch.getPhase() != null) {
+            return selectedMatch.getPhase().getKnockout();
+        }
+        return null;
+    }
 
 }

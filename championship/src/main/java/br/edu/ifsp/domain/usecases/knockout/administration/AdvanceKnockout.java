@@ -17,18 +17,13 @@ import java.util.List;
 import static br.edu.ifsp.application.main.Main.*;
 
 public class AdvanceKnockout {
-
     KnockoutServices knockoutServices = new KnockoutServices();
     PhaseServices phaseServices = new PhaseServices();
 
-    public void advancePhase(Integer knockoutId) {
-
-        if (knockoutId == null)
-            throw new IllegalArgumentException("Knockout ID is null");
-
-        Knockout knockout = findKnockoutUseCase.findOne(knockoutId)
-                .orElseThrow(() -> new EntityNotFoundException("Can not find a Knockout with id: "
-                        + knockoutId));
+    public void advancePhase(Knockout knockout) {
+        if (knockout == null) {
+            throw new IllegalArgumentException("Knockout object is null");
+        }
 
         List<Phase> foundPhases = findPhaseUseCase.findAll();
 
@@ -57,22 +52,19 @@ public class AdvanceKnockout {
                     knockoutServices.generateNextPhase(knockout, winners);
 
                     lastNonEmptyPhase.setFinished(true);
-
                     updatePhaseUseCase.update(lastNonEmptyPhase);
 
                     createPhaseUseCase.insert(knockout.getSeeding().get(lastNonEmptyPhaseIndex + 1));
 
-                    for (KnockoutMatch match: knockout.getSeeding().get(lastNonEmptyPhaseIndex + 1).getMatches()
-                         ) {
+                    for (KnockoutMatch match : knockout.getSeeding().get(lastNonEmptyPhaseIndex + 1).getMatches()) {
                         createKnockoutMatchUseCase.insert(match);
                     }
-
                 } else {
                     throw new IllegalStateException("The list of winners is empty. Cannot advance to the next phase.");
                 }
+            } else {
+                System.out.println("Alguns jogos ainda não foram finalizados. Complete todas as partidas antes de avançar.");
             }
         }
     }
-
-
 }

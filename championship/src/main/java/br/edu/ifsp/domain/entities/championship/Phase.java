@@ -4,7 +4,9 @@ import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.MatchServices;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Phase {
 
@@ -85,5 +87,17 @@ public class Phase {
                 System.out.println("=======================");
             }
         }
+    }
+    public int getRemainingTeamsCount() {
+        Set<Team> remainingTeams = new HashSet<>();
+
+        for (KnockoutMatch match : matches) {
+            if (!match.getConcluded()) {
+                remainingTeams.add(match.getTeam1());
+                remainingTeams.add(match.getTeam2());
+            }
+        }
+
+        return remainingTeams.size();
     }
 }

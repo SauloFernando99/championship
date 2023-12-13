@@ -109,12 +109,24 @@ public class TeamStats {
     public void setPointsStandings(Integer pointsStandings) {
         this.pointsStandings = pointsStandings;
     }
-
     public RoundRobin getRoundRobin() {
         return roundRobin;
     }
 
     public void setRoundRobin(RoundRobin roundRobin) {
         this.roundRobin = roundRobin;
+    }
+
+    public String getTeamName() {
+        return team.getName();
+    }
+    public String getWinsString() {
+        return getWins().toString();
+    }
+    public String getLossesString() {
+        return getLosses().toString();
+    }
+    public String getDrawsString() {
+        return getDraws().toString();
     }
 }

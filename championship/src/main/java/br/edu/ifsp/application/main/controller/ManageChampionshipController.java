@@ -152,6 +152,9 @@ public class ManageChampionshipController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/pontosCorridosManage.fxml"));
                 Parent root = loader.load();
 
+                PontosCorridosManageController pontosCorridosManageController = loader.getController();
+                pontosCorridosManageController.initialize(selectRoundRobin);
+
                 Scene scene = new Scene(root);
 
                 Stage stage = (Stage) btnAcompanharCamp.getScene().getWindow();

@@ -91,4 +91,8 @@ public class Knockout extends Championship {
     public String getChampionshipType() {
         return "Mata-Mata";
     }
+
+    public int getId() {
+        return getIdChampionship();
+    }
 }

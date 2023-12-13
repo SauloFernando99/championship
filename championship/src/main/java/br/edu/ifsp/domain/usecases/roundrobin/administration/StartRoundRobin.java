@@ -42,6 +42,13 @@ public class StartRoundRobin {
 
         roundRobinServices.generateTable(roundRobin,registeredTeams);
 
+        if(registeredTeams.size() == 0){
+            throw new IllegalArgumentException("RoundRobin dont have teams");
+        }
+
+        roundRobinServices.generateTable(roundRobin,registeredTeams);
+
+
         updateRoundRobinUseCase.update(roundRobin);
 
         for (TeamStats teamStats: roundRobin.getTeamStats()
