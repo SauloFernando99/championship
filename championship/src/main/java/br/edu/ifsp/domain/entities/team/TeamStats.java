@@ -91,4 +91,18 @@ public class TeamStats {
     public void setPointsStandings(Integer pointsStandings) {
         this.pointsStandings = pointsStandings;
     }
+
+    public String getTeamName() {
+        return team.getName();
+    }
+    public String getWinsString() {
+        return getWins().toString();
+    }
+    public String getLossesString() {
+        return getLosses().toString();
+    }
+    public String getDrawsString() {
+        return getDraws().toString();
+    }
+
 }

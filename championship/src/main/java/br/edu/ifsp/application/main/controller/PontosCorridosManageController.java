@@ -75,6 +75,9 @@ public class PontosCorridosManageController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageRoundPontosCorridos.fxml"));
             Parent root = loader.load();
 
+            ManageRoundPontosCorridosController manageRoundPontosCorridosController = loader.getController();
+            manageRoundPontosCorridosController.initialize(selectedRoundRobin.getTable());
+
             Scene scene = new Scene(root);
 
             Stage stage = (Stage) btnAcompanharRodada.getScene().getWindow();
