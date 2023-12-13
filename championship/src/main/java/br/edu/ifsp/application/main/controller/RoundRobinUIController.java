@@ -2,9 +2,11 @@ package br.edu.ifsp.application.main.controller;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
+import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.RoundRobinServices;
+import br.edu.ifsp.domain.usecases.knockout.administration.StartKnockoutUseCase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -49,10 +51,13 @@ public class RoundRobinUIController {
     private TableView<Team> tabelaTime;
 
     @FXML
-    private TableColumn<Team, Integer> idTeam;
+    private TableColumn<Team, Integer> cIdTeam;
 
     @FXML
-    private TableColumn<Team, String> name;
+    private TableColumn<Team, String> cNameTeam;
+
+    @FXML
+    private TableColumn<Team, Boolean> cStatus;
 
     @FXML
     private Button btnCancelar;
@@ -67,57 +72,15 @@ public class RoundRobinUIController {
 
     @FXML
     public void initialize() {
-        blindTableViewToItemList();
-        blindColumnsToValueSources();
         loadDataAndShow();
-        tabelaTime.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
-                Team selectedTeam = tabelaTime.getSelectionModel().getSelectedItem();
-
-                showConfirmationDialog(selectedTeam);
-            }
-        });
-    }
-    private void blindTableViewToItemList(){
-        tableData = FXCollections.observableArrayList();
-        tabelaTime.setItems(tableData);
     }
 
-    private void blindColumnsToValueSources(){
-        idTeam.setCellValueFactory(new PropertyValueFactory<>("idTeam"));
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
-    }
 
     private void loadDataAndShow(){
-        List<Team> teams = findTeamUseCase.findAll();
-        tableData.clear();
-        tableData.addAll(teams);
     }
 
-    private void showConfirmationDialog(Team team) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Adicionar Time");
-        alert.setHeaderText("Deseja adicionar o time ao campeonato?");
-        alert.setContentText("Time: " + team.getName());
-
-        ButtonType buttonTypeYes = new ButtonType("Sim");
-        ButtonType buttonTypeNo = new ButtonType("Não", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonTypeYes) {
-            if (!teams.contains(team) && team.getIsActive()) {
-                teams.add(team);
-                System.out.println("Time adicionado ao campeonato: " + team.getName());
-            } else {
-                System.out.println("Não foi possível adicionar o time ao campeonato.");
-            }
-        }
-    }
-
-
-    public void createRoundRobin(ActionEvent actionEvent) {
+    @FXML
+    private void createRoundRobin(ActionEvent actionEvent) {
         String nomeCampeonato = txtNomeCampeonato.getText();
         String modalidade = txtModalidade.getText();
         String patrocinadores = txtPatrocinadores.getText();
@@ -125,27 +88,18 @@ public class RoundRobinUIController {
         LocalDate dataInicial = initialDate.getValue();
         LocalDate dataFinal = finalDate.getValue();
 
-        RoundRobin roundRobin = new RoundRobin(nomeCampeonato, dataInicial, dataFinal, modalidade, patrocinadores, premiacao, teams);
+        RoundRobin roundRobin = new RoundRobin(
+                nomeCampeonato, dataInicial, dataFinal, modalidade, patrocinadores, premiacao
+        );
 
+        Integer idChampionship = createRoundRobinUseCase.insert(roundRobin);
 
-
-        Boolean par = false;
-        if (teams.size() % 2 == 0) {
-            par = true;
-        }
-
-        if (par == true && roundRobin.getTeams().size() > 1) {
-            Integer idChampionship = createRoundRobinUseCase.insert(roundRobin);
-            System.out.println("Campeonato criado com sucesso! ID: " + idChampionship);
-
-            backToPreviousScene(actionEvent);
-        } else {
-            showAlert("Error", "Número de times insuficiente ou não é par!");
-            System.out.println("Número de times insuficiente ou não é par.");
-        }
+        System.out.println("Campeonato criado com sucesso! ID: " + idChampionship);
+        backToPreviousScene(actionEvent);
     }
 
-    public void backToPreviousScene(ActionEvent actionEvent) {
+    @FXML
+    private void backToPreviousScene(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/FirstScene.fxml"));
             Parent root = loader.load();
@@ -166,4 +120,5 @@ public class RoundRobinUIController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
 }

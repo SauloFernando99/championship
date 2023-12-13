@@ -1,6 +1,7 @@
 package br.edu.ifsp.application.main.controller;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.usecases.knockout.administration.StartKnockoutUseCase;
@@ -54,6 +55,9 @@ public class KnockoutUIController {
     private TableColumn<Team, String> cNameTeam;
 
     @FXML
+    private TableColumn<Team, Boolean> cStatus;
+
+    @FXML
     private Button btnCancelar;
 
     @FXML
@@ -66,53 +70,11 @@ public class KnockoutUIController {
 
     @FXML
     public void initialize() {
-        blindTableViewToItemList();
-        blindColumnsToValueSources();
         loadDataAndShow();
-        tabelaTime.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 1) {
-                Team selectedTeam = tabelaTime.getSelectionModel().getSelectedItem();
-                showConfirmationDialog(selectedTeam);
-            }
-        });
     }
 
-    private void blindTableViewToItemList(){
-        tableData = FXCollections.observableArrayList();
-        tabelaTime.setItems(tableData);
-    }
-
-    private void blindColumnsToValueSources(){
-        cIdTeam.setCellValueFactory(new PropertyValueFactory<>("idTeam"));
-        cNameTeam.setCellValueFactory(new PropertyValueFactory<>("name"));
-    }
 
     private void loadDataAndShow(){
-        List<Team> teams = findTeamUseCase.findAll();
-        tableData.clear();
-        tableData.addAll(teams);
-    }
-
-    private void showConfirmationDialog(Team team) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Adicionar Time");
-        alert.setHeaderText("Deseja adicionar o time ao campeonato?");
-        alert.setContentText("Time: " + team.getName());
-
-        ButtonType buttonTypeYes = new ButtonType("Sim");
-        ButtonType buttonTypeNo = new ButtonType("Não", ButtonBar.ButtonData.CANCEL_CLOSE);
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.isPresent() && result.get() == buttonTypeYes) {
-            if (!teams.contains(team) && team.getIsActive()) {
-                teams.add(team);
-                System.out.println("Time adicionado ao campeonato: " + team.getName());
-            } else {
-                System.out.println("Não foi possível adicionar o time ao campeonato.");
-            }
-        }
     }
 
     @FXML
@@ -124,27 +86,12 @@ public class KnockoutUIController {
         LocalDate dataInicial = initialDate.getValue();
         LocalDate dataFinal = finalDate.getValue();
 
-        Knockout knockout = new Knockout(nomeCampeonato, dataInicial, dataFinal, modalidade, patrocinadores, premiacao, teams);
+        Knockout knockout = new Knockout(nomeCampeonato, dataInicial, dataFinal, modalidade, patrocinadores, premiacao);
 
-        if (knockoutServices.isPowerTwo(knockout.getTeams().size()) && knockout.getTeams().size() > 1) {
+        Integer idChampionship = createKnockoutUseCase.insert(knockout);
 
-            Integer idChampionship = createKnockoutUseCase.insert(knockout);
-
-            for (Team team: teams
-            ) {
-                team.addKnockout(knockout);
-                updateTeamUseCase.update(team);
-            }
-
-            StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
-            startKnockoutUseCase.StartKnockout(knockout.getIdChampionship());
-
-            System.out.println("Campeonato criado com sucesso! ID: " + idChampionship);
-            backToPreviousScene(actionEvent);
-        } else {
-            showAlert("Error", "Número de times insuficiente ou não é potência de 2!");
-            System.out.println("Número de times insuficiente ou não é potência de 2.");
-        }
+        System.out.println("Campeonato criado com sucesso! ID: " + idChampionship);
+        backToPreviousScene(actionEvent);
     }
 
     @FXML

@@ -18,10 +18,6 @@ public class CreateTeamUseCase {
         if(notification.hasErros())
             throw new IllegalArgumentException(notification.errorMessage());
 
-        Integer id = team.getIdTeam();
-        if(teamDAO.findOne(id).isPresent())
-            throw new EntityAlreadyExistsException("This ID is already in use.");
-
         return teamDAO.create(team);
     }
 }

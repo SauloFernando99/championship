@@ -4,6 +4,7 @@ import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.MatchServices;
 import br.edu.ifsp.domain.services.PhaseServices;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,16 @@ public class Knockout extends Championship {
     public Knockout(){
         super();
     }
+
+    public Knockout(Integer knockoutId, String name, LocalDate initialDate,
+                    LocalDate finalDate, String modality,
+                    String award, String sponsorship, boolean concluded, List<Phase> seeding,
+                    Team champion) {
+        super(knockoutId, name, initialDate, finalDate, modality, award, sponsorship, concluded);
+        this.seeding = seeding;
+        this.champion = champion;
+    }
+
     public void addTeam(Team team) {
         if (team.getIsActive()) {
             getTeams().add(team);

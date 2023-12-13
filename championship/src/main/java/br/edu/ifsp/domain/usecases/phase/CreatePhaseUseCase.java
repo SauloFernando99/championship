@@ -19,9 +19,6 @@ public class CreatePhaseUseCase {
         if(notification.hasErros())
             throw new IllegalArgumentException(notification.errorMessage());
 
-        Integer id = phase.getIdPhase();
-        if(phaseDAO.findOne(id).isPresent())
-            throw new EntityAlreadyExistsException("This ID is already in use.");
 
         return phaseDAO.create(phase);
     }

@@ -9,6 +9,7 @@
         <Label layoutX="16.0" layoutY="10.0" text="Tabela de Campeonatos de Pontos - Corridos" />
         <TableView fx:id="tabelaCampeonatosPontosCorridos" layoutX="14.0" layoutY="36.0" prefHeight="202.0" prefWidth="772.0">
             <columns>
+                <TableColumn fx:id="idCampeonatoPontosCorridos" prefWidth="226.0" text="ID " />
                 <TableColumn fx:id="nomeCampeonatoPontosCorridos" prefWidth="226.0" text="Nome " />
                 <TableColumn fx:id="dataIniCampeonatoPontosCorridos" prefWidth="140.0" text="Data inicial" />
                 <TableColumn fx:id="dataFimCampeonatoPontosCorridos" prefWidth="140.0" text="Data final" />
@@ -21,6 +22,7 @@
       <Label layoutX="19.0" layoutY="258.0" text="Tabela de Campeonatos de Mata - Mata" />
       <TableView fx:id="tabelaCampeonatosMataMata" layoutX="19.0" layoutY="285.0" prefHeight="215.0" prefWidth="772.0">
         <columns>
+            <TableColumn fx:id="idCampeonatoMataMata" prefWidth="226.0" text="Nome" />
             <TableColumn fx:id="nomeCampeonatoMataMata" prefWidth="226.0" text="Nome" />
             <TableColumn fx:id="dataIniCampeonatoMataMata" prefWidth="140.0" text="Data Inicial" />
             <TableColumn fx:id="dataFimCampeonatoMataMata" prefWidth="140.0" text="Data Final" />
@@ -29,6 +31,8 @@
         </columns>
       </TableView>
         <Button fx:id="btnVoltar" layoutX="22.0" layoutY="518.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="36.0" prefWidth="98.0" text="Voltar" />
+        <Button fx:id="btnAdicionarTimes" layoutX="140.0" layoutY="518.0" mnemonicParsing="false" onAction="#adicionarTimes" prefHeight="36.0" prefWidth="130.0" text="Adicionar Times" />
+        <Button fx:id="btnIniciarCampeonato" layoutX="280.0" layoutY="518.0" mnemonicParsing="false" onAction="#iniciarCampeonato" prefHeight="36.0" prefWidth="150.0" text="Iniciar Campeonato" />
         <Button fx:id="btnAcompanharCamp" layoutX="618.0" layoutY="518.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="36.0" prefWidth="170.0" text="Acompanhar Campeonato" />
     </children>
 </AnchorPane>

@@ -1,6 +1,7 @@
 package br.edu.ifsp.domain.entities.championship;
 import br.edu.ifsp.domain.entities.team.Team;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +67,20 @@ public abstract class Championship {
 
     public Championship(){
 
+    }
+
+    public Championship(Integer idChampionship, String name, LocalDate initialDate,
+                        LocalDate finalDate, String modality, String award,
+                        String sponsorship, boolean concluded, List<Team> teams) {
+        this.idChampionship = idChampionship;
+        this.name = name;
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
+        this.modality = modality;
+        this.award = award;
+        this.sponsorship = sponsorship;
+        this.concluded = concluded;
+        this.teams = teams;
     }
 
     public Integer getIdChampionship() {

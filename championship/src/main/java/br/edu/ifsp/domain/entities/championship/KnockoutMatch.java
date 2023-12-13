@@ -2,6 +2,9 @@ package br.edu.ifsp.domain.entities.championship;
 
 import br.edu.ifsp.domain.entities.team.Team;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 public class KnockoutMatch extends Match{
     private Phase phase;
 
@@ -12,6 +15,11 @@ public class KnockoutMatch extends Match{
 
     public KnockoutMatch(Phase phase) {
         this.setPhase(phase);
+    }
+
+    public KnockoutMatch(int matchId, LocalDate date, int scoreboard1, int scoreboard2, Team team1, Team team2, boolean concluded, Phase phase) {
+        super(matchId, date, scoreboard1, scoreboard2, team1, team2, concluded);
+        this.phase = phase;
     }
 
     public Phase getPhase() {

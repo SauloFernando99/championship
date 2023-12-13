@@ -7,6 +7,9 @@ import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.MatchServices;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
@@ -24,6 +27,21 @@ public class FinishKnockout {
         Knockout knockout = findKnockoutUseCase.findOne(knockoutId)
                 .orElseThrow(() -> new EntityNotFoundException("Can not find a Knockout with id: "
                         + knockoutId));
+
+        List<Phase> foundPhases = findPhaseUseCase.findAll();
+
+        List<Phase> registeredPhases = new ArrayList<>();
+
+        for (Phase phase: foundPhases
+        ) {
+            if(phase.getKnockout().getIdChampionship() == knockoutId){
+                registeredPhases.add(phase);
+            }
+        }
+
+        Collections.sort(registeredPhases, Comparator.comparingInt(phase -> phase.getMatches().size()));
+
+        knockout.getSeeding().addAll(registeredPhases);
 
         int lastNonEmptyPhaseIndex = knockoutServices.getLastPhaseIndex(knockout);
 

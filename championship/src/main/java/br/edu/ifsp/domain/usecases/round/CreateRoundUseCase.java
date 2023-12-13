@@ -19,9 +19,6 @@ public class CreateRoundUseCase {
         if(notification.hasErros())
             throw new IllegalArgumentException(notification.errorMessage());
 
-        Integer id = round.getIdRound();
-        if(roundDAO.findOne(id).isPresent())
-            throw new EntityAlreadyExistsException("This ID is already in use.");
 
         return roundDAO.create(round);
     }

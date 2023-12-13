@@ -18,8 +18,17 @@ public class RoundRobin extends Championship {
     RoundServices roundServices = new RoundServices();
 
     public RoundRobin(String name, LocalDate initialDate, LocalDate finalDate, String modality,
-                      String award, String sponsorship, List<Team> teams) {
-        super(name, initialDate, finalDate, modality, award, sponsorship, teams);
+                      String award, String sponsorship) {
+        super(name, initialDate, finalDate, modality, award, sponsorship);
+    }
+
+    public RoundRobin(Integer knockoutId, String name, LocalDate initialDate,
+                      LocalDate finalDate, String modality,
+                      String award, String sponsorship, boolean concluded, List<Round> rounds,
+                      Team champion) {
+        super(knockoutId, name, initialDate, finalDate, modality, award, sponsorship, concluded);
+        this.table = rounds;
+        this.champion = champion;
     }
 
     public void addTeam(Team team){
@@ -85,6 +94,15 @@ public class RoundRobin extends Championship {
     public void setTeamStats(List<TeamStats> teamStats) {
         this.teamStats = teamStats;
     }
+
+    public Team getChampion() {
+        return champion;
+    }
+
+    public void setChampion(Team champion) {
+        this.champion = champion;
+    }
+
     @Override
     public String getChampionshipType() {
         return "Pontos-Corridos";

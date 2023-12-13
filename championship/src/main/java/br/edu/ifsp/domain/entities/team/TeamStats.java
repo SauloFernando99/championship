@@ -18,6 +18,19 @@ public class TeamStats {
         this.roundRobin = roundRobin;
     }
 
+    public TeamStats(Integer idTeamStats, Team team, Integer wins, Integer losses,
+                     Integer draws, Integer points, Integer pointsStandings,
+                     RoundRobin roundRobin) {
+        this.idTeamStats = idTeamStats;
+        this.team = team;
+        this.wins = wins;
+        this.losses = losses;
+        this.draws = draws;
+        this.points = points;
+        this.pointsStandings = pointsStandings;
+        this.roundRobin = roundRobin;
+    }
+
     private void calculatePoints(){
         points = (wins * 3) + draws;
     }

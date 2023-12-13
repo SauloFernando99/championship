@@ -15,9 +15,24 @@ public class Team {
     private List<Knockout> knockouts = new ArrayList<>();
     private List<RoundRobin> roundRobins = new ArrayList<>();
 
+    public Team(Integer idTeam, String name, String crest, Boolean isActive) {
+        this.idTeam = idTeam;
+        this.name = name;
+        this.crest = crest;
+        this.isActive = isActive;
+    }
+
     public Team(String name, String crest) {
         this.name = name;
         this.crest = crest;
+    }
+
+    public Team(Integer idTeam, String name, String crest, boolean isActive, List<Knockout> knockouts) {
+        this.idTeam = idTeam;
+        this.name = name;
+        this.crest = crest;
+        this.isActive = isActive;
+        this.knockouts = knockouts;
     }
 
     public void addKnockout(Knockout knockout){

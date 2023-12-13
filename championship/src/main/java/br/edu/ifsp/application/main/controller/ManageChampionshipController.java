@@ -1,8 +1,6 @@
 package br.edu.ifsp.application.main.controller;
 
-import br.edu.ifsp.application.main.controller.team.EditTeamController;
 import br.edu.ifsp.domain.entities.championship.*;
-import br.edu.ifsp.domain.entities.team.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +20,6 @@ import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
 
-
 public class ManageChampionshipController {
 
 
@@ -33,6 +30,12 @@ public class ManageChampionshipController {
     private Button btnAcompanharCamp;
 
     @FXML
+    private Button btnAdicionarTimes;
+
+    @FXML
+    private Button btnIniciarCampeonato;
+
+    @FXML
     private TableView<RoundRobin> tabelaCampeonatosPontosCorridos;
     @FXML
     private TableView<Knockout> tabelaCampeonatosMataMata;
@@ -40,6 +43,8 @@ public class ManageChampionshipController {
     private ObservableList<RoundRobin> tableDataRoundRobin;
     private ObservableList<Knockout> tableDataKnockout;
 
+    @FXML
+    private TableColumn<RoundRobin, Integer> idCampeonatoPontosCorridos;
     @FXML
     private TableColumn<RoundRobin, String> nomeCampeonatoPontosCorridos;
     @FXML
@@ -53,6 +58,9 @@ public class ManageChampionshipController {
     @FXML
     private TableColumn<Knockout, String> nomeCampeonatoMataMata;
 
+
+    @FXML
+    private TableColumn<Knockout, Integer> idCampeonatoMataMata;
     @FXML
     private TableColumn<Knockout, LocalDate> dataIniCampeonatoMataMata;
     @FXML
@@ -83,6 +91,7 @@ public class ManageChampionshipController {
     }
 
     private void blindColumnsToValueSourcesPontosCorridos(){
+        idCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("idChampionship"));
         nomeCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("name"));
         dataIniCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("initialDate"));
         dataFimCampeonatoPontosCorridos.setCellValueFactory(new PropertyValueFactory<>("finalDate"));
@@ -102,6 +111,7 @@ public class ManageChampionshipController {
     }
 
     private void blindColumnsToValueSourcesMataMata(){
+        idCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("idChampionship"));
         nomeCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("name"));
         dataIniCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("initialDate"));
         dataFimCampeonatoMataMata.setCellValueFactory(new PropertyValueFactory<>("finalDate"));
@@ -150,6 +160,51 @@ public class ManageChampionshipController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    private void adicionarTimes(ActionEvent event) {
+        Knockout selectKnockout = tabelaCampeonatosMataMata.getSelectionModel().getSelectedItem();
+        RoundRobin selectRoundRobin = tabelaCampeonatosPontosCorridos.getSelectionModel().getSelectedItem();
+
+        if (selectKnockout != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesMataMata.fxml"));
+                Parent root = loader.load();
+
+                AdicionarTimesMataMataController adicionarTimesMataMataController = loader.getController();
+                adicionarTimesMataMataController.initialize(selectKnockout);
+
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
+                stage.setScene(scene);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (selectRoundRobin != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesRoundRobin.fxml"));
+                Parent root = loader.load();
+
+                AdicionarTimesRoundRobinController adicionarTimesRoundRobinController = loader.getController();
+                adicionarTimesRoundRobinController.initialize(selectRoundRobin);
+
+                Scene scene = new Scene(root);
+
+                Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
+                stage.setScene(scene);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @FXML
+    private void iniciarCampeonato(ActionEvent event) {
+        // Lógica para iniciar o campeonato selecionado
     }
 
 

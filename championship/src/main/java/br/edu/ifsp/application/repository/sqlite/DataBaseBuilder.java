@@ -19,7 +19,7 @@ public class DataBaseBuilder {
     }
 
     private void buildTables() {
-        try (Statement statement = ConnectionFactory.   createStatement()) {
+        try (Statement statement = ConnectionFactory.createStatement()) {
             statement.addBatch(createTeamTable());
             statement.addBatch(createKnockoutTable());
             statement.addBatch(createRoundRobinTable());
@@ -44,6 +44,7 @@ public class DataBaseBuilder {
         builder.append("CREATE TABLE Team (\n");
         builder.append("idTeam INTEGER PRIMARY KEY AUTOINCREMENT, \n");
         builder.append("name VARCHAR(255), \n");
+        builder.append("crest VARCHAR(255), \n");
         builder.append("isActive BOOLEAN DEFAULT true \n");
         builder.append("); \n");
 
@@ -57,15 +58,15 @@ public class DataBaseBuilder {
         builder.append("CREATE TABLE Knockout (\n");
         builder.append("idChampionship INTEGER PRIMARY KEY AUTOINCREMENT, \n");
         builder.append("name VARCHAR(255) NOT NULL, \n");
-        builder.append("initialDate DATE, \n");
-        builder.append("finalDate DATE, \n");
+        builder.append("initialDate TEXT, \n");
+        builder.append("finalDate TEXT, \n");
         builder.append("modality VARCHAR(255), \n");
         builder.append("award VARCHAR(255), \n");
         builder.append("sponsorship VARCHAR(255), \n");
         builder.append("concluded BOOLEAN DEFAULT false, \n");
-        builder.append("champion INTEGER, \n");
+        builder.append("champion INTEGER DEFAULT NULL, \n");
         builder.append("seeding VARCHAR(255), \n");
-        builder.append("FOREIGN KEY (champion) REFERENCES Team(idTeam) \n");
+        builder.append("FOREIGN KEY (champion) REFERENCES Team(idTeam)\n");
         builder.append("); \n");
 
         System.out.println(builder.toString());
@@ -77,13 +78,13 @@ public class DataBaseBuilder {
         builder.append("CREATE TABLE RoundRobin (\n");
         builder.append("idChampionship INTEGER PRIMARY KEY AUTOINCREMENT, \n");
         builder.append("name VARCHAR(255) NOT NULL, \n");
-        builder.append("initialDate DATE, \n");
-        builder.append("finalDate DATE, \n");
+        builder.append("initialDate TEXT, \n");
+        builder.append("finalDate TEXT, \n");
         builder.append("modality VARCHAR(255), \n");
         builder.append("award VARCHAR(255), \n");
         builder.append("sponsorship VARCHAR(255), \n");
         builder.append("concluded BOOLEAN DEFAULT false, \n");
-        builder.append("champion INTEGER, \n");
+        builder.append("champion INTEGER DEFAULT NULL,  \n");
         builder.append("seeding VARCHAR(255), \n");
         builder.append("FOREIGN KEY (champion) REFERENCES Team(idTeam) \n");
         builder.append("); \n");
@@ -104,7 +105,7 @@ public class DataBaseBuilder {
         builder.append("pointsStandings INTEGER DEFAULT 0, \n");
         builder.append("roundRobin INTEGER, \n");
         builder.append("FOREIGN KEY (team) REFERENCES Team(idTeam), \n");
-        builder.append("FOREIGN KEY (roundRobin) REFERENCES RoundRobin(idChampionship) \n");
+        builder.append("FOREIGN KEY (roundRobin) REFERENCES RoundRobin(idChampionship) ON DELETE CASCADE\n");
         builder.append("); \n");
 
         System.out.println(builder.toString());
@@ -119,7 +120,7 @@ public class DataBaseBuilder {
         builder.append("phaseName VARCHAR(255), \n");
         builder.append("finished BOOLEAN, \n");
         builder.append("knockout INTEGER, \n");
-        builder.append("FOREIGN KEY (knockout) REFERENCES Knockout(idChampionship) \n");
+        builder.append("FOREIGN KEY (knockout) REFERENCES Knockout(idChampionship) ON DELETE CASCADE\n");
         builder.append("); \n");
 
         System.out.println(builder.toString());
@@ -132,10 +133,10 @@ public class DataBaseBuilder {
         builder.append("CREATE TABLE Round (\n");
         builder.append("idRound INTEGER PRIMARY KEY AUTOINCREMENT, \n");
         builder.append("number INTEGER, \n");
-        builder.append("date DATE, \n");
+        builder.append("date TEXT, \n");
         builder.append("isFinished BOOLEAN DEFAULT false, \n");
         builder.append("roundRobin INTEGER, \n");
-        builder.append("FOREIGN KEY (roundRobin) REFERENCES RoundRobin(idChampionship) \n");
+        builder.append("FOREIGN KEY (roundRobin) REFERENCES RoundRobin(idChampionship) ON DELETE CASCADE\n");
         builder.append("); \n");
 
         System.out.println(builder.toString());
@@ -147,14 +148,14 @@ public class DataBaseBuilder {
 
         builder.append("CREATE TABLE KnockoutMatch (\n");
         builder.append("idMatch INTEGER PRIMARY KEY AUTOINCREMENT, \n");
-        builder.append("date DATE, \n");
+        builder.append("date TEXT, \n");
         builder.append("scoreboard1 INTEGER DEFAULT 0, \n");
         builder.append("scoreboard2 INTEGER DEFAULT 0, \n");
         builder.append("team1 INTEGER, \n");
         builder.append("team2 INTEGER, \n");
         builder.append("concluded BOOLEAN DEFAULT false, \n");
         builder.append("phase INTEGER, \n");
-        builder.append("FOREIGN KEY (phase) REFERENCES Phase(idPhase), \n");
+        builder.append("FOREIGN KEY (phase) REFERENCES Phase(idPhase) ON DELETE CASCADE\n");
         builder.append("FOREIGN KEY (team1) REFERENCES Team(idTeam), \n");
         builder.append("FOREIGN KEY (team2) REFERENCES Team(idTeam) \n");
         builder.append("); \n");
@@ -168,14 +169,14 @@ public class DataBaseBuilder {
 
         builder.append("CREATE TABLE RoundRobinMatch (\n");
         builder.append("idMatch INTEGER PRIMARY KEY AUTOINCREMENT, \n");
-        builder.append("date DATE, \n");
+        builder.append("date TEXT, \n");
         builder.append("scoreboard1 INTEGER DEFAULT 0, \n");
         builder.append("scoreboard2 INTEGER DEFAULT 0, \n");
         builder.append("team1 INTEGER, \n");
         builder.append("team2 INTEGER, \n");
         builder.append("concluded BOOLEAN DEFAULT false, \n");
         builder.append("round INTEGER, \n");
-        builder.append("FOREIGN KEY (round) REFERENCES Round(idRound), \n");
+        builder.append("FOREIGN KEY (round) REFERENCES Round(idRound) ON DELETE CASCADE\n");
         builder.append("FOREIGN KEY (team1) REFERENCES Team(idTeam), \n");
         builder.append("FOREIGN KEY (team2) REFERENCES Team(idTeam) \n");
         builder.append("); \n");
@@ -188,11 +189,11 @@ public class DataBaseBuilder {
         StringBuilder builder = new StringBuilder();
 
         builder.append("CREATE TABLE TeamKnockout (\n");
-        builder.append("idTeam INTEGER, \n");
-        builder.append("idChampionship INTEGER, \n");
+        builder.append("idTeam INTEGER NOT NULL, \n");
+        builder.append("idChampionship INTEGER NOT NULL, \n");
         builder.append("PRIMARY KEY (idTeam, idChampionship), \n");
         builder.append("FOREIGN KEY (idTeam) REFERENCES Team(idTeam), \n");
-        builder.append("FOREIGN KEY (idChampionship) REFERENCES Knockout(idChampionship) \n");
+        builder.append("FOREIGN KEY (idChampionship) REFERENCES Knockout(idChampionship) ON DELETE CASCADE\n");
         builder.append("); \n");
 
         System.out.println(builder.toString());
@@ -206,7 +207,7 @@ public class DataBaseBuilder {
         builder.append("idChampionship INTEGER, \n");
         builder.append("PRIMARY KEY (idTeam, idChampionship), \n");
         builder.append("FOREIGN KEY (idTeam) REFERENCES Team(idTeam), \n");
-        builder.append("FOREIGN KEY (idChampionship) REFERENCES RoundRobin(idChampionship) \n");
+        builder.append("FOREIGN KEY (idChampionship) REFERENCES RoundRobin(idChampionship) ON DELETE CASCADE\n");
         builder.append("); \n");
 
         System.out.println(builder.toString());

@@ -1,13 +1,18 @@
 package br.edu.ifsp.domain.usecases.roundrobin.administration;
 
+import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.RoundRobinServices;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
-import static br.edu.ifsp.application.main.Main.findRoundRobinUseCase;
-import static br.edu.ifsp.application.main.Main.updateRoundRobinUseCase;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import static br.edu.ifsp.application.main.Main.*;
 
 public class FinishRoundRobin {
 
@@ -21,6 +26,21 @@ public class FinishRoundRobin {
         RoundRobin roundRobin = findRoundRobinUseCase.findOne(roundRobinId)
                 .orElseThrow(() -> new EntityNotFoundException("Can not find a RoundRobin with id: "
                         + roundRobinId));
+
+        List<Round> foundRounds = findRoundUseCase.findAll();
+
+        List<Round> registeredRounds = new ArrayList<>();
+
+        for (Round round: foundRounds
+        ) {
+            if(round.getRoundRobin().getIdChampionship() == roundRobinId){
+                registeredRounds.add(round);
+            }
+        }
+
+        Collections.sort(registeredRounds, Comparator.comparingInt(round -> round.getNumber()));
+
+        roundRobin.getTable().addAll(registeredRounds);
 
         boolean allRoundsConcluded = true;
 

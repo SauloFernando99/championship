@@ -19,10 +19,6 @@ public class CreateRoundRobinMatchUseCase {
         if(notification.hasErros())
             throw new IllegalArgumentException(notification.errorMessage());
 
-        Integer id = roundRobinMatch.getIdMatch();
-        if(roundRobinMatchDAO.findOne(id).isPresent())
-            throw new EntityAlreadyExistsException("This ID is already in use.");
-
         return roundRobinMatchDAO.create(roundRobinMatch);
     }
 }

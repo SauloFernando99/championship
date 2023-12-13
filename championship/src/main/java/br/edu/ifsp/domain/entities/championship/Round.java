@@ -21,6 +21,15 @@ public class Round {
         this.roundRobin = roundRobin;
     }
 
+    public Round(int roundId, int number, LocalDate date, List<RoundRobinMatch> correctMatches, boolean finished, RoundRobin roundRobin) {
+        this.idRound = roundId;
+        this.number = number;
+        this.date = date;
+        this.matches = correctMatches;
+        this.isFinished = finished;
+        this.roundRobin = roundRobin;
+    }
+
     public void addMatch(RoundRobinMatch match){
         matches.add(match);
     }

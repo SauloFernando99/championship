@@ -3,11 +3,15 @@ package br.edu.ifsp.domain.usecases.knockout.administration;
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Phase;
+import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.services.KnockoutServices;
 import br.edu.ifsp.domain.services.PhaseServices;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
@@ -25,6 +29,21 @@ public class AdvanceKnockout {
         Knockout knockout = findKnockoutUseCase.findOne(knockoutId)
                 .orElseThrow(() -> new EntityNotFoundException("Can not find a Knockout with id: "
                         + knockoutId));
+
+        List<Phase> foundPhases = findPhaseUseCase.findAll();
+
+        List<Phase> registeredPhases = new ArrayList<>();
+
+        for (Phase phase: foundPhases
+             ) {
+            if(phase.getKnockout().getIdChampionship() == knockoutId){
+                registeredPhases.add(phase);
+            }
+        }
+
+        Collections.sort(registeredPhases, Comparator.comparingInt(phase -> phase.getMatches().size()));
+
+        knockout.getSeeding().addAll(registeredPhases);
 
         int lastNonEmptyPhaseIndex = knockoutServices.getLastPhaseIndex(knockout);
 

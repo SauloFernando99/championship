@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.AdicionarTimesRoundRobinController">
+    <children>
+        <Label layoutX="10.0" layoutY="10.0" text="Times Adicionados" />
+        <TableView fx:id="tabelaTimesAdicionados" layoutX="10.0" layoutY="40.0" prefHeight="400.0" prefWidth="780.0">
+            <columns>
+                <TableColumn fx:id="cIdTeam" prefWidth="75.0" text="ID" />
+                <TableColumn fx:id="cNameTeam" prefWidth="300.0" text="TIME" />
+                <TableColumn fx:id="cStatus" prefWidth="150.0" text="Ativo" />
+            </columns>
+        </TableView>
+        <Button fx:id="btnAdicionarTime" layoutX="10.0" layoutY="480.0" mnemonicParsing="false" onAction="#adicionarTime" text="Adicionar Time" />
+        <Button fx:id="btnCancelar" layoutX="100.0" layoutY="480.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+    </children>
+</AnchorPane>

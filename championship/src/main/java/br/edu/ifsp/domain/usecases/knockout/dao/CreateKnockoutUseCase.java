@@ -19,10 +19,6 @@ public class CreateKnockoutUseCase {
         if(notification.hasErros())
             throw new IllegalArgumentException(notification.errorMessage());
 
-        Integer id = knockout.getIdChampionship();
-        if(knockoutDAO.findOne(id).isPresent())
-            throw new EntityAlreadyExistsException("This ID is already in use.");
-
         return knockoutDAO.create(knockout);
     }
 }

@@ -3,11 +3,14 @@ package br.edu.ifsp.domain.usecases.roundrobin.administration;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.championship.RoundRobinMatch;
+import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
+import br.edu.ifsp.domain.entities.dbsupport.TeamRoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.entities.team.TeamStats;
 import br.edu.ifsp.domain.services.RoundRobinServices;
 import br.edu.ifsp.domain.usecases.utils.EntityNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.*;
@@ -24,13 +27,20 @@ public class StartRoundRobin {
                 .orElseThrow(() -> new EntityNotFoundException("Can not find a RoundRobin with id: "
                         + roundRobinId));
 
-        List<Team> teams = roundRobin.getTeams();
+        List<TeamRoundRobin> teamRoundRobins = findTeamRoundRobinUseCase.findAllByRoundRobin(roundRobinId);
 
-        if (teams.size() % 2 != 0) {
+        List<Team> registeredTeams = new ArrayList<>();
+
+        for (TeamRoundRobin combination: teamRoundRobins
+        ) {
+            registeredTeams.add(combination.getTeam());
+        }
+
+        if (registeredTeams.size() % 2 != 0) {
             throw new IllegalArgumentException("The number of teams must be even to start the Round Robin.");
         }
 
-        roundRobinServices.generateTable(roundRobin,teams);
+        roundRobinServices.generateTable(roundRobin,registeredTeams);
 
         updateRoundRobinUseCase.update(roundRobin);
 

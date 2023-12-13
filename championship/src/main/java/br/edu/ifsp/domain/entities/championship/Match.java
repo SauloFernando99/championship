@@ -22,6 +22,16 @@ public abstract class Match {
 
     public Match(){}
 
+    public Match(int matchId, LocalDate date, int scoreboard1, int scoreboard2, Team team1, Team team2, boolean concluded) {
+        this.idMatch = matchId;
+        this.date = date;
+        this.scoreboard1 = scoreboard1;
+        this.scoreboard2 = scoreboard2;
+        this.team1 = team1;
+        this.team2 = team2;
+        this.concluded = concluded;
+    }
+
     public Team getWinner() {
         return winner;
     }
