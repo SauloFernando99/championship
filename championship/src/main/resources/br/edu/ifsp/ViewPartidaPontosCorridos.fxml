@@ -3,17 +3,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ViewPartidaPontosCorridosController">
+<AnchorPane prefHeight="400.0" prefWidth="625.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ViewPartidaPontosCorridosController">
    <children>
-      <TableView layoutX="31.0" layoutY="38.0" prefHeight="269.0" prefWidth="539.0">
+      <TableView fx:id="tableView" layoutX="31.0" layoutY="38.0" prefHeight="269.0" prefWidth="563.0">
         <columns>
-          <TableColumn fx:id="partida" prefWidth="223.0" text="Partida" />
-          <TableColumn fx:id="placarTime1" prefWidth="104.0" text="Placar time 1" />
-            <TableColumn fx:id="placarTime2" prefWidth="103.0" text="Placar time 2" />
-            <TableColumn fx:id="statusPartida" prefWidth="108.0" text="Status" />
+          <TableColumn fx:id="time1" prefWidth="135.0" text="Time 1" />
+          <TableColumn fx:id="placarTime1" prefWidth="87.0" text="Placar time 1" />
+            <TableColumn fx:id="placarTime2" prefWidth="94.0" text="Placar time 2" />
+            <TableColumn fx:id="time2" prefWidth="142.0" text="Time 2" />
+            <TableColumn fx:id="statusPartida" prefWidth="103.0" text="Status" />
         </columns>
       </TableView>
-      <Button fx:id="btnGerenciarPartida" layoutX="442.0" layoutY="331.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="33.0" prefWidth="128.0" text="Gerenciar  Partida" />
+      <Button fx:id="btnGerenciarPartida" layoutX="464.0" layoutY="331.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="33.0" prefWidth="128.0" text="Computar placar" />
       <Button fx:id="btnVoltar" layoutX="31.0" layoutY="331.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="33.0" prefWidth="128.0" text="Voltar" />
+      <Button fx:id="concluirRodada" layoutX="323.0" layoutY="331.0" mnemonicParsing="false" onAction="#concluirRodada" prefHeight="33.0" prefWidth="128.0" text="Concluir Rodada" />
    </children>
 </AnchorPane>

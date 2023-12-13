@@ -85,6 +85,14 @@ public abstract class Match {
         this.concluded = concluded;
     }
 
+    public String getTeam1Name(){
+        return team1.getName();
+    }
+
+    public String getTeam2Name(){
+        return team2.getName();
+    }
+
     @Override
     public String toString() {
         return "Match: " + team1.getName() + " vs. " + team2.getName() +

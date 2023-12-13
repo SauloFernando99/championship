@@ -1,5 +1,6 @@
 package br.edu.ifsp.application.main.controller;
 
+import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
@@ -32,9 +33,11 @@ public class ManageRoundPontosCorridosController {
     private TableColumn<Round, Boolean> statusRodada;
     @FXML
     private ObservableList<Round> tableData;
+    private List<Round> selectedRoundList;
 
     @FXML
     public void initialize(List<Round> roundList) {
+        selectedRoundList = roundList;
         blindTableViewToItemList();
         blindColumnsToValueSources();
         loadDataAndShow();
@@ -59,6 +62,21 @@ public class ManageRoundPontosCorridosController {
     }
 
     public void nextScene(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/viewPartidaPontosCorridos.fxml"));
+            Parent root = loader.load();
+
+            ViewPartidaPontosCorridosController viewPartidaPontosCorridosController = loader.getController();
+            Round round = tableView.getSelectionModel().getSelectedItem();
+            viewPartidaPontosCorridosController.initialize(selectedRoundList, round);
+
+            Scene scene = new Scene(root);
+
+            Stage stage = (Stage) btnVoltar.getScene().getWindow();
+            stage.setScene(scene);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void previousScene(ActionEvent actionEvent) {
