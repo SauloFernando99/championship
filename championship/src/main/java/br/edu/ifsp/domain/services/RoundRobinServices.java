@@ -15,7 +15,7 @@ public class RoundRobinServices {
     public void initializeTeamStats(RoundRobin roundRobin, List<Team> teams) {
         List<TeamStats> teamStats = new ArrayList<>();
         for (Team team : teams) {
-            TeamStats teamStat = new TeamStats(team);
+            TeamStats teamStat = new TeamStats(team, roundRobin);
             teamStats.add(teamStat);
         }
         roundRobin.setTeamStats(teamStats);

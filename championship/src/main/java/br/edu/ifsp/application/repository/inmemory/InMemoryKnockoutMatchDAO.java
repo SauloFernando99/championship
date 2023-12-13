@@ -1,41 +1,43 @@
-package br.edu.ifsp.application.repository;
+package br.edu.ifsp.application.repository.inmemory;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
+import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.knockout.dao.KnockoutDAO;
+import br.edu.ifsp.domain.usecases.knockoutmatch.KnockoutMatchDAO;
 import br.edu.ifsp.domain.usecases.team.TeamDAO;
 
 import java.util.*;
 
-public class InMemoryKnockoutDAO implements KnockoutDAO {
-    private static final Map<Integer, Knockout> db = new LinkedHashMap<>();
+public class InMemoryKnockoutMatchDAO implements KnockoutMatchDAO {
+    private static final Map<Integer, KnockoutMatch> db = new LinkedHashMap<>();
     private static int idCounter;
 
     @Override
-    public Integer create(Knockout knockout) {
+    public Integer create(KnockoutMatch knockoutMatch) {
         idCounter++;
-        knockout.setIdChampionship(idCounter);
-        db.put(idCounter, knockout);
+        knockoutMatch.setIdMatch(idCounter);
+        db.put(idCounter, knockoutMatch);
         return idCounter;
     }
 
     @Override
-    public Optional<Knockout> findOne(Integer key) {
+    public Optional<KnockoutMatch> findOne(Integer key) {
         if(db.containsKey(key))
             return Optional.of(db.get(key));
         return Optional.empty();
     }
 
     @Override
-    public List<Knockout> findAll() {
+    public List<KnockoutMatch> findAll() {
         return new ArrayList<>(db.values());
     }
 
     @Override
-    public boolean update(Knockout knockout) {
-        Integer id = knockout.getIdChampionship();
+    public boolean update(KnockoutMatch knockoutMatch) {
+        Integer id = knockoutMatch.getIdMatch();
         if(db.containsKey(id)) {
-            db.replace(id, knockout);
+            db.replace(id, knockoutMatch);
             return true;
         }
         return false;
@@ -51,7 +53,7 @@ public class InMemoryKnockoutDAO implements KnockoutDAO {
     }
 
     @Override
-    public boolean delete(Knockout knockout) {
-        return deleteByKey(knockout.getIdChampionship());
+    public boolean delete(KnockoutMatch knockoutMatch) {
+        return deleteByKey(knockoutMatch.getIdMatch());
     }
 }

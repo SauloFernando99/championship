@@ -1,5 +1,8 @@
 package br.edu.ifsp.domain.entities.team;
 
+import br.edu.ifsp.domain.entities.championship.Round;
+import br.edu.ifsp.domain.entities.championship.RoundRobin;
+
 public class TeamStats {
     private Integer idTeamStats;
     private Team team;
@@ -8,9 +11,11 @@ public class TeamStats {
     private Integer draws = 0;
     private Integer points = 0;
     private Integer pointsStandings = 0;
+    private RoundRobin roundRobin;
 
-    public TeamStats(Team team) {
+    public TeamStats(Team team, RoundRobin roundRobin) {
         this.team = team;
+        this.roundRobin = roundRobin;
     }
 
     private void calculatePoints(){
@@ -91,6 +96,13 @@ public class TeamStats {
     public void setPointsStandings(Integer pointsStandings) {
         this.pointsStandings = pointsStandings;
     }
+    public RoundRobin getRoundRobin() {
+        return roundRobin;
+    }
+
+    public void setRoundRobin(RoundRobin roundRobin) {
+        this.roundRobin = roundRobin;
+    }
 
     public String getTeamName() {
         return team.getName();
@@ -104,5 +116,4 @@ public class TeamStats {
     public String getDrawsString() {
         return getDraws().toString();
     }
-
 }

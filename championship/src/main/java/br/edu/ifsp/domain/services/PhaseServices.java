@@ -41,6 +41,9 @@ public class PhaseServices {
                 break;
         }
     }
+    public Boolean isFinalMatch(KnockoutMatch match) {
+        return match.getPhase().getPhase().equals("Final");
+    }
 
     public Boolean allMatchesFinished(List<KnockoutMatch> matches){
         if (matches != null) {

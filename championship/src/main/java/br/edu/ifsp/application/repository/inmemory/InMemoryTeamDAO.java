@@ -1,4 +1,4 @@
-package br.edu.ifsp.application.repository;
+package br.edu.ifsp.application.repository.inmemory;
 
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.team.TeamDAO;

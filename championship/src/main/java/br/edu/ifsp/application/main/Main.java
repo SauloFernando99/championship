@@ -1,7 +1,8 @@
 package br.edu.ifsp.application.main;
 
 import br.edu.ifsp.HelloApplication;
-import br.edu.ifsp.application.repository.*;
+import br.edu.ifsp.application.repository.inmemory.*;
+import br.edu.ifsp.application.repository.sqlite.DataBaseBuilder;
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
@@ -69,6 +70,7 @@ public class Main {
     public static void main(String[] args) {
 
         configureInjection();
+        setupDataBase();
 
         Team team1 = new Team("IFSP", "Marquinho");
         Team team2 = new Team("USP", "Porco");
@@ -107,10 +109,10 @@ public class Main {
 
         StartKnockoutUseCase startKnockoutUseCase = new StartKnockoutUseCase();
         startKnockoutUseCase.StartKnockout(1);
-//
+
 //        UpdateKnockoutMatch updateKnockoutMatch = new UpdateKnockoutMatch();
-//        updateKnockoutMatch.updateMatchResultByIds(1,1,3);
-//        updateKnockoutMatch.updateMatchResultByIds(2,1,0);
+//        updateKnockoutMatch.updateMatchResultByIds(1,1,2);
+//        updateKnockoutMatch.updateMatchResultByIds(2,1,2);
 //
 //        System.out.println("\nID knockout: " + knockout.getIdChampionship());
 //
@@ -149,7 +151,8 @@ public class Main {
         updateTeamUseCase.update(team2);
         updateTeamUseCase.update(team3);
         updateTeamUseCase.update(team4);
-
+//        roundRobin.printStandings();
+//
         StartRoundRobin startRoundRobin = new StartRoundRobin();
         startRoundRobin.startRoundRobin(1);
 //
@@ -181,7 +184,7 @@ public class Main {
 //        finishRoundRobinMatch.finishMatchByIds(10);
 //        updateRoundRobinMatch.updateMatchByIds(11,1,2);
 //        finishRoundRobinMatch.finishMatchByIds(11);
-//        updateRoundRobinMatch.updateMatchByIds(12,1,0);
+//        updateRoundRobinMatch.updateMatchByIds(12,0,0);
 //        finishRoundRobinMatch.finishMatchByIds(12);
 //
 //        roundRobin.printTable();
@@ -191,7 +194,11 @@ public class Main {
 //        finishRoundRobin.finishChampionship(1);
 
         HelloApplication.main(args);
+    }
 
+    private static void setupDataBase(){
+        DataBaseBuilder dbBuilder = new DataBaseBuilder();
+        dbBuilder.buildDatabaseIfMissing();
     }
 
     private static void configureInjection() {
