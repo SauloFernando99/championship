@@ -40,6 +40,5 @@ public class RoundServices {
         }
         return true;
     }
-    private static final int LINE_HEIGHT = 15;
 
     }

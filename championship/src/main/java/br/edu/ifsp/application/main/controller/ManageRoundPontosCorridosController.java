@@ -1,5 +1,7 @@
 package br.edu.ifsp.application.main.controller;
 
+import br.edu.ifsp.application.main.export.PDFExporterClassificacao;
+import br.edu.ifsp.application.main.export.PDFExporterRodada;
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
@@ -12,12 +14,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.findRoundUseCase;
@@ -25,6 +30,8 @@ import static br.edu.ifsp.application.main.Main.findRoundUseCase;
 public class ManageRoundPontosCorridosController {
     @FXML
     private Button btnVoltar;
+    @FXML
+    private Button btnExportRodada;
     @FXML
     private TableView<Round> tableView;
     @FXML
@@ -58,8 +65,30 @@ public class ManageRoundPontosCorridosController {
         tableData.clear();
         tableData.addAll(rounds);
     }
+
+    @FXML
     public void exportRodada(ActionEvent actionEvent) {
+
+        Round selectedRound = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedRound == null) {
+            showAlert("Nenhuma Rodada foi selecionada!");
+            return;
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar Rodada");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivos PDF", "*.pdf"));
+
+        Stage stage = (Stage) btnExportRodada.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            PDFExporterRodada.exportRoundToPDF(selectedRound, file.getAbsolutePath());
+        }
     }
+
+
 
     public void nextScene(ActionEvent actionEvent) {
         try {
@@ -92,4 +121,14 @@ public class ManageRoundPontosCorridosController {
             e.printStackTrace();
         }
     }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
+    }
+
 }
