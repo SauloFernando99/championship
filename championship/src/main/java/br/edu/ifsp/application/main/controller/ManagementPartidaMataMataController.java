@@ -103,10 +103,14 @@ public class ManagementPartidaMataMataController {
             int placarTime1Value = Integer.parseInt(placarTime1Text);
             int placarTime2Value = Integer.parseInt(placarTime2Text);
 
+
             if (placarTime1Value <= 0 || placarTime2Value <= 0) {
                 showAlert("Insira valores válidos para os placares.");
                 return;
             }
+
+            selectedMatch.setScoreboard1(placarTime1Value);
+            selectedMatch.setScoreboard2(placarTime2Value);
 
             UpdateKnockoutMatchUseCase updateKnockoutMatchUseCase = new UpdateKnockoutMatchUseCase();
             updateKnockoutMatchUseCase.updateMatchResultByIds(selectedMatch.getIdMatch(), placarTime1Value, placarTime2Value);

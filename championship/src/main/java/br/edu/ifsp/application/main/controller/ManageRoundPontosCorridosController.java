@@ -66,7 +66,6 @@ public class ManageRoundPontosCorridosController {
         tableData.clear();
 
         List<Round> foundRounds = findRoundUseCase.findAll();
-        List<Round> correctRounds = new ArrayList<>();
         for (Round round: foundRounds
              ) {
             if(round.getRoundRobin().getIdChampionship() == selectedRoundRobin.getIdChampionship()){
