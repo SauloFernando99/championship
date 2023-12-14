@@ -110,6 +110,7 @@ public class KnockoutUIController {
                 teams.add(team);
                 System.out.println("Time adicionado ao campeonato: " + team.getName());
             } else {
+                showAlert("Error", "Não é possivel adicionar um time desativado no campeonato!");
                 System.out.println("Não foi possível adicionar o time ao campeonato.");
             }
         }
