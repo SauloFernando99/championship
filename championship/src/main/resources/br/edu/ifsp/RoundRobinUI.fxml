@@ -17,8 +17,8 @@
       <Label layoutX="11.0" layoutY="284.0" text="Times Participantes" />
       <TableView fx:id="tabelaTime" layoutX="122.0" layoutY="284.0" prefHeight="200.0" prefWidth="528.0">
         <columns>
-          <TableColumn fx:id="idTeam" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="name" prefWidth="75.0" text="TIME" />
+          <TableColumn fx:id="idTeam" prefWidth="61.0" text="ID" />
+          <TableColumn fx:id="name" prefWidth="466.0" text="TIME" />
         </columns>
       </TableView>
       <Button fx:id="btnCancelar" layoutX="500.0" layoutY="518.0" mnemonicParsing="false" onAction="#backToPreviousScene" text="Cancelar" />
