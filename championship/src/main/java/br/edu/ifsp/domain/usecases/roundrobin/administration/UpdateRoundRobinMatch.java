@@ -13,6 +13,7 @@ import static br.edu.ifsp.application.main.Main.*;
 
 public class UpdateRoundRobinMatch {
 
+    public MatchServices matchServices = new MatchServices();
     public Match updateMatchByIds(Integer matchId, Integer scoreBoard1, Integer scoreBoard2) {
 
         if (matchId == null)
@@ -24,7 +25,6 @@ public class UpdateRoundRobinMatch {
 
         RoundRobin roundRobin = foundMatch.getRound().getRoundRobin();
 
-        MatchServices matchServices = new MatchServices();
 
         for (Round round : roundRobin.getTable()) {
             if (Objects.equals(round.getIdRound(), round.getIdRound())) {

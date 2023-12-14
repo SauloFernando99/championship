@@ -18,23 +18,20 @@ public class TeamStats {
         this.roundRobin = roundRobin;
     }
 
-    private void calculatePoints(){
+    public void calculatePoints(){
         points = (wins * 3) + draws;
     }
 
     public void registerWin(){
         wins++;
-        calculatePoints();
     }
 
     public void registerLoss(){
         losses++;
-        calculatePoints();
     }
 
     public void registerDraw(){
         draws++;
-        calculatePoints();
     }
 
     public void updatePointsStandings(Integer pointsScored, Integer pointsConceded) {

@@ -16,6 +16,5 @@
       </TableView>
       <Button fx:id="btnGerenciarPartida" layoutX="464.0" layoutY="331.0" mnemonicParsing="false" onAction="#nextScene" prefHeight="33.0" prefWidth="128.0" text="Computar placar" />
       <Button fx:id="btnVoltar" layoutX="31.0" layoutY="331.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="33.0" prefWidth="128.0" text="Voltar" />
-      <Button fx:id="concluirRodada" layoutX="323.0" layoutY="331.0" mnemonicParsing="false" onAction="#concluirRodada" prefHeight="33.0" prefWidth="128.0" text="Concluir Rodada" />
    </children>
 </AnchorPane>

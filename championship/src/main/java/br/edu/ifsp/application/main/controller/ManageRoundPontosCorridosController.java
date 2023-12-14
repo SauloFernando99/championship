@@ -43,10 +43,12 @@ public class ManageRoundPontosCorridosController {
     @FXML
     private ObservableList<Round> tableData;
     private List<Round> selectedRoundList;
+    private RoundRobin selectedroundRobin;
 
     @FXML
-    public void initialize(List<Round> roundList) {
+    public void initialize(RoundRobin roundRobin,List<Round> roundList) {
         selectedRoundList = roundList;
+        selectedroundRobin = roundRobin;
         blindTableViewToItemList();
         blindColumnsToValueSources();
         loadDataAndShow();
@@ -63,9 +65,8 @@ public class ManageRoundPontosCorridosController {
     }
 
     private void loadDataAndShow() {
-        List<Round> rounds = findRoundUseCase.findAll();
         tableData.clear();
-        tableData.addAll(rounds);
+        tableData.addAll(selectedRoundList);
     }
 
     @FXML
@@ -93,13 +94,17 @@ public class ManageRoundPontosCorridosController {
 
 
     public void nextScene(ActionEvent actionEvent) {
+        if (!isPreviousRoundFinished()) {
+            showAlert("A rodada anterior ainda não está concluída.");
+            return;
+        }
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/viewPartidaPontosCorridos.fxml"));
             Parent root = loader.load();
 
             ViewPartidaPontosCorridosController viewPartidaPontosCorridosController = loader.getController();
             Round round = tableView.getSelectionModel().getSelectedItem();
-            viewPartidaPontosCorridosController.initialize(selectedRoundList, round);
+            viewPartidaPontosCorridosController.initialize(selectedroundRobin,selectedRoundList, round);
 
             Scene scene = new Scene(root);
 
@@ -110,12 +115,24 @@ public class ManageRoundPontosCorridosController {
         }
     }
 
+    private boolean isPreviousRoundFinished() {
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex > 0) {
+            Round previousRound = selectedRoundList.get(selectedIndex - 1);
+            return previousRound.getFinished();
+        }
+        // Se não houver rodada anterior, consideramos que está concluída.
+        return true;
+    }
+
     public void previousScene(ActionEvent actionEvent) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageChampionship.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/pontosCorridosManage.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
+            PontosCorridosManageController pontosCorridosManageController = loader.getController();
+            pontosCorridosManageController.initialize(selectedroundRobin);
 
             Stage stage = (Stage) btnVoltar.getScene().getWindow();
             stage.setScene(scene);

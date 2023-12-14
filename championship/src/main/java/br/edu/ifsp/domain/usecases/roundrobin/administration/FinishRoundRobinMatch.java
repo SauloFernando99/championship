@@ -29,13 +29,13 @@ public class FinishRoundRobinMatch {
                         + matchId));
 
         RoundRobin roundRobin = foundMatch.getRound().getRoundRobin();
-
         clearAll(roundRobin);
 
         for (Round round : roundRobin.getTable()) {
             if (Objects.equals(round.getIdRound(), round.getIdRound())) {
                 for (RoundRobinMatch match : round.getMatches()) {
                     if (match.getIdMatch() == matchId) {
+
 
                         matchServices.concludeMatch(match);
 

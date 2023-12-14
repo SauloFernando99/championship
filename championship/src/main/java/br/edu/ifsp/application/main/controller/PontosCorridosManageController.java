@@ -3,9 +3,11 @@ package br.edu.ifsp.application.main.controller;
 import br.edu.ifsp.application.main.export.PDFExporterClassificacao;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
 import br.edu.ifsp.domain.entities.championship.Phase;
+import br.edu.ifsp.domain.entities.championship.Round;
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.entities.team.TeamStats;
+import br.edu.ifsp.domain.services.RoundRobinServices;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,12 +15,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import br.edu.ifsp.domain.usecases.roundrobin.administration.FinishRoundRobin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class PontosCorridosManageController {
     @FXML
     private Button btnAcompanharRodada;
     private RoundRobin selectedRoundRobin;
+    private List<Round> selectedRoundList;
     @FXML
     private TableView<TeamStats> tableView;
     @FXML
@@ -51,7 +56,7 @@ public class PontosCorridosManageController {
 
     @FXML
     public void initialize(RoundRobin roundRobin) {
-        this.selectedRoundRobin = roundRobin;
+        selectedRoundRobin = roundRobin;
         blindTableViewToItemList();
         blindColumnsToValueSources();
         loadDataAndShow(selectedRoundRobin.getTeamStats());
@@ -82,7 +87,7 @@ public class PontosCorridosManageController {
             Parent root = loader.load();
 
             ManageRoundPontosCorridosController manageRoundPontosCorridosController = loader.getController();
-            manageRoundPontosCorridosController.initialize(selectedRoundRobin.getTable());
+            manageRoundPontosCorridosController.initialize(selectedRoundRobin,selectedRoundRobin.getTable());
 
             Scene scene = new Scene(root);
 
@@ -125,5 +130,34 @@ public class PontosCorridosManageController {
     }
 
     public void finishiChampionship(ActionEvent actionEvent) {
+        selectedRoundList = selectedRoundRobin.getTable();
+        if(todasRodadasConcluidas()){
+            RoundRobinServices roundRobinServices = new RoundRobinServices();
+            FinishRoundRobin finishRoundRobin = new FinishRoundRobin();
+            Team champion = roundRobinServices.findChampion(selectedRoundRobin.getTeamStats());
+            finishRoundRobin.finishChampionship(selectedRoundRobin.getIdChampionship());
+            showAlert("                             Parabéns ao campeão \n" +
+                    "                                          " + champion.getName());
+        }else{
+            showAlert("O campeonato ainda não acabou!! \n Alguma rodada ainda não foi concluida");
+        }
+    }
+
+    private boolean todasRodadasConcluidas() {
+        for (Round round : selectedRoundList) {
+            if (!round.getFinished()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
     }
 }

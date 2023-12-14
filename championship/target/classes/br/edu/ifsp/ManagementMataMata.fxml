@@ -4,15 +4,17 @@
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="503.0" prefWidth="874.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ifsp.application.main.controller.ManagementMataMataController">
-   <children>
-      <TableView fx:id="tableView" layoutX="23.0" layoutY="53.0" prefHeight="329.0" prefWidth="828.0">
-        <columns>
-          <TableColumn fx:id="time1" prefWidth="407.0" text="Time 1" />
-          <TableColumn fx:id="time2" minWidth="0.0" prefWidth="420.0" text="Time 2" />
-        </columns>
-      </TableView>
-      <Button fx:id="btnVoltar" layoutX="23.0" layoutY="421.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="25.0" prefWidth="116.0" text="Voltar" />
-      <Button fx:id="btnEditResult" layoutX="585.0" layoutY="421.0" mnemonicParsing="false" onAction="#editarResultado" prefHeight="25.0" prefWidth="116.0" text="Computar Placar" />
-      <Button fx:id="btnProximaFase" layoutX="735.0" layoutY="421.0" mnemonicParsing="false" onAction="#nextSeed" prefHeight="25.0" prefWidth="116.0" text="Próxima Fase" />
-   </children>
+    <children>
+        <TableView fx:id="tableView" layoutX="21.0" layoutY="56.0" prefHeight="329.0" prefWidth="831.0">
+            <columns>
+                <TableColumn fx:id="time1" prefWidth="313.0" text="Time 1" />
+                <TableColumn fx:id="placarTime1" minWidth="0.0" prefWidth="105.0" text="Placar Time 1" />
+                <TableColumn fx:id="placarTime2" prefWidth="93.0" text="Placar Time 2" />
+                <TableColumn fx:id="time2" prefWidth="318.0" text="Time 2" />
+            </columns>
+        </TableView>
+        <Button fx:id="btnVoltar" layoutX="23.0" layoutY="421.0" mnemonicParsing="false" onAction="#previousScene" prefHeight="25.0" prefWidth="116.0" text="Voltar" />
+        <Button fx:id="btnEditResult" layoutX="585.0" layoutY="421.0" mnemonicParsing="false" onAction="#editarResultado" prefHeight="25.0" prefWidth="116.0" text="Computar Placar" />
+        <Button fx:id="btnProximaFase" layoutX="735.0" layoutY="421.0" mnemonicParsing="false" onAction="#nextSeed" prefHeight="25.0" prefWidth="116.0" text="Próxima Fase" />
+    </children>
 </AnchorPane>

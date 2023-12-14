@@ -85,6 +85,19 @@ public class RoundRobin extends Championship {
     public void setTeamStats(List<TeamStats> teamStats) {
         this.teamStats = teamStats;
     }
+    public void setStats(Round round, RoundRobin roundRobin) {
+        List<RoundRobinMatch> roundRobinMatches = round.getMatches();
+        for(RoundRobinMatch roundRobinMatch: roundRobinMatches){
+            Team team1 = roundRobinMatch.getTeam1();
+            Team team2 = roundRobinMatch.getTeam2();
+
+
+
+            if(roundRobinMatch.getScoreboard1() > roundRobinMatch.getScoreboard2()){
+
+            }
+        }
+    }
     @Override
     public String getChampionshipType() {
         return "Pontos-Corridos";

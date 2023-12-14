@@ -146,6 +146,8 @@ public class RoundRobinServices {
             teamStat1.registerDraw();
             teamStat2.registerDraw();
         }
+        teamStat1.calculatePoints();
+        teamStat2.calculatePoints();
     }
 
     private TeamStats findTeamStats(List<TeamStats> teamStats, Team team) {

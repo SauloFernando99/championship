@@ -2,6 +2,7 @@ package br.edu.ifsp.application.main.controller;
 
 import br.edu.ifsp.domain.entities.championship.Knockout;
 import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
+import br.edu.ifsp.domain.entities.championship.Match;
 import br.edu.ifsp.domain.entities.championship.Phase;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.knockout.administration.AdvanceKnockout;
@@ -33,10 +34,12 @@ public class ManagementMataMataController {
 
     @FXML
     private TableView<KnockoutMatch> tableView;
-
     @FXML
     private TableColumn<Team, String> time1;
-
+    @FXML
+    private TableColumn<Match, String> placarTime1;
+    @FXML
+    private TableColumn<Match, String> placarTime2;
     @FXML
     private TableColumn<Team, String> time2;
 
@@ -62,6 +65,8 @@ public class ManagementMataMataController {
 
     private void blindColumnsToValueSources() {
         time1.setCellValueFactory(new PropertyValueFactory<>("nameTeam1"));
+        placarTime1.setCellValueFactory(new PropertyValueFactory<>("scoreboard1"));
+        placarTime2.setCellValueFactory(new PropertyValueFactory<>("scoreboard2"));
         time2.setCellValueFactory(new PropertyValueFactory<>("nameTeam2"));
     }
 
