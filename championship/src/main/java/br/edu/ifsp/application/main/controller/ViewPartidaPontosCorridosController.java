@@ -42,9 +42,11 @@ public class ViewPartidaPontosCorridosController {
     private ObservableList<RoundRobinMatch> tableData;
     @FXML
     private TableView<RoundRobinMatch> tableView;
+    private RoundRobin roundRobin;
     @FXML
-    public void initialize(List<Round> roundList, Round round) {
-        selectedRoundList = roundList;
+    public void initialize(RoundRobin selectedRoundRobin, Round round) {
+        System.out.println("TEXT: " + selectedRoundRobin.getName());
+        roundRobin = selectedRoundRobin;
         roundRobinMatches = round.getMatches();
         blindTableViewToItemList();
         blindColumnsToValueSources();
@@ -107,7 +109,7 @@ public class ViewPartidaPontosCorridosController {
             Parent root = loader.load();
 
             ManageRoundPontosCorridosController manageRoundPontosCorridosController = loader.getController();
-            manageRoundPontosCorridosController.initialize(selectedRoundList);
+            manageRoundPontosCorridosController.initialize(roundRobin);
 
             Scene scene = new Scene(root);
 

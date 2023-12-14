@@ -62,15 +62,7 @@ public class SqlitePhaseDAO implements PhaseDAO {
 
         Knockout knockout = findKnockoutUseCase.findOne(knockoutId).get();
 
-        List<KnockoutMatch> foundMatches = findKnockoutMatchUseCase.findAll();
-        List<KnockoutMatch> correctMatches = new ArrayList<>();
-
-        for (KnockoutMatch match: foundMatches){
-            if (match.getPhase().getIdPhase() == phaseId)
-                correctMatches.add(match);
-        }
-
-        return new Phase(phaseId, phaseName, correctMatches, finished, knockout);
+        return new Phase(phaseId, phaseName, finished, knockout);
     }
 
     @Override

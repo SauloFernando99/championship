@@ -38,6 +38,11 @@ public class StartRoundRobinUseCase {
 
         roundRobin.getTeams().addAll(registeredTeams);
 
+        for (Team team: registeredTeams
+             ) {
+            System.out.println(team.getName());
+        }
+
         if (registeredTeams.size() % 2 != 0) {
             throw new IllegalArgumentException("The number of teams must be even to start the Round Robin.");
         }
@@ -60,7 +65,8 @@ public class StartRoundRobinUseCase {
 
         for (Round round: roundRobin.getTable()
              ) {
-            createRoundUseCase.insert(round);
+            Integer id = createRoundUseCase.insert(round);
+            round.setIdRound(id);
             for (RoundRobinMatch match: round.getMatches()
                  ) {
                 match.setDate(LocalDate.now());

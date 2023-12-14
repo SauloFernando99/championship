@@ -22,7 +22,7 @@ public class SqliteRoundDAO implements RoundDAO {
 
     @Override
     public Integer create(Round round) {
-        String sql = "INSERT INTO Round(number, knockout) VALUES (?, ?)";
+        String sql = "INSERT INTO Round(number, roundRobin) VALUES (?, ?)";
 
         try (PreparedStatement stmt = ConnectionFactory.createPreparedStatement(sql)) {
             stmt.setInt(1, round.getNumber());
@@ -71,12 +71,9 @@ public class SqliteRoundDAO implements RoundDAO {
                 correctMatches.add(match);
         }
 
-        String date = rs.getString("date");
-
         return new Round(
                 roundId,
                 number,
-                LocalDate.parse(rs.getString("date")),
                 correctMatches,
                 finished,
                 roundRobin);
@@ -101,14 +98,13 @@ public class SqliteRoundDAO implements RoundDAO {
 
     @Override
     public boolean update(Round round) {
-        String sql = "UPDATE Round SET number = ?, date = ?, isFinished = ?, roundRobin = ? WHERE idRound = ?";
+        String sql = "UPDATE Round SET number = ?, isFinished = ?, roundRobin = ? WHERE idRound = ?";
 
         try (PreparedStatement stmt = ConnectionFactory.createPreparedStatement(sql)) {
             stmt.setInt(1, round.getNumber());
-            stmt.setString(2, round.getDate().toString());
-            stmt.setBoolean(3, round.getFinished());
-            stmt.setInt(4, round.getRoundRobin().getIdChampionship());
-            stmt.setInt(5, round.getIdRound());
+            stmt.setBoolean(2, round.getFinished());
+            stmt.setInt(3, round.getRoundRobin().getIdChampionship());
+            stmt.setInt(4, round.getIdRound());
             stmt.execute();
 
             return true;

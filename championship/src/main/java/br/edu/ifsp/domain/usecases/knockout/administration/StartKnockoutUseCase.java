@@ -51,7 +51,9 @@ public class StartKnockoutUseCase {
                  ) {
 
                 Integer id = createPhaseUseCase.insert(phase);
+
                 phase.setIdPhase(id);
+
                 System.out.println("Phase: " + phase.getPhase());
 
                 for (KnockoutMatch match : phase.getMatches()) {

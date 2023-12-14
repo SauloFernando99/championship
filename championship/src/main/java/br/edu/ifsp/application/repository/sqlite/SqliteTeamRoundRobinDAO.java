@@ -1,6 +1,7 @@
 package br.edu.ifsp.application.repository.sqlite;
 
 import br.edu.ifsp.domain.entities.championship.RoundRobin;
+import br.edu.ifsp.domain.entities.dbsupport.TeamKnockout;
 import br.edu.ifsp.domain.entities.dbsupport.TeamRoundRobin;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.usecases.dbsupport.teamroundrobin.TeamRoundRobinDAO;
@@ -19,7 +20,7 @@ public class SqliteTeamRoundRobinDAO implements TeamRoundRobinDAO {
 
     @Override
     public List<TeamRoundRobin> findAllByRoundRobin(Integer id) {
-        String sql = "SELECT * FROM TeamKnockout WHERE idChampionship = ?";
+        String sql = "SELECT * FROM TeamRoundRobin WHERE idChampionship = ?";
         List<TeamRoundRobin> teamRoundRobins = new ArrayList<>();
 
         try (PreparedStatement stmt = ConnectionFactory.createPreparedStatement(sql)) {
@@ -79,7 +80,19 @@ public class SqliteTeamRoundRobinDAO implements TeamRoundRobinDAO {
 
     @Override
     public List<TeamRoundRobin> findAll() {
-        return null;
+        String sql = "SELECT * FROM TeamRoundRobin";
+        List<TeamRoundRobin> teamRoundRobins = new ArrayList<>();
+
+        try (PreparedStatement stmt = ConnectionFactory.createPreparedStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                TeamRoundRobin teamRoundRobin = resultSetToEntity(rs);
+                teamRoundRobins.add(teamRoundRobin);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teamRoundRobins;
     }
 
     @Override
@@ -115,10 +128,10 @@ public class SqliteTeamRoundRobinDAO implements TeamRoundRobinDAO {
 
     private TeamRoundRobin resultSetToEntity(ResultSet rs) throws SQLException {
         int teamId = rs.getInt("idTeam");
-        int knockoutId = rs.getInt("idChampionship");
+        int roundRobinId = rs.getInt("idChampionship");
 
         Team team = findTeamUseCase.findOne(teamId).get();
-        RoundRobin roundRobin = findRoundRobinUseCase.findOne(knockoutId).get();
+        RoundRobin roundRobin = findRoundRobinUseCase.findOne(roundRobinId).get();
 
         return new TeamRoundRobin(
                 team,

@@ -36,6 +36,18 @@ public class AdvanceKnockoutUseCase {
             }
         }
 
+        List<KnockoutMatch> foundMatches = findKnockoutMatchUseCase.findAll();
+
+        for (Phase phase: registeredPhases
+        ) {
+            for (KnockoutMatch knockoutMatch: foundMatches
+            ) {
+                if (knockoutMatch.getPhase().getIdPhase() == phase.getIdPhase()){
+                    phase.addMatch(knockoutMatch);
+                }
+            }
+        }
+
         Collections.sort(registeredPhases, Comparator.comparingInt(phase -> phase.getMatches().size()));
 
         knockout.getSeeding().addAll(registeredPhases);
@@ -57,6 +69,7 @@ public class AdvanceKnockoutUseCase {
                     createPhaseUseCase.insert(knockout.getSeeding().get(lastNonEmptyPhaseIndex + 1));
 
                     for (KnockoutMatch match : knockout.getSeeding().get(lastNonEmptyPhaseIndex + 1).getMatches()) {
+                        match.setDate(LocalDate.now());
                         createKnockoutMatchUseCase.insert(match);
                     }
                 } else {

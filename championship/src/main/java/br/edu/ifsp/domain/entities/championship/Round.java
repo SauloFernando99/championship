@@ -7,13 +7,11 @@ import java.util.List;
 public class Round {
     private Integer idRound;
     private Integer number;
-    private LocalDate date;
     private List<RoundRobinMatch> matches = new ArrayList<>();
     private Boolean isFinished = false;
     private RoundRobin roundRobin;
 
-    public Round(LocalDate date, List<RoundRobinMatch> matches) {
-        this.date = date;
+    public Round(List<RoundRobinMatch> matches) {
         this.matches = matches;
     }
 
@@ -21,10 +19,9 @@ public class Round {
         this.roundRobin = roundRobin;
     }
 
-    public Round(int roundId, int number, LocalDate date, List<RoundRobinMatch> correctMatches, boolean finished, RoundRobin roundRobin) {
+    public Round(int roundId, int number, List<RoundRobinMatch> correctMatches, boolean finished, RoundRobin roundRobin) {
         this.idRound = roundId;
         this.number = number;
-        this.date = date;
         this.matches = correctMatches;
         this.isFinished = finished;
         this.roundRobin = roundRobin;
@@ -56,14 +53,6 @@ public class Round {
 
     public void setRoundRobin(RoundRobin roundRobin) {
         this.roundRobin = roundRobin;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     public List<RoundRobinMatch> getMatches() {

@@ -124,7 +124,7 @@ public class AdicionarTimesRoundRobinController {
 
         for (Team foundTeam: foundTeams
         ) {
-            ids.add(team.getIdTeam());
+            ids.add(foundTeam.getIdTeam());
         }
 
         if (result.isPresent() && result.get() == buttonTypeYes) {

@@ -1,11 +1,10 @@
 package br.edu.ifsp.application.main.controller;
 
 import br.edu.ifsp.application.main.export.PDFExporterClassificacao;
-import br.edu.ifsp.domain.entities.championship.KnockoutMatch;
-import br.edu.ifsp.domain.entities.championship.Phase;
-import br.edu.ifsp.domain.entities.championship.RoundRobin;
+import br.edu.ifsp.domain.entities.championship.*;
 import br.edu.ifsp.domain.entities.team.Team;
 import br.edu.ifsp.domain.entities.team.TeamStats;
+import br.edu.ifsp.domain.usecases.teamstats.FindTeamStatsUseCase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +21,11 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static br.edu.ifsp.application.main.Main.*;
 
 public class PontosCorridosManageController {
     @FXML
@@ -72,6 +75,15 @@ public class PontosCorridosManageController {
     }
 
     private void loadDataAndShow(List<TeamStats> teamStats) {
+
+        List<TeamStats> foundTeamStats = findTeamStatsUseCase.findAll();
+
+        for (TeamStats teamStatsTest: foundTeamStats
+             ) {
+            if(teamStatsTest.getRoundRobin().getIdChampionship() == selectedRoundRobin.getIdChampionship()){
+                teamStats.add(teamStatsTest);
+            }
+        }
         tableData.clear();
         tableData.addAll(teamStats);
     }
@@ -81,8 +93,30 @@ public class PontosCorridosManageController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/manageRoundPontosCorridos.fxml"));
             Parent root = loader.load();
 
+            List<Round> foundRounds = findRoundUseCase.findAll();
+            List<Round> table = new ArrayList<>();
+            for (Round round: foundRounds
+                 ) {
+                if(round.getRoundRobin().getIdChampionship() == selectedRoundRobin.getIdChampionship()){
+                    table.add(round);
+                }
+            }
+            Collections.sort(table, Comparator.comparingInt(round -> round.getNumber()));
+
+            List<RoundRobinMatch> foundRoundRobinMatchs = findRoundRobinMatchUseCase.findAll();
+
+            for (Round round: table
+            ) {
+                for (RoundRobinMatch roundRobinMatch: foundRoundRobinMatchs
+                ) {
+                    if (roundRobinMatch.getRound().getIdRound() == round.getIdRound()){
+                        round.addMatch(roundRobinMatch);
+                    }
+                }
+            }
+
             ManageRoundPontosCorridosController manageRoundPontosCorridosController = loader.getController();
-            manageRoundPontosCorridosController.initialize(selectedRoundRobin.getTable());
+            manageRoundPontosCorridosController.initialize(selectedRoundRobin);
 
             Scene scene = new Scene(root);
 

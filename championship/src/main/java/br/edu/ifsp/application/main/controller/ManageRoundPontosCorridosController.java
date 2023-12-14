@@ -23,6 +23,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static br.edu.ifsp.application.main.Main.findRoundUseCase;
@@ -42,11 +43,11 @@ public class ManageRoundPontosCorridosController {
     private TableColumn<Round, Boolean> statusRodada;
     @FXML
     private ObservableList<Round> tableData;
-    private List<Round> selectedRoundList;
+    private RoundRobin selectedRoundRobin;
 
     @FXML
-    public void initialize(List<Round> roundList) {
-        selectedRoundList = roundList;
+    public void initialize(RoundRobin selectedRoundRobin) {
+        this.selectedRoundRobin =  selectedRoundRobin;
         blindTableViewToItemList();
         blindColumnsToValueSources();
         loadDataAndShow();
@@ -62,9 +63,16 @@ public class ManageRoundPontosCorridosController {
     }
 
     private void loadDataAndShow() {
-        List<Round> rounds = findRoundUseCase.findAll();
         tableData.clear();
-        tableData.addAll(rounds);
+
+        List<Round> foundRounds = findRoundUseCase.findAll();
+        List<Round> correctRounds = new ArrayList<>();
+        for (Round round: foundRounds
+             ) {
+            if(round.getRoundRobin().getIdChampionship() == selectedRoundRobin.getIdChampionship()){
+                tableData.add(round);
+            }
+        }
     }
 
     @FXML
@@ -98,7 +106,7 @@ public class ManageRoundPontosCorridosController {
 
             ViewPartidaPontosCorridosController viewPartidaPontosCorridosController = loader.getController();
             Round round = tableView.getSelectionModel().getSelectedItem();
-            viewPartidaPontosCorridosController.initialize(selectedRoundList, round);
+            viewPartidaPontosCorridosController.initialize(selectedRoundRobin, round);
 
             Scene scene = new Scene(root);
 

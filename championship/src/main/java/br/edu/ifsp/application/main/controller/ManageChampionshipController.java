@@ -57,11 +57,9 @@ public class ManageChampionshipController {
     @FXML
     private TableColumn<RoundRobin, Boolean> statusCampeonatoPontosCorridos;
     @FXML
-    private TableColumn<Knockout, String> nomeCampeonatoMataMata;
-
-
-    @FXML
     private TableColumn<Knockout, Integer> idCampeonatoMataMata;
+    @FXML
+    private TableColumn<Knockout, String> nomeCampeonatoMataMata;
     @FXML
     private TableColumn<Knockout, LocalDate> dataIniCampeonatoMataMata;
     @FXML
@@ -103,10 +101,11 @@ public class ManageChampionshipController {
 
         List<RoundRobin> roundRobins = findRoundRobinUseCase.findAll();
 
-        for (RoundRobin roundRobin : roundRobins){
+        for (RoundRobin roundRobin : roundRobins) {
             List<TeamRoundRobin> teamRoundRobins =
-                    findTeamRoundRobinUseCase.findAllByRoundRobin(roundRobin.getIdChampionship());
-            for (TeamRoundRobin teamRoundRobin: teamRoundRobins
+                    findTeamRoundRobinUseCase.findAllByRoundRobin(
+                            roundRobin.getIdChampionship());
+            for (TeamRoundRobin teamRoundRobin : teamRoundRobins
             ) {
                 roundRobin.addTeam(teamRoundRobin.getTeam());
             }
@@ -134,11 +133,11 @@ public class ManageChampionshipController {
 
         List<Knockout> knockouts = findKnockoutUseCase.findAll();
 
-        for (Knockout knockout : knockouts){
+        for (Knockout knockout : knockouts) {
             List<TeamKnockout> teamKnockouts =
                     findTeamKnockoutUseCase.findAllByKnockout(knockout.getIdChampionship());
-            for (TeamKnockout teamknockout: teamKnockouts
-                 ) {
+            for (TeamKnockout teamknockout : teamKnockouts
+            ) {
                 System.out.println("Adicionado");
                 knockout.addTeam(teamknockout.getTeam());
             }
@@ -216,29 +215,29 @@ public class ManageChampionshipController {
                     e.printStackTrace();
                 }
             }
+        }
 
-            if (selectRoundRobin != null) {
-                if (selectRoundRobin.getTable().size() >= 1) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Aviso");
-                    alert.setHeaderText("Campeonato Pontos-Corridos já iniciado");
-                    alert.setContentText("O campeonato Pontos-Corridos já foi iniciado e novos times não podem ser adicionados.");
-                    alert.showAndWait();
-                } else {
-                    try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesRoundRobin.fxml"));
-                        Parent root = loader.load();
+        if (selectRoundRobin != null) {
+            if (selectRoundRobin.getTable().size() >= 1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Aviso");
+                alert.setHeaderText("Campeonato Pontos-Corridos já iniciado");
+                alert.setContentText("O campeonato Pontos-Corridos já foi iniciado e novos times não podem ser adicionados.");
+                alert.showAndWait();
+            } else {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/edu/ifsp/AdicionarTimesRoundRobin.fxml"));
+                    Parent root = loader.load();
 
-                        AdicionarTimesRoundRobinController adicionarTimesRoundRobinController = loader.getController();
-                        adicionarTimesRoundRobinController.initialize(selectRoundRobin);
+                    AdicionarTimesRoundRobinController adicionarTimesRoundRobinController = loader.getController();
+                    adicionarTimesRoundRobinController.initialize(selectRoundRobin);
 
-                        Scene scene = new Scene(root);
+                    Scene scene = new Scene(root);
 
-                        Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
-                        stage.setScene(scene);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Stage stage = (Stage) btnAdicionarTimes.getScene().getWindow();
+                    stage.setScene(scene);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -278,20 +277,20 @@ public class ManageChampionshipController {
                     }
                 }
             }
-        }
 
-        if (selectRoundRobin != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Confirmação");
-            alert.setHeaderText("Iniciar Campeonato Pontos Corridos");
-            alert.setContentText("Deseja realmente iniciar o campeonato Pontos Corridos?");
-            alert.showAndWait();
+            if (selectRoundRobin != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmação");
+                alert.setHeaderText("Iniciar Campeonato Pontos Corridos");
+                alert.setContentText("Deseja realmente iniciar o campeonato Pontos Corridos?");
+                alert.showAndWait();
 
-            if (alert.getResult() == ButtonType.OK) {
-                try {
-                    startRoundRobinUseCase.startRoundRobin(selectRoundRobin.getIdChampionship());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (alert.getResult() == ButtonType.OK) {
+                    try {
+                        startRoundRobinUseCase.startRoundRobin(selectRoundRobin.getIdChampionship());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }

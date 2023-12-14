@@ -31,10 +31,6 @@ public class SqliteRoundRobinDAO implements RoundRobinDAO {
             stmt.setBoolean(7, roundRobin.getConcluded());
             stmt.execute();
 
-/*            ResultSet resultSet = stmt.getGeneratedKeys();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }*/
             ResultSet resultSet = stmt.getGeneratedKeys();
             int generatedKey = resultSet.getInt(1);
             return generatedKey;
@@ -72,10 +68,11 @@ public class SqliteRoundRobinDAO implements RoundRobinDAO {
 
         Team champion;
 
-        if(championId == null){
+        if (championId == null) {
             champion = null;
         } else {
-            champion = findTeamUseCase.findOne(championId).get();
+            champion = findTeamUseCase.findOne(championId)
+                    .orElse(null);
         }
 
         return new RoundRobin(
@@ -122,7 +119,7 @@ public class SqliteRoundRobinDAO implements RoundRobinDAO {
             stmt.setString(5, roundRobin.getAward());
             stmt.setString(6, roundRobin.getSponsorship());
             stmt.setBoolean(7, roundRobin.getConcluded());
-            stmt.setInt(8, (roundRobin.getChampion() != null) ? roundRobin.getChampion().getIdTeam() : null);
+            stmt.setInt(8, (roundRobin.getChampion() != null) ? roundRobin.getChampion().getIdTeam() : 0);
             stmt.setInt(9, roundRobin.getIdChampionship());
 
             int rowsAffected = stmt.executeUpdate();

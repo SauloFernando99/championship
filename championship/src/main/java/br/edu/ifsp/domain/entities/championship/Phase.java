@@ -21,10 +21,9 @@ public class Phase {
         this.knockout = knockout;
     }
 
-    public Phase(Integer idPhase, String phase, List<KnockoutMatch> matches, Boolean finished, Knockout knockout) {
+    public Phase(Integer idPhase, String phase, Boolean finished, Knockout knockout) {
         this.idPhase = idPhase;
         this.phase = phase;
-        this.matches = matches;
         this.finished = finished;
         this.knockout = knockout;
     }

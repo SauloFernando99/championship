@@ -20,7 +20,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import static br.edu.ifsp.application.main.Main.findKnockoutMatchUseCase;
+import static br.edu.ifsp.application.main.Main.findPhaseUseCase;
 
 public class ManagementMataMataController {
     @FXML
@@ -39,6 +44,7 @@ public class ManagementMataMataController {
     private TableColumn<Team, String> time2;
 
     private ObservableList<KnockoutMatch> tableData;
+    List<KnockoutMatch> matches = new ArrayList<>();
     private Knockout selectedKnockout;
 
     public ManagementMataMataController() {
@@ -69,12 +75,40 @@ public class ManagementMataMataController {
     }
 
     private List<KnockoutMatch> getMatchesForKnockout() {
-        List<KnockoutMatch> matches = new ArrayList<>();
+
         if (this.selectedKnockout != null) {
-            for (Phase phase : this.selectedKnockout.getSeeding()) {
-                matches.addAll(phase.getMatches());
+            List<Phase> foundPhases = findPhaseUseCase.findAll();
+
+            List<Phase> relatedPhases = new ArrayList<>();
+
+            for (Phase phase: foundPhases
+                 ) {
+                if(phase.getKnockout().getIdChampionship() == selectedKnockout.getIdChampionship()){
+                   relatedPhases.add(phase);
+                }
             }
+
+            System.out.println(relatedPhases.size());
+
+            List<KnockoutMatch> foundMatches = findKnockoutMatchUseCase.findAll();
+
+            for (Phase phase: relatedPhases
+                 ) {
+                for (KnockoutMatch knockoutMatch: foundMatches
+                ) {
+                    if (knockoutMatch.getPhase().getIdPhase() == phase.getIdPhase()){
+
+                        phase.addMatch(knockoutMatch);
+                    }
+                }
+            }
+
+            Collections.sort(relatedPhases, Comparator.comparingInt(phase -> phase.getMatches().size()));
+
+            selectedKnockout.getSeeding().addAll(relatedPhases);
         }
+        Integer last = selectedKnockout.getSeeding().size();
+        matches = selectedKnockout.getSeeding().get(last - 1).getMatches();
         return matches;
     }
 

@@ -133,7 +133,6 @@ public class DataBaseBuilder {
         builder.append("CREATE TABLE Round (\n");
         builder.append("idRound INTEGER PRIMARY KEY AUTOINCREMENT, \n");
         builder.append("number INTEGER, \n");
-        builder.append("date TEXT, \n");
         builder.append("isFinished BOOLEAN DEFAULT false, \n");
         builder.append("roundRobin INTEGER, \n");
         builder.append("FOREIGN KEY (roundRobin) REFERENCES RoundRobin(idChampionship) ON DELETE CASCADE\n");

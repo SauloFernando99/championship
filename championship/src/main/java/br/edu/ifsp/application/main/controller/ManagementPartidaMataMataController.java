@@ -92,10 +92,18 @@ public class ManagementPartidaMataMataController {
     @FXML
     public void salvarPlacar(ActionEvent actionEvent) {
         try {
-            Integer placarTime1Value = Integer.parseInt(placarTime1.getText());
-            Integer placarTime2Value = Integer.parseInt(placarTime2.getText());
+            String placarTime1Text = placarTime1.getText();
+            String placarTime2Text = placarTime2.getText();
 
-            if (placarTime1Value < 0 || placarTime2Value < 0) {
+            if (!isNumeric(placarTime1Text) || !isNumeric(placarTime2Text)) {
+                showAlert("Insira valores válidos para os placares.");
+                return;
+            }
+
+            int placarTime1Value = Integer.parseInt(placarTime1Text);
+            int placarTime2Value = Integer.parseInt(placarTime2Text);
+
+            if (placarTime1Value <= 0 || placarTime2Value <= 0) {
                 showAlert("Insira valores válidos para os placares.");
                 return;
             }
@@ -148,15 +156,27 @@ public class ManagementPartidaMataMataController {
             stage.setScene(scene);
 
         } catch (NumberFormatException e) {
-            System.out.println("Por favor, insira valores válidos para os placares.");
+            // Adicione logs para depuração
+            System.out.println("Erro: Conversão de placares para inteiros falhou.");
+            e.printStackTrace();
+            showAlert("Por favor, insira valores válidos para os placares.");
         } catch (EntityNotFoundException | IllegalArgumentException | IllegalStateException e) {
             e.printStackTrace();
+            showAlert("Erro ao processar placares.");
         } catch (Exception e) {
             e.printStackTrace();
+            showAlert("Erro desconhecido.");
         }
     }
 
-
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
 
     private Knockout getKnockoutFromSelectedMatch() {
         if (selectedMatch != null && selectedMatch.getPhase() != null) {

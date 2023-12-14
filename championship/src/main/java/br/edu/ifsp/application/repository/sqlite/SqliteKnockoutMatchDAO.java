@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static br.edu.ifsp.application.main.Main.findPhaseUseCase;
@@ -68,9 +69,14 @@ public class SqliteKnockoutMatchDAO implements KnockoutMatchDAO {
         boolean concluded = rs.getBoolean("concluded");
         int phaseId = rs.getInt("phase");
 
-        Team team1 = findTeamUseCase.findOne(team1Id).get();
-        Team team2 = findTeamUseCase.findOne(team2Id).get();
-        Phase phase = findPhaseUseCase.findOne(phaseId).get();
+        Optional<Team> optionalTeam1 = findTeamUseCase.findOne(team1Id);
+        Optional<Team> optionalTeam2 = findTeamUseCase.findOne(team2Id);
+        Optional<Phase> optionalPhase = findPhaseUseCase.findOne(phaseId);
+
+        // Verifique se os Optionals têm valores antes de chamar get()
+        Team team1 = optionalTeam1.orElseThrow(() -> new NoSuchElementException("Team1 not found for id: " + team1Id));
+        Team team2 = optionalTeam2.orElseThrow(() -> new NoSuchElementException("Team2 not found for id: " + team2Id));
+        Phase phase = optionalPhase.orElseThrow(() -> new NoSuchElementException("Phase not found for id: " + phaseId));
 
         return new KnockoutMatch (
                 matchId,

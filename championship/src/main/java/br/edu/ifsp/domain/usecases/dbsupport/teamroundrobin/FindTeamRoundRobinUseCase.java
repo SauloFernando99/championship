@@ -28,7 +28,7 @@ public class FindTeamRoundRobinUseCase {
             }
         }
 
-        throw new EntityNotFoundException("TeamKnockout not found for given IDs.");
+        throw new EntityNotFoundException("TeamRoundRobin not found for given IDs.");
     }
 
     public List<TeamRoundRobin> findAllByRoundRobin(Integer idRoundRobin) {
@@ -38,10 +38,11 @@ public class FindTeamRoundRobinUseCase {
 
         List<TeamRoundRobin> allTeamRoundRobins = teamRoundRobinDAO.findAll();
         List<TeamRoundRobin> result = new ArrayList<>();
-
-        for (TeamRoundRobin teamRoundRobin : allTeamRoundRobins) {
-            if (idRoundRobin.equals(teamRoundRobin.getRoundRobin().getIdChampionship())) {
-                result.add(teamRoundRobin);
+        if (allTeamRoundRobins != null){
+            for (TeamRoundRobin teamRoundRobin : allTeamRoundRobins) {
+                if (idRoundRobin.equals(teamRoundRobin.getRoundRobin().getIdChampionship())) {
+                    result.add(teamRoundRobin);
+                }
             }
         }
 

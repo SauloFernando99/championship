@@ -36,11 +36,6 @@ public class PDFExporterRodada {
         Paragraph roundInfo = new Paragraph("ID da Rodada: " + round.getIdRound(), font);
         document.add(roundInfo);
 
-        if (round.getDate() != null) {
-            Paragraph dateInfo = new Paragraph("Date: " + round.getDate().toString(), font);
-            document.add(dateInfo);
-        }
-
         document.add(Chunk.NEWLINE);
     }
 
